@@ -1,4 +1,5 @@
 const event_types = [
+    "All",
     "Training Event",
     "Competition",
     "Workshop",
@@ -58,10 +59,9 @@ const event_types = [
     "Independence Day Parade",
     "Election Rally",
     "Trade Delegation Meeting",
-    "International Diplomatic Conference",
     "Infrastructure Development Expo",
     "Public Health Initiative",
-    "Rural Development Program Launch",
+    "Rural Development Program",
 ]
 
 export default event_types;

@@ -8,9 +8,9 @@ const handleLogin = async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) return res.status(401).json({message:"Invalid Login"});
 
-    const foundUser = User.findOne({ email: email });
+    const foundUser = await User.findOne({ email: email });
     if (!foundUser) return res.sendStatus(401); //unauthorized
-
+    console.log(password, foundUser.password)
     const match = await bcrypt.compare(password, foundUser.password);
     if (match) {
       const accessToken = jwt.sign(
@@ -45,9 +45,10 @@ const handleLogin = async (req, res) => {
         accessToken,
         email: foundUser.email,
         role: foundUser.role,
+        message:"Successfully Logged In"
       });
     } else {
-      res.sendStatus(401);
+      res.status(401).json({ message: "Invalid Credentials" });
     }
   } catch (err) {
     console.log(err);

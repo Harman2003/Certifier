@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
 import {
   CaretSortIcon,
   ChevronDownIcon,
@@ -12,12 +11,6 @@ import {
   DoubleArrowRightIcon,
   MixerHorizontalIcon,
 } from "@radix-ui/react-icons";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import {
   Select,
   SelectContent,
@@ -58,8 +51,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import sample, {Payment} from "@/utils/sample";
+import {Payment} from "@/utils/sample";
 
+interface DataTableProps{
+  children:React.ReactNode,
+  data:Payment[],
+}
 export const columns: ColumnDef<Payment>[] = [
   {
     id: "select",
@@ -154,11 +151,11 @@ export const columns: ColumnDef<Payment>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id)}
             >
-              Copy payment ID
+              View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem>Remove</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -166,9 +163,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-export function DataTableDemo() {
-  const [data, setData] = useState<Payment[]>(sample);
-
+const DataTableDemo:React.FC<DataTableProps> = ({children, data})=>{
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -197,8 +192,8 @@ export function DataTableDemo() {
   });
 
   return (
-    <div className="w-full">
-      <div
+    <div className="w-full h-fit">
+      {/* <div
         className="fixed top-0 left-0"
         onClick={() => {
           setData((prev) => [
@@ -219,40 +214,9 @@ export function DataTableDemo() {
         }}
       >
         test
-      </div>
+      </div> */}
       <div className="flex py-4 justify-end items-end ">
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1" className="border-0">
-            <div className="flex items-center">
-              <Input
-                placeholder="Filter By Name/Event ID"
-                value={
-                  (table.getColumn("name")?.getFilterValue() as string) ?? ""
-                }
-                onChange={(event) =>
-                  table.getColumn("name")?.setFilterValue(event.target.value)
-                }
-                className="max-w-sm"
-              />
-              
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="ml-4 border-0 hidden h-8 lg:flex whitespace-nowrap shadow-none"
-              >
-                <AccordionTrigger>
-                  <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-                  More Filters
-                </AccordionTrigger>
-                </Button>
-              
-            </div>
-            <AccordionContent>
-              Yes. It adheres to the WAI-ARIA design pattern.
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-
+       {children}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -330,7 +294,7 @@ export function DataTableDemo() {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center space-x-6 lg:space-x-8">
+      <div className="mt-4 flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
@@ -399,3 +363,6 @@ export function DataTableDemo() {
     </div>
   );
 }
+
+export default DataTableDemo;
+

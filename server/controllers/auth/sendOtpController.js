@@ -41,8 +41,8 @@ const sendOtp = async (req, res) => {
       subject: "Certify verification OTP",
       html: otpMessage(otp),
     };
-    await transporter.sendMail(mailDetails);
-
+    const response=await transporter.sendMail(mailDetails);
+    console.log(response);
     //create or update the user
     const newUser = {
       email: email,

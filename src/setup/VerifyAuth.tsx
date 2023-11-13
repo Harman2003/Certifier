@@ -7,10 +7,10 @@ const VerifyAuth = () => {
   console.log(auth);
   return (
     <>
-      {auth?.accessToken && auth?.user ? (
+      {auth?.accessToken && auth?.email ? (
         <Outlet />
       ) : (
-        <Navigate to="/login" state={{ from: location }} replace />
+        <Navigate to="/auth/login" state={{ from: location }} replace />
       )}
     </>
   );

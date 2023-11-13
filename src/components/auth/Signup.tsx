@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { ReloadIcon, ReloadIcon as Rotate } from "@radix-ui/react-icons";
 import {
@@ -22,24 +22,36 @@ import { BsGithub as GitIcon } from "react-icons/bs";
 import OtpInput from "../utils/otpInput";
 import { Button } from "../ui/button";
 import useApiSender from "@/hooks/useApiSender";
-import { useTimer } from "react-timer-hook";
 import { sendOtp } from "@/webApi/sendOtp";
 import { verifyOtp } from "@/webApi/verifyOtp";
 import Resend from "../utils/resend";
 import { registerAccount } from "@/webApi/registerAccount";
 import useMultiRef from "@/hooks/useMultiRef";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "@/setup/hooks/useAuth";
 const Signup = () => {
   const [role, setRole] = useState<string>("org");
   const [otpvalue, setOtpvalue] = useState<string>("");
   const [email, setemail] = useState<string>("");
   const [resendCounter, setresendCounter] = useState<number>(0);
   const fields = { name: 0, orgId: 1, pass: 2, confirmpass: 3 };
-  const { ref:formRef, getRef } = useMultiRef(fields);
+  const { ref: formRef, getRef } = useMultiRef(fields);
   const { send: send_otp, data } = useApiSender(sendOtp);
-  const { send: verify_otp, status: isVerified, isLoading:isverifying } = useApiSender(verifyOtp);
-  const { send: createAccount, status: isRegistered, isLoading:isRegistering } = useApiSender(registerAccount);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { setAuth } = useAuth();
+  const {
+    send: verify_otp,
+    status: isVerified,
+    isLoading: isverifying,
+  } = useApiSender(verifyOtp);
+  const {
+    send: createAccount,
+    status: isRegistered,
+    isLoading: isRegistering,
+    data: registerData,
+  } = useApiSender(registerAccount);
   const validator =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
@@ -48,41 +60,74 @@ const Signup = () => {
     setresendCounter((prev) => prev + 1);
     try {
       await send_otp(email);
-    } catch { 
+    } catch {
       setresendCounter(0);
     }
   };
+  
   //verifyotp
   const checkOtp = async () => {
-    if (data)
-      verify_otp({
-        email: email,
-        otp: otpvalue,
-        token: data.token,
-      });
+    try {
+      if (data)
+        verify_otp({
+          email: email,
+          otp: otpvalue,
+          token: data.token,
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   //create account
-  const register = () => {
-    const [name, orgid, pass, confirmpass] = getRef(["name", "orgId", "pass", "confirmpass"]);
-    if (!name?.value || !pass?.value || !confirmpass?.value || (role === "org" && !orgid?.value)) {
+  const register = async () => {
+    const [name, orgid, pass, confirmpass] = getRef([
+      "name",
+      "orgId",
+      "pass",
+      "confirmpass",
+    ]);
+    if (
+      !name?.value ||
+      !pass?.value ||
+      !confirmpass?.value ||
+      (role === "org" && !orgid?.value)
+    ) {
       toast.error("Incomplete Information");
       return;
-    }
-    else if (pass?.value !== confirmpass?.value) {
+    } else if (pass?.value !== confirmpass?.value) {
       confirmpass.value = "";
       toast.error("Password doesn't match");
       return;
     }
-    console.log(nameRef?.value)
-  }
 
-  // useEffect(() => {
-  //   if (isError && !data) {
-  //     console.log("came");
-  //     setresendCounter(0);
-  //   }
-  // }, [isError]);
+    try {
+      await createAccount({
+        fullname: name?.value,
+        email: email,
+        password: pass?.value,
+        role: role,
+        orgid: orgid?.value,
+        token: data?.token,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (isRegistered == "success" && registerData) {
+      const newAuth = {
+        email: registerData.email,
+        role: registerData.role,
+        accessToken: registerData.accessToken,
+      };
+      setAuth({...newAuth});
+      localStorage.setItem("auth", JSON.stringify(newAuth));
+      const from = location.state?.from?.pathname || "/dashboard";
+      navigate(from, { replace: true });
+    }
+  }, [isRegistered]);
 
   return (
     <>
@@ -248,10 +293,17 @@ const Signup = () => {
           />
           <Button
             className="bg-blue-800 py-5 m-3 w-full"
-            disabled={isVerified != "success"}
+            disabled={isVerified != "success" || isRegistering}
             onClick={register}
           >
-            Create New Account
+            {isRegistering ? (
+              <>
+                <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                Signing You In...
+              </>
+            ) : (
+              "Create New Account"
+            )}
           </Button>
         </div>
       </div>

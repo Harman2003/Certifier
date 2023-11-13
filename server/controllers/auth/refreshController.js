@@ -15,12 +15,11 @@ const refreshJWT = (req, res) => {
       (err, decoded) => {
         if (err) return res.sendStatus(403);
         const accessToken = jwt.sign(
-          { username: decoded.username,role:decoded.role },
-          "afdf543asg34r2f498af",
-          { expiresIn: "15m" }
+          { email: decoded.email, role: decoded.role },
+          process.env.REFRESH_TOKEN_SECRET,
+          { expiresIn: "10d" }
         );
-
-        res.json({ username: decoded.username,role:decoded.role,accessToken });
+        res.json({ email: decoded.email, role:decoded.role, accessToken });
       }
     );
 }

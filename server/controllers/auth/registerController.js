@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../../model/User");
 const UserVerification = require("../../model/VerifyOTP");
+const handleLogin = require("./loginController");
 const registerUser = async (req, res) => {
   console.log(req.body);
   try {
@@ -23,8 +24,10 @@ const registerUser = async (req, res) => {
       password: hashedPass,
       role: role,
     };
-    const savedUser = await User.create(newUser);
-    res.status(200).json({ ...savedUser, message: "Successfully Registered" });
+    await User.create(newUser);
+
+    await handleLogin(req, res);
+  
   } catch (err) {
     res.status(500).json({ message: "Something Went Wrong" });
     console.log(err);

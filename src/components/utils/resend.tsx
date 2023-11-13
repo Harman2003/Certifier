@@ -13,7 +13,7 @@ const Resend: React.FC<ComponentProps> = ({callOtp}) => {
   const handleResend = () => {
     console.log("resend");
     callOtp();
-    restart(futureTime);
+    restart(new Date((new Date).getTime() + 30000));
   };
   return (
     <button

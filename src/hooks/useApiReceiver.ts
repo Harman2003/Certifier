@@ -1,27 +1,25 @@
 import { useQuery } from "react-query";
-
-const useApiReceiver = (apiCall:Function, params:any) => {
-  const { data, refetch, isLoading, isError } = useQuery(
-    ["useApiReceiver", params],
-    ({ signal }) => apiCall(params, signal),
-    { refetchOnWindowFocus: true, cacheTime: 0 }
+import axios from "@/setup/api/axios";
+import { AxiosResponse } from "axios";
+import useAxiosPrivate from "@/setup/hooks/useAxiosPrivate";
+const useApiReceiver = (url: string, params: Object, isPrivate: boolean) => {
+  const axiosPrivate = useAxiosPrivate();
+  const { data, refetch, isLoading, status } = useQuery(
+    ["useApiReceiver", url, params],
+    ({ signal }) => apiCall(signal),
+    { refetchOnWindowFocus: true }
   );
 
   const receive = () => refetch();
-  return { data, isLoading, isError, receive };
+  return { data: data?.data, isLoading, status, receive };
 
-  // async function apiCall(
-  //   url: string,
-  //   params: Params,
-  //   signal?: AbortSignal
-  // ): Promise<AxiosResponse | void> {
-  //   try {
-  //     const response = await axiosPrivate.get(url, { ...params, signal });
-  //     return response;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
+  async function apiCall(signal?: AbortSignal): Promise<AxiosResponse | void> {
+    console.log(params);
+    const fetch = isPrivate ? axiosPrivate : axios;
+    const response = await fetch.get(url, { params:params, signal });
+    console.log(response?.data)
+    return response;
+  }
 };
 
 export default useApiReceiver;

@@ -1,4 +1,4 @@
-import { axiosPrivate } from "@/setup/api/axios";
+import axios from "@/setup/api/axios";
 import { AxiosResponse } from "axios";
 
 export const registerAccount = async ({
@@ -16,8 +16,7 @@ export const registerAccount = async ({
   orgid: string;
   token: string;
 }): Promise<AxiosResponse | void> => {
-  console.log(email, token);
-  const response = await axiosPrivate.post(
+  const response = await axios.post(
     "/auth/register",
     {
       fullname: fullname,
@@ -29,5 +28,8 @@ export const registerAccount = async ({
     { headers: { authorization: `bearer ${token}` } }
   );
 
+  if (response.status == 200) {
+    response.data.message = "Successfully Registered";
+  }
   return response;
 };

@@ -1,17 +1,15 @@
-import { AxiosResponse } from "axios";
+import { AxiosResponse} from "axios";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
-
 const useApiSender = (apiCall:any) => {
   const { mutateAsync, isLoading, data:response ,status} = useMutation(apiCall, {
     onSuccess: (response:AxiosResponse) => {
       console.log(response.data);
     },
     onSettled(res, error) {
-      console.log(error);
       let message;
       if (error) {
-        message = error.response?.data?.message;
+        message = (error as any).response?.data?.message;
         if (!message) message = "Something went wrong";
         toast.error(message);
       } else {

@@ -30,7 +30,7 @@ const useRefreshToken = () => {
       );
 
       setAuth({
-        email: response.data.username,
+        email: response.data.email,
         accessToken: response.data.accessToken,
         role: response.data.role,
       });
@@ -41,7 +41,7 @@ const useRefreshToken = () => {
         role: response.data.role,
       };
     } catch (err) {
-      navigate("/login", { state: { from: location } });
+      navigate("/auth/login", { state: { from: location } });
       throw err;
     }
   }

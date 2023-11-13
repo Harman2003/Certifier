@@ -1,4 +1,4 @@
-import { axiosPrivate } from "@/setup/api/axios";
+import axios from "@/setup/api/axios";
 import { AxiosResponse } from "axios";
 
 export const verifyOtp = async ({
@@ -10,14 +10,14 @@ export const verifyOtp = async ({
   otp: string;
   token: string;
 }): Promise<AxiosResponse | void> => {
-  console.log(email, token, otp);
-  const response = await axiosPrivate.post(
+  console.log(token);
+  const response = await axios.post(
     "/auth/verifyotp",
     {
       email: email,
       otp: otp,
     },
-    { headers: { authorization: `bearer ${token}` } }
+    { headers: { "authorization": `Bearer ${token}` } }
   );
 
   return response;

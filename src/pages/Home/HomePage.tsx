@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <div className="h-full grid grid-rows-[100px,150px,1fr,100px]">
+    <div className="h-full grid grid-rows-[80px,150px,1fr,80px]">
       <div className="h-full bg-blue-gradient "></div>
       <Routes>
         <Route path="/register" element={<Signup />} />
@@ -18,7 +18,6 @@ const HomePage = () => {
           locker for securely storing their certificates. Our blockchain-powered
           platform allows anyone to validate certificates at any time.
         </div>
-        <div>All Rights Reserverd</div>
         <div>Certify - © Copyright 2023</div>
       </div>
     </div>

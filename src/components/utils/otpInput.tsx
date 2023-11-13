@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-// import "./OtpInput.css";
 
 export type Props = {
   value: string;
