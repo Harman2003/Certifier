@@ -1,14 +1,13 @@
 import Sidebar from "@/components/common/Sidebar";
 import { sidebarContent } from "./utils/sidebarContent";
-import Navbar from "./components/Navbar";
+import Navbar from "../../components/common/Navbar";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import Events from "./components/Events/Main";
-import Certification from "./components/Certification";
-import AccessRequest from "./components/AccessRequest";
-import Templates from "./components/Templates";
-import ExportRecord from "./components/ExportRecord";
-import AddEvent from "./components/Events/components/AddEvent";
+import Dashboard from "../../components/org/Dashboard/Dashboard";
+import Events from "../../components/org/Events/Events";
+import Certification from "../../components/org/Certification/Certification";
+import AccessRequest from "../../components/org/AccessRequests/AccessRequest";
+import ExportRecord from "../../components/org/ExportRecord/ExportRecord";
+
 const Main = () => {
   return (
     <div className="grid grid-cols-5">
@@ -23,9 +22,8 @@ const Main = () => {
           <Routes>
             <Route path={"/"} element={<Dashboard />} />
             <Route path="/events/*" element={<Events/>}/>
-            <Route path={"/certificates"} element={<Certification />} />
+            <Route path={"/certificates/*"} element={<Certification />} />
             <Route path={"/requests"} element={<AccessRequest />} />
-            <Route path={"/templates"} element={<Templates />} />
             <Route path={"/export"} element={<ExportRecord />} />
           </Routes>
         </main>

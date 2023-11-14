@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-
+import { IconType } from "react-icons";
 interface SidebarContentItem {
   name: string;
   path: string;
-  icon: React.ComponentType;
+  icon: IconType;
 }
 const Sidebar = ({ content }: { content: SidebarContentItem[] }) => {
   const location = useLocation();
@@ -16,7 +16,7 @@ const Sidebar = ({ content }: { content: SidebarContentItem[] }) => {
     <div className="flex flex-col h-screen text-white bg-gray-50 w-full shadow-sm font-NunitoSans">
       <div className="relative justify-end w-full h-full bg-blue-700">
         <div className="p-4">
-          <div className="text-white text-4xl">
+          <div className="text-white text-4xl flex gap-3">
             <svg
               fill="none"
               // height="15%"
@@ -35,12 +35,16 @@ const Sidebar = ({ content }: { content: SidebarContentItem[] }) => {
                 fill="#6366F1"
               ></path>
             </svg>
+            <div className="tracking-wider font-Poppins italic font-semibold">CERTIFY</div>
           </div>
-          <div className="h-16 w-full bg-white/10 rounded-lg mt-4 p-4 flex-col justify-center font-openSans hidden md:flex">
-            <div className="text-xl font-openSans font-bold tracking-wider">
-              Certify
+          <div className="h-16 w-full bg-white/10 rounded-lg mt-4 flex-col justify-center items-center font-openSans hidden md:flex">
+            <div className="text-white/80 text-lg font- italic flex justify-center items-center w-full gap-2 font-Nunito">
+              <div>Create</div>
+              <div className="border-[1px] border-white/40 h-6"></div>
+              <div>Save</div>
+              <div className="border-[1px] border-white/40 h-6"></div>
+              <div>Validate</div>
             </div>
-            <div className="text-white/70">Create | Save | Validate</div>
           </div>
         </div>
         <hr className="border-white/30 my-4" />
@@ -56,7 +60,7 @@ const Sidebar = ({ content }: { content: SidebarContentItem[] }) => {
   );
 };
 
-function row(index, value, path, Icon, isTrue) {
+function row(index:number, value:string, path:string, Icon:IconType, isTrue:boolean) {
   return (
     <Link
       key={index}

@@ -27,7 +27,7 @@ export const sidebarContent = [
   },
   {
     name: "Templates",
-    path: "/org/templates",
+    path: "/templates",
     icon: TempIcon,
   },
   {
