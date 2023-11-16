@@ -85,7 +85,7 @@ export default function AsyncInput({
           <li {...props}>
             <Grid container alignItems="center">
               <Grid item sx={{ display: "flex", width: 44 }}>
-                <MdMail sx={{ color: "text.secondary" }} />
+                <MdMail />
               </Grid>
               <Grid
                 item

@@ -18,7 +18,7 @@ import { TextField } from "@mui/material";
 import lastUpdate from "@/utils/lastUpdate";
 import dayjs, { Dayjs } from "dayjs";
 import { DateRange } from "@mui/x-date-pickers-pro";
-import DurationFilter from "@/components/org/extras/DurationFilter";
+import DurationFilter from "@/components/utils/DurationFilter";
 import { Link } from "react-router-dom";
 
 const Events = () => {
@@ -91,7 +91,7 @@ const Events = () => {
               )}
             </div>
             <AccordionContent>
-              <div className="w-[70%] grid grid-cols-[1fr,3fr,1fr,3fr] gap-x-10 gap-y-4 mt-6 font-semibold">
+              <div className="w-[60%] grid grid-cols-[1fr,4fr,1fr,4fr] gap-x-10 gap-y-4 mt-6 font-semibold">
                 <div className="h-10 flex items-center">Event Type</div>
                 <div className="h-10 flex items-center bg-">
                   <BasicSelect

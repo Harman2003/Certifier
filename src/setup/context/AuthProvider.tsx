@@ -39,7 +39,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
 
   const [auth, setAuth] = useState<AuthInterface | null>(prevAuthDetails);
   const { data } = useApiReceiver('/common/details', { email: auth?.email }, false);
-  console.log(auth)
   const name = data?.name;
   const address = data?.address;
   const role = data?.role;

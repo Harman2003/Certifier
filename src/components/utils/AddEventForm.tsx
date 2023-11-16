@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import Select from "@mui/material/Select";
 import event_types from "@/utils/eventTypes";
-import AsyncInput from "@/components/org/extras/AsyncInput";
+import AsyncInput from "@/components/utils/AsyncInputEmail";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
@@ -22,7 +22,7 @@ import { AiOutlineArrowLeft as BackIcon } from "react-icons/ai";
 import { AiOutlineArrowRight as NextIcon } from "react-icons/ai";
 import useAuth from "@/setup/hooks/useAuth";
 import { useState } from "react";
-import MultiStepProgressBar from "../../common/ProgressBar";
+import MultiStepProgressBar from "../common/ProgressBar";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 

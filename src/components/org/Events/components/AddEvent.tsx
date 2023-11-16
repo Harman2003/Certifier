@@ -1,4 +1,4 @@
-import Form from "../../extras/AddEventForm";
+import Form from "../../../utils/AddEventForm";
 const AddEvent = () => {
   return (
     <div className=" w-full h-[90vh] flex flex-col">

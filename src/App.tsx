@@ -23,7 +23,6 @@ function App() {
           <Route path="/*" element={<NotFound />} />
         </Route>
       </Routes>
-
       <ToastContainer />
     </div>
   );

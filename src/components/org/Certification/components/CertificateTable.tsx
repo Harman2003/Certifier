@@ -114,6 +114,23 @@ export const columns: ColumnDef<CertificatesProp>[] = [
     ),
   },
   {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <div
+        className=" text-white font-Nunito font-semibold px-2 py-[2px] w-fit rounded-3xl"
+        css={{
+          background:
+            row.getValue("status") == "active"
+              ? "rgb(34,197,94)"
+              : "rgb(239,68,68)",
+        }}
+      >
+        {row.getValue("status")}
+      </div>
+    ),
+  },
+  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
@@ -130,9 +147,7 @@ export const columns: ColumnDef<CertificatesProp>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>View</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Remove</DropdownMenuItem>
+            <DropdownMenuItem>Revoke</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

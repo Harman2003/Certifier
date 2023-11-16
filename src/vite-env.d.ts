@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+/// <reference types="vite-plugin-svgr/client" />
 /// <reference types="@emotion/react/types/css-prop" />
 declare module "react-step-progress-bar" {
   import React from "react";

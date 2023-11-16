@@ -8,34 +8,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import BasicDateRangePicker from "@/components/ui/DateRangePicker";
-import BasicSelect from "@/components/ui/SingleSelect";
-import event_types from "@/utils/eventTypes";
-import InputRange, { Range } from "@/components/ui/InputRange";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import  { Range } from "@/components/ui/InputRange";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { AiOutlineFileAdd as AddIcon } from "react-icons/ai";
 import { TextField } from "@mui/material";
-import lastUpdate from "@/utils/lastUpdate";
-import dayjs, { Dayjs } from "dayjs";
-import { DateRange } from "@mui/x-date-pickers-pro";
-import DurationFilter from "@/components/org/extras/DurationFilter";
 import { Link } from "react-router-dom";
+import AsyncInput from "@/components/utils/AsyncInputEvents";
 
 const CertificateData = () => {
   const [data, setData] = useState<CertificatesProp[]>(certificateSample);
   const [query, setQuery] = useState("");
   const [isfilterOpen, setfilterOpen] = useState<string>("close");
-  const [type, setType] = useState<(typeof event_types)[number]>(
-    event_types[0]
-  );
-  const [date, setDate] = useState<DateRange<Dayjs>>([
-    dayjs("2022-04-17"),
-    dayjs("2022-04-21"),
-  ]);
-  const [cert_count, setCertCount] = useState<Range>({ min: "", max: "" });
-  const [lastUpdated, setLastUpdated] = useState<string>("");
-  const [durationType, setDurationType] = useState<string>("hours");
-  const [durationValue, setDurationValue] = useState<number[]>([0, 24]);
+  const [type, setType] = useState<string>("");
 
   function handleFilter() {
     setfilterOpen("close");
@@ -91,42 +80,49 @@ const CertificateData = () => {
               )}
             </div>
             <AccordionContent>
-              <div className="w-[70%] grid grid-cols-[1fr,3fr,1fr,3fr] gap-x-10 gap-y-4 mt-6 font-semibold">
-                <div className="h-10 flex items-center">Event Type</div>
+              <div className="w-[42%] grid grid-cols-[1fr,2fr] gap-x-10 gap-y-4 mt-6 font-semibold">
+                <div className="h-10 flex items-center">Certificate Status</div>
                 <div className="h-10 flex items-center bg-">
-                  <BasicSelect
-                    type={type}
-                    setType={setType}
-                    data={event_types}
-                  />
+                  <Box sx={{ minWidth: 120, width: "100%" }}>
+                    <FormControl
+                      sx={{ minWidth: 120, width: "100%" }}
+                      size="small"
+                    >
+                      <InputLabel id="demo-simple-select-label">
+                        Status
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={type}
+                        label="Status"
+                        onChange={(event: SelectChangeEvent) => {
+                          setType(event.target.value as string);
+                        }}
+                      >
+                        <MenuItem value={"all"}>
+                          All
+                        </MenuItem>
+                        <MenuItem value={"active"}>
+                          Active
+                        </MenuItem>
+                        <MenuItem value={"revoked"}>
+                          Revoked
+                        </MenuItem>
+                        <MenuItem value={"expired"}>
+                          Expired
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
                 </div>
-                <div className="h-10 flex items-center">Created At</div>
+                <div className="h-10 flex items-center">Event ID/Name</div>
                 <div className="h-10 flex items-center">
-                  <BasicDateRangePicker value={date} setValue={setDate} />
+                  <AsyncInput onValueChange={() => {}} />
                 </div>
-                <div className="h-10 flex items-center">Certificate Count</div>
-                <div className="h-10 flex items-center">
-                  <InputRange range={cert_count} setrange={setCertCount} />
-                </div>
-                <div className="h-10 flex items-center">Last Updated</div>
-                <div className="h-10 flex items-center">
-                  <BasicSelect
-                    type={lastUpdated}
-                    setType={setLastUpdated}
-                    data={lastUpdate.map((item) => item.tag)}
-                  />
-                </div>
-                <div className="h-10 flex items-center">Duration</div>
-                <div className="flex flex-col gap-8 col-span-3">
-                  <DurationFilter
-                    type={durationType}
-                    setType={setDurationType}
-                    value={durationValue}
-                    setValue={setDurationValue}
-                  />
-                </div>
+
                 {isfilterOpen == "open" && (
-                  <div className="col-span-4 ml-auto">
+                  <div className="col-span-2 ml-auto">
                     <Button
                       className="bg-blue-700 hover:bg-blue-800 mx-3 col-span-2"
                       onClick={() => {

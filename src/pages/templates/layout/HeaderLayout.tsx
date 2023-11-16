@@ -48,8 +48,9 @@ const HeaderLayout: ForwardRefRenderFunction<HTMLDivElement, HeaderLayoutProps> 
             css={{
               color: "white",
               height: 46,
-              fontWeight: "bold",
-              fontFamily: "sans-serif",
+              fontWeight: 600,
+              fontStyle:'italic',
+              fontFamily: "Poppins, sans-serif",
             }}
           >
             {/* <img src={'./assets/logo.png'} css={{ maxHeight: '100%' }} /> */}

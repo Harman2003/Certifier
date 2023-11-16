@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import BasicSelect from "../../ui/SingleSelect";
-import RangeSlider from "../../ui/RangeSlider";
+import BasicSelect from "../ui/SingleSelect";
+import RangeSlider from "../ui/RangeSlider";
 
 interface SelectProps {
   hours: number;

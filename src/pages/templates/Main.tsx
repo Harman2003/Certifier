@@ -14,6 +14,7 @@ import {
 import { FontData } from "@lidojs/core";
 import { data } from "./utils/data";
 import XIcon from "@duyank/icons/regular/X";
+import BlurLoader from "@/components/utils/BlurLoader";
 
 const Main = () => {
   const leftSidebarRef = useRef<HTMLDivElement>(null);
@@ -62,6 +63,8 @@ const Main = () => {
       }}
       getFonts={getFonts}
     >
+      {/* Loader */}
+      <BlurLoader/>
       <div
         css={{
           display: "flex",
@@ -69,9 +72,9 @@ const Main = () => {
           width: "100vw",
           height: "100vh",
           maxHeight: viewPortHeight ? `${viewPortHeight}px` : "auto",
-          fontFamily: 'Nunito , sans-serif',
-          color: '#5E6278',
-          fontSize: '14px'
+          fontFamily: "Nunito , sans-serif",
+          color: "#5E6278",
+          fontSize: "14px",
         }}
       >
         <HeaderLayout openPreview={() => setOpenPreview(true)} />

@@ -209,6 +209,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1637000000,
     expiration: 1668536000,
     eventID: "0F13",
+    status:"active"
   },
   {
     certificateID: "987654321",
@@ -218,6 +219,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1636000000,
     expiration: 1668000000,
     eventID: "1A23",
+    status:"revoked"
   },
   {
     certificateID: "1234567890",
@@ -227,6 +229,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1635000000,
     expiration: 1667000000,
     eventID: "2B34",
+    status:"active"
   },
   {
     certificateID: "5678901234",
@@ -236,6 +239,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1634000000,
     expiration: 1666000000,
     eventID: "3C45",
+    status:"active"
   },
   {
     certificateID: "1111222233",
@@ -245,6 +249,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1633000000,
     expiration: 1665000000,
     eventID: "4D56",
+    status:"revoked"
   },
   {
     certificateID: "4444555566",
@@ -254,6 +259,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1632000000,
     expiration: 1664000000,
     eventID: "5E67",
+    status:"active"
   },
   {
     certificateID: "7777888899",
@@ -263,6 +269,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1631000000,
     expiration: 1663000000,
     eventID: "6F78",
+    status:"active"
   },
   {
     certificateID: "9999000011",
@@ -272,6 +279,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1630000000,
     expiration: 1662000000,
     eventID: "7G89",
+    status:"active"
   },
   {
     certificateID: "1212121212",
@@ -281,6 +289,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1629000000,
     expiration: 1661000000,
     eventID: "8H90",
+    status:"active"
   },
   {
     certificateID: "3434343434",
@@ -290,6 +299,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1628000000,
     expiration: 1660000000,
     eventID: "9I01",
+    status:"active"
   },
   {
     certificateID: "5656565656",
@@ -299,6 +309,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1627000000,
     expiration: 1659000000,
     eventID: "0J12",
+    status:"active"
   },
   {
     certificateID: "7878787878",
@@ -308,6 +319,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1626000000,
     expiration: 1658000000,
     eventID: "1K23",
+    status:"active"
   },
   {
     certificateID: "0101010101",
@@ -317,6 +329,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1625000000,
     expiration: 1657000000,
     eventID: "2L34",
+    status:"active"
   },
   {
     certificateID: "2323232323",
@@ -326,6 +339,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1624000000,
     expiration: 1656000000,
     eventID: "3M45",
+    status:"active"
   },
   {
     certificateID: "4545454545",
@@ -335,6 +349,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1623000000,
     expiration: 1655000000,
     eventID: "4N56",
+    status:"active"
   },
   {
     certificateID: "6767676767",
@@ -344,6 +359,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1622000000,
     expiration: 1654000000,
     eventID: "5O67",
+    status:"active"
   },
   {
     certificateID: "8989898989",
@@ -353,6 +369,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1621000000,
     expiration: 1653000000,
     eventID: "6P78",
+    status:"active"
   },
   {
     certificateID: "1212121212",
@@ -362,6 +379,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1620000000,
     expiration: 1652000000,
     eventID: "7Q89",
+    status:"active"
   },
   {
     certificateID: "3434343434",
@@ -371,6 +389,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1619000000,
     expiration: 1651000000,
     eventID: "8R90",
+    status:"active"
   },
   {
     certificateID: "5656565656",
@@ -380,6 +399,7 @@ export const certificateSample:CertificatesProp[] = [
     created: 1618000000,
     expiration: 1650000000,
     eventID: "9S01",
+    status:"active"
   },
 ];
 
@@ -391,6 +411,7 @@ export type CertificatesProp = {
   created: number;
   expiration: number;
   eventID: string;
+  status: "active" | "revoked";
 };
 
 
