@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const connectDB = require("./config/dbConnect");
 const AuthRouter = require("./routes/authRoutes");
 const orgRouter = require("./routes/orgRoutes");
+const commonRouter = require("./routes/commonRoutes");
 const verifyJWT = require("./middleware/verifyJWT");
 const cookieParser = require("cookie-parser");
 // const isActive = require("./middleware/isActive");
@@ -17,6 +18,7 @@ App.use(express.urlencoded({ extended: false }));
 App.use(cookieParser());
 App.use(cors(corsOptions));
 App.use("/auth", AuthRouter);
+App.use("/template", commonRouter);
 App.use(verifyJWT);
 App.use("/org", orgRouter);
 

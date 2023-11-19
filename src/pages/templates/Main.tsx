@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import HeaderLayout from "./layout/HeaderLayout";
 import Sidebar from "./layout/Sidebar";
-import axios from "axios";
+import axios from "@/setup/api/axios";
 import { isArray } from "lodash";
 import AppLayerSettings from "./layout/AppLayerSettings";
 import {
@@ -35,7 +35,7 @@ const Main = () => {
       return params;
     };
     return axios
-      .get<FontData[]>(`http://localhost:3000/fonts?${buildParams(query)}`)
+      .get<FontData[]>(`/template/fonts?${buildParams(query)}`)
       .then((res) => res.data);
   }, []);
   const [viewPortHeight, setViewPortHeight] = useState<number>();
