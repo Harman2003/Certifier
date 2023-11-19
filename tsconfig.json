@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+  
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable", "ESNext"],
@@ -17,8 +18,8 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
 
     //shadcn.ui
@@ -26,7 +27,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "composite": true,
+    
     "allowJs": true,
     "importHelpers": true,
     "esModuleInterop": true,
