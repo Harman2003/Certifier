@@ -18,15 +18,35 @@ const User = new Schema(
     },
     address: {
       type: String,
+      default:""
     },
     role: {
       type: String,
       required: true,
       enum: ["user", "org", "manager"],
     },
-    roleID: {
-      type: mongoose.Schema.Types.ObjectId,
-      //   required: true,
+    orgid: {
+      //auto set krlo for organisation only
+      type: String,
+      unique: true,
+      validate: {
+        validator: function (value) {
+          if (this.role !== "org") {
+            return true;
+          }
+          return /^[0-9a-fA-F]{4}$/.test(value);
+        },
+        message: (props) =>
+          `${props.value} is not a valid orgid. It should be a four-character hex string.`,
+      },
+    },
+    oauth: {
+      type: Boolean,
+      default: false,
+    },
+    picture: {
+      type: String,
+      default:""
     },
     refreshToken: String,
     // certificateIds: [{type : mongoose.Schema.Types.ObjectId, ref: "Certificate"}],

@@ -35,4 +35,14 @@ export const sidebarContent = [
     path: "/org/export",
     icon: ExportIcon,
   },
+  // {
+  //   name: "Event Managers",
+  //   path: "/org/managers",
+  //   icon: ExportIcon,
+  // },
+  // {
+  //   name: "Validate",
+  //   path: "/validate",
+  //   icon: EventIcon,
+  // },
 ];

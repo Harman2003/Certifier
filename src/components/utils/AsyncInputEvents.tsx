@@ -25,7 +25,7 @@ export default function AsyncInput({
   const { data, receive } = useApiReceiver(
     "/org/get_managers",
     { search: inputValue },
-    false
+    true
   );
 
   useEffect(() => {

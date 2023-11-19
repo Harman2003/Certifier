@@ -1,32 +1,32 @@
-import useApiReceiver from "@/hooks/useApiReceiver";
-import React, {createContext, useState, ReactNode } from "react";
-
-interface AuthInterface{
+// import useApiReceiver from "@/hooks/useApiReceiver";
+import React, { createContext, useState, ReactNode } from "react";
+interface AuthInterface {
+  name: string;
+  address: string;
   email: string;
   accessToken: string;
-  role:string
+  role: string;
+  picture: string;
 }
-interface AuthContextProps {
-  auth: AuthInterface | null;
-  setAuth: React.Dispatch<
-    React.SetStateAction<AuthInterface | null>
-  >;
-  name: string,
-  address: string,
-  role:string
+export interface AuthContextProps {
+  auth: AuthInterface;
+  setAuth: React.Dispatch<React.SetStateAction<AuthInterface>>;
 }
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-
 export const AuthContext = createContext<AuthContextProps>({
-  auth: null,
+  auth: {
+    name: "",
+    address: "",
+    email: "",
+    accessToken: "",
+    role: "",
+    picture: "",
+  },
   setAuth: () => null,
-  name: "",
-  address: "",
-  role:""
 });
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({
@@ -37,16 +37,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
     ? JSON.parse(storedAuthDetails)
     : null;
 
-  const [auth, setAuth] = useState<AuthInterface | null>(prevAuthDetails);
-  const { data } = useApiReceiver('/common/details', { email: auth?.email }, false);
-  const name = data?.name;
-  const address = data?.address;
-  const role = data?.role;
+  const [auth, setAuth] = useState<AuthInterface>(prevAuthDetails);
+  // const { data } = useApiReceiver('/common/details', { email: auth?.email }, false);
+  // const name = data?.name;
+  // const address = data?.address;
+  // const role = data?.role;
   return (
-    <AuthContext.Provider value={{ auth, setAuth, name, address, role }}>
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-

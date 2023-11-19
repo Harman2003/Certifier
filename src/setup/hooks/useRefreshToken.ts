@@ -19,20 +19,27 @@ const useRefreshToken = () => {
         },
         withCredentials: true,
       });
-      // console.log(response);
+      console.log("refresh token");
+      console.log(response)
       localStorage.setItem(
         "auth",
         JSON.stringify({
+          name: response.data.name,
           email: response.data.email,
-          accessToken: response.data.accessToken,
+          address: response.data.address,
+          picture:response.data.picture,
           role: response.data.role,
+          accessToken: response.data.accessToken,
         })
       );
 
       setAuth({
+        name: response.data.name,
         email: response.data.email,
-        accessToken: response.data.accessToken,
+        address: response.data.address,
+        picture: response.data.picture,
         role: response.data.role,
+        accessToken: response.data.accessToken,
       });
 
       return {
@@ -41,6 +48,7 @@ const useRefreshToken = () => {
         role: response.data.role,
       };
     } catch (err) {
+      console.log('userefresh')
       navigate("/auth/login", { state: { from: location } });
       throw err;
     }

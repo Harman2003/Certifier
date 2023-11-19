@@ -10,11 +10,11 @@ import ExportRecord from "../../components/org/ExportRecord/ExportRecord";
 
 const Main = () => {
   return (
-    <div className="grid grid-cols-5">
+    <div className="grid grid-cols-6">
       <aside className="col-span-1">
         <Sidebar content={sidebarContent} />
       </aside>
-      <div className="col-span-4">
+      <div className="col-span-5">
         <header className="h-20 sticky top-0 bg-white/95 shadow-md z-50">
           <Navbar />
         </header>

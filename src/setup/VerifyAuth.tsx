@@ -1,19 +1,17 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "./hooks/useAuth";
 
-const VerifyAuth = () => {
+const VerifyAuth = ({ allowedRoles }: {allowedRoles: string[]}) => {
   const { auth } = useAuth();
   const location = useLocation();
-  console.log(auth);
-  return (
-    <>
-      {auth?.accessToken && auth?.email ? (
-        <Outlet />
-      ) : (
-        <Navigate to="/auth/login" state={{ from: location }} replace />
-      )}
-    </>
-  );
+  
+  return(
+    !auth?.accessToken ?
+      <Navigate to="/auth/login" state={{ from: location }} replace />
+      : !allowedRoles?.includes(auth?.role)
+        ? <Navigate to="/notfound" state={{from:location}} replace />
+        : <Outlet />
+  )
 };
 
 export default VerifyAuth;

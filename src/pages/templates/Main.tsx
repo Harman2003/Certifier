@@ -35,7 +35,7 @@ const Main = () => {
       return params;
     };
     return axios
-      .get<FontData[]>(`/fonts?${buildParams(query)}`)
+      .get<FontData[]>(`http://localhost:3000/fonts?${buildParams(query)}`)
       .then((res) => res.data);
   }, []);
   const [viewPortHeight, setViewPortHeight] = useState<number>();

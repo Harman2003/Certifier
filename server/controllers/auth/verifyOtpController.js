@@ -1,4 +1,4 @@
-const UserOtpData = require("../../model/VerifyOTP");
+const UserOtpData = require("../../model/OTP");
 const bcrypt = require("bcrypt");
 
 require("dotenv").config();

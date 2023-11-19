@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 const UserDB = require('../../model/User');
 
-const refreshJWT = (req, res) => {
+const refreshJWT = async (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(401);
 
     const refreshToken = cookies.jwt;
-    const foundUser = UserDB.find({ refreshToken: refreshToken });
+    const foundUser = await UserDB.findOne({ refreshToken: refreshToken });
     if (!foundUser) return res.sendStatus(403);
     
     jwt.verify(
@@ -16,10 +16,19 @@ const refreshJWT = (req, res) => {
         if (err) return res.sendStatus(403);
         const accessToken = jwt.sign(
           { email: decoded.email, role: decoded.role },
-          process.env.REFRESH_TOKEN_SECRET,
-          { expiresIn: "10d" }
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: "1d" }
         );
-        res.json({ email: decoded.email, role:decoded.role, accessToken });
+        const data = {
+          name: foundUser.name,
+          email: decoded.email,
+          role: decoded.role,
+          address: foundUser.address,
+          picture: foundUser.picture,
+          accessToken,
+        };
+        
+        res.json(data);
       }
     );
 }

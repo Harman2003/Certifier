@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Input } from "@/components/ui/input";
 import { ReloadIcon, ReloadIcon as Rotate } from "@radix-ui/react-icons";
 import {
@@ -16,26 +17,27 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { FcGoogle as GIcon } from "react-icons/fc";
-import { BsMeta as MIcon } from "react-icons/bs";
-import { BsGithub as GitIcon } from "react-icons/bs";
+import LoginSvg from "@/assets/login.svg?react";
 import OtpInput from "../utils/otpInput";
 import { Button } from "../ui/button";
 import useApiSender from "@/hooks/useApiSender";
 import { sendOtp } from "@/webApi/sendOtp";
 import { verifyOtp } from "@/webApi/verifyOtp";
 import Resend from "../utils/resend";
-import { registerAccount } from "@/webApi/registerAccount";
+import { registerAccount, registerProps } from "@/webApi/registerAccount";
 import useMultiRef from "@/hooks/useMultiRef";
 import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "@/setup/hooks/useAuth";
+import { JwtPayload, jwtDecode } from "jwt-decode";
+import { DecodedJwtToken } from "@/utils/googlePayLoadProps";
+
 const Signup = () => {
-  const [role, setRole] = useState<string>("org");
+  const [role, setRole] = useState<string>("none");
   const [otpvalue, setOtpvalue] = useState<string>("");
   const [email, setemail] = useState<string>("");
   const [resendCounter, setresendCounter] = useState<number>(0);
-  const fields = { name: 0, orgId: 1, pass: 2, confirmpass: 3 };
+  const fields = { name: 0, pass: 1, confirmpass: 2 };
   const { ref: formRef, getRef } = useMultiRef(fields);
   const { send: send_otp, data } = useApiSender(sendOtp);
   const navigate = useNavigate();
@@ -64,7 +66,7 @@ const Signup = () => {
       setresendCounter(0);
     }
   };
-  
+
   //verifyotp
   const checkOtp = async () => {
     try {
@@ -80,18 +82,16 @@ const Signup = () => {
   };
 
   //create account
-  const register = async () => {
-    const [name, orgid, pass, confirmpass] = getRef([
+  const registerWithEmail = async () => {
+    const [name, pass, confirmpass] = getRef([
       "name",
-      "orgId",
       "pass",
       "confirmpass",
     ]);
     if (
       !name?.value ||
       !pass?.value ||
-      !confirmpass?.value ||
-      (role === "org" && !orgid?.value)
+      !confirmpass?.value
     ) {
       toast.error("Incomplete Information");
       return;
@@ -106,10 +106,31 @@ const Signup = () => {
         fullname: name?.value,
         email: email,
         password: pass?.value,
-        role: role,
-        orgid: orgid?.value,
+        role: role=="none"?"":role,
+        picture: "",
         token: data?.token,
+        oauth: false,
       });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const registerWithGoogle = async (googleAuthToken: CredentialResponse) => {
+    const jwtToken = googleAuthToken.credential || "";
+    try {
+      const decoded = jwtDecode<DecodedJwtToken>(jwtToken);
+      const accountData: registerProps = {
+        fullname: decoded?.name,
+        email: decoded?.email,
+        password: "Google@123",
+        role: role=="none"?"":role,
+        picture: decoded.picture,
+        token: jwtToken,
+        oauth: true,
+      };
+      await createAccount(accountData);
+      console.log(decoded);
     } catch (err) {
       console.log(err);
     }
@@ -118,13 +139,16 @@ const Signup = () => {
   useEffect(() => {
     if (isRegistered == "success" && registerData) {
       const newAuth = {
+        name: registerData.name,
+        picture:registerData.picture,
         email: registerData.email,
+        address:registerData.address,
         role: registerData.role,
         accessToken: registerData.accessToken,
       };
-      setAuth({...newAuth});
+      setAuth({ ...newAuth });
       localStorage.setItem("auth", JSON.stringify(newAuth));
-      const from = location.state?.from?.pathname || "/dashboard";
+      const from = location.state?.from?.pathname || "/org";
       navigate(from, { replace: true });
     }
   }, [isRegistered]);
@@ -142,8 +166,14 @@ const Signup = () => {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Roles</SelectLabel>
-                <SelectItem value="user">User</SelectItem>
-                <SelectItem value="manager">Event Manager</SelectItem>
+
+                <SelectItem value="none">Select Role</SelectItem>
+                <SelectItem value="user" disabled>
+                  User
+                </SelectItem>
+                <SelectItem value="manager" disabled>
+                  Event Manager
+                </SelectItem>
                 <SelectItem value="org">Organisation</SelectItem>
               </SelectGroup>
             </SelectContent>
@@ -162,24 +192,23 @@ const Signup = () => {
 
       <div className="h-full flex bg- justify-center gap-4">
         <div className="w-96">
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center gap-6">
             <div className="font-semibold my-2 text-gray-600 m-3">
-              Login with your social profiles
+              Signup with your social profiles
             </div>
-            <div className=" w-full flex justify-center gap-3">
-              <Button variant="outline" className=" w-16 h-16 flex flex-col">
-                <GIcon size={40} />
-                <div className="text-xs text-gray-600">Google</div>
-              </Button>
-              <Button variant="outline" className=" w-16 h-16 flex flex-col">
-                <MIcon size={40} color="royalblue" />
-                <div className="text-xs text-gray-600">Meta</div>
-              </Button>
-              <Button variant="outline" className=" w-16 h-16 flex flex-col">
-                <GitIcon size={40} />
-                <div className="text-xs text-gray-600">Github</div>
-              </Button>
-            </div>
+            <GoogleLogin
+              onSuccess={registerWithGoogle}
+              onError={() => {
+                console.log("Google Auth Failed")
+              }}
+              useOneTap
+              width={"300px"}
+              size="large"
+              shape="square"
+              text="continue_with"
+              type="standard"
+            />
+            <LoginSvg />
           </div>
         </div>
         <hr className="border-[1px] h-full" />
@@ -187,6 +216,7 @@ const Signup = () => {
           <div className="font-semibold my-2 text-gray-600 m-3">
             Register with your email address
           </div>
+          <div>
           <Input
             type="text"
             placeholder="Full Name"
@@ -263,7 +293,7 @@ const Signup = () => {
               </AccordionItem>
             </Accordion>
           </div>
-          {role == "org" && (
+          {/* {role == "org" && (
             <div className="flex items-center m-3 w-full relative">
               <Input
                 type="text"
@@ -276,25 +306,27 @@ const Signup = () => {
                 <Rotate color="blue" />
               </div>
             </div>
-          )}
+          )} */}
           <Input
             type="password"
             placeholder="Password"
             className="py-5 m-3"
             disabled={isVerified != "success"}
-            ref={(el) => (formRef.current[2] = el)}
+            ref={(el) => (formRef.current[1] = el)}
           />
           <Input
             type="password"
             placeholder="Confirm Password"
             className="py-5 m-3"
             disabled={isVerified != "success"}
-            ref={(el) => (formRef.current[3] = el)}
+            ref={(el) => (formRef.current[2] = el)}
           />
           <Button
             className="bg-blue-800 py-5 m-3 w-full"
-            disabled={isVerified != "success" || isRegistering}
-            onClick={register}
+            disabled={
+              isVerified != "success" || isRegistering || role == "none"
+            }
+            onClick={registerWithEmail}
           >
             {isRegistering ? (
               <>
@@ -304,7 +336,8 @@ const Signup = () => {
             ) : (
               "Create New Account"
             )}
-          </Button>
+            </Button>
+            </div>
         </div>
       </div>
     </>

@@ -51,13 +51,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {Payment} from "@/utils/sample";
+import { EventProps } from "@/utils/sample";
+import { dateFormatter } from "@/utils/dateFormatter";
 
-interface DataTableProps{
-  children:React.ReactNode,
-  data:Payment[],
+interface DataTableProps {
+  children: React.ReactNode;
+  data: EventProps[];
 }
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<EventProps>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -108,21 +109,27 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "created",
     header: "Created At",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("created")}</div>
+      <div className="capitalize">
+        {dateFormatter(row.getValue("created"))}
+      </div>
     ),
   },
   {
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("duration")}</div>
+      <div className="capitalize">
+        {dateFormatter(row.getValue("duration"))}
+      </div>
     ),
   },
   {
     accessorKey: "lastUpdated",
     header: "Last Updated",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("lastUpdated")}</div>
+      <div className="capitalize">
+        {dateFormatter(row.getValue("lastUpdated"))}
+      </div>
     ),
   },
   {
@@ -163,7 +170,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-const EventTable:React.FC<DataTableProps> = ({children, data})=>{
+const EventTable: React.FC<DataTableProps> = ({ children, data }) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -362,7 +369,6 @@ const EventTable:React.FC<DataTableProps> = ({children, data})=>{
       </div>
     </div>
   );
-}
+};
 
 export default EventTable;
-

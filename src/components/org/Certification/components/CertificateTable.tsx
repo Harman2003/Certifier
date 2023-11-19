@@ -9,7 +9,6 @@ import {
   ChevronRightIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
-  MixerHorizontalIcon,
 } from "@radix-ui/react-icons";
 import {
   Select,
@@ -32,17 +31,14 @@ import {
 } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -52,6 +48,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CertificatesProp } from "@/utils/sample";
+import { dateFormatter } from "@/utils/dateFormatter";
 
 interface DataTableProps {
   children: React.ReactNode;
@@ -96,21 +93,27 @@ export const columns: ColumnDef<CertificatesProp>[] = [
     accessorKey: "created",
     header: "Created At",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("created")}</div>
+      <div>
+        {dateFormatter(row.getValue("created"))}
+      </div>
     ),
   },
   {
     accessorKey: "expiration",
     header: "Expiration",
     cell: ({ row }) => (
-      <div className="text-blue-800 ">{row.getValue("expiration")}</div>
+      <div>
+        {dateFormatter(row.getValue("created"))}
+      </div>
     ),
   },
   {
     accessorKey: "eventID",
     header: "Event ID",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("eventID")}</div>
+      <div>
+        {dateFormatter(row.getValue("created"))}
+      </div>
     ),
   },
   {
@@ -134,8 +137,6 @@ export const columns: ColumnDef<CertificatesProp>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -23,7 +23,7 @@ const BlurLoader = () => {
                   autoStart: true,
                   loop: true,
                   delay: 20,
-                  deleteSpeed:20
+                  deleteSpeed: 20,
                 }}
               />
             </div>

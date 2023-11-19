@@ -1,21 +1,24 @@
 import axios from "@/setup/api/axios";
 import { AxiosResponse } from "axios";
 
+export interface registerProps {
+  fullname: string;
+  email: string;
+  password: string;
+  role: string;
+  picture: string;
+  token: string;
+  oauth: boolean;
+}
 export const registerAccount = async ({
   fullname,
   email,
   password,
   role,
-  orgid,
+  picture,
   token,
-}: {
-  fullname: string;
-  email: string;
-  password: string;
-  role: string;
-  orgid: string;
-  token: string;
-}): Promise<AxiosResponse | void> => {
+  oauth,
+}:registerProps): Promise<AxiosResponse | void> => {
   const response = await axios.post(
     "/auth/register",
     {
@@ -23,13 +26,14 @@ export const registerAccount = async ({
       email: email,
       password: password,
       role: role,
-      orgid: orgid,
+      picture: picture,
+      oauth: oauth,
     },
     { headers: { authorization: `bearer ${token}` } }
   );
 
   if (response.status == 200) {
-    response.data.message = "Successfully Registered";
+    response.data.message = oauth?"Successfully Logged In":"Successfully Registered";
   }
   return response;
 };

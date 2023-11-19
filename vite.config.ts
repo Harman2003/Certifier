@@ -4,6 +4,9 @@ import path from "path";
 import svgr from "vite-plugin-svgr";
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: 'localhost'
+  },
   plugins: [
     react({
       jsxImportSource: "@emotion/react",

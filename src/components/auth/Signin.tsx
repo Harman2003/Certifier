@@ -1,24 +1,75 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { FcGoogle as GIcon } from "react-icons/fc";
-import { BsMeta as MIcon } from "react-icons/bs";
-import { BsGithub as GitIcon } from "react-icons/bs";
 import useApiSender from "@/hooks/useApiSender";
-import { registerAccount } from "@/webApi/registerAccount";
+import { loginAccount, loginProps } from "@/webApi/loginAccount";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { jwtDecode } from "jwt-decode";
+import { DecodedJwtToken } from "@/utils/googlePayLoadProps";
+import useAuth from "@/setup/hooks/useAuth";
 const Signin = () => {
+  const { setAuth } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [email, setemail] = useState<string>("");
+  const [password, setpassword] = useState<string>("");
   const {
-    send: loginAccount,
-    status: isLoginDone,
+    send,
+    status,
     isLoading,
-  } = useApiSender(registerAccount);
+    data
+  } = useApiSender(loginAccount);
   const validator =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
   //login account
-  const login = () => {};
+  const login = async () => {
+    try {
+       await send({
+         email: email,
+         password: password,
+         oauth: false,
+       });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const googleLogin = async (googleAuthToken: CredentialResponse) => {
+    const jwtToken = googleAuthToken.credential || "";
+    try {
+      const decoded = jwtDecode<DecodedJwtToken>(jwtToken);
+      const accountData: loginProps = {
+        email: decoded?.email,
+        password: "Google@123",
+        token: jwtToken,
+        oauth: true,
+      };
+      await send(accountData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+   useEffect(() => {
+     if (status == "success" && data) {
+       const newAuth = {
+         name: data.name,
+         picture: data.picture,
+         email: data.email,
+         address: data.address,
+         role: data.role,
+         accessToken: data.accessToken,
+       };
+       setAuth({ ...newAuth });
+       localStorage.setItem("auth", JSON.stringify(newAuth));
+       const from = location.state?.from?.pathname || "/org";
+       navigate(from, { replace: true });
+     }
+   }, [status]);
 
   return (
     <>
@@ -29,7 +80,7 @@ const Signin = () => {
           <div>New to Certify ?</div>
           <Link
             to={"/auth/register"}
-            className="bg-blue-800 rounded-lg px-2 text-white ml-2"
+            className="bg-blue-800  rounded-lg px-2 text-white ml-2"
           >
             Register
           </Link>
@@ -39,11 +90,34 @@ const Signin = () => {
       <div className="h-full flex justify-center">
         <div className="w-96">
           <div className="m-3 w-full relative">
-            <Input type="email" placeholder="Email" className="py-5" />
+            <Input
+              type="email"
+              placeholder="Email"
+              className="py-5"
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
+            />
           </div>
-          <Input type="password" placeholder="Password" className="py-5 m-3" />
-          <Button className="bg-blue-800 py-5 m-3 w-full" onClick={login}>
-            Login Account
+          <Input
+            type="password"
+            placeholder="Password"
+            className="py-5 m-3"
+            value={password}
+            onChange={(e) => setpassword(e.target.value)}
+          />
+          <Button
+            className="bg-blue-800 hover:bg-blue-900 py-5 m-3 w-full"
+            disabled={!validator.test(email) || !password || isLoading}
+            onClick={login}
+          >
+            {isLoading ? (
+              <>
+                <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                Signing You In...
+              </>
+            ) : (
+              "Login Account"
+            )}
           </Button>
 
           <div className="m-3 w-full relative mt-6 mb-10">
@@ -52,24 +126,23 @@ const Signin = () => {
               OR
             </div>
           </div>
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center gap-3">
             <div className="font-semibold my-2 text-gray-600">
               Login with your social profiles
             </div>
-            <div className=" w-full flex justify-center gap-3">
-              <Button variant="outline" className=" w-16 h-16 flex flex-col">
-                <GIcon size={40} />
-                <div className="text-xs text-gray-600">Google</div>
-              </Button>
-              <Button variant="outline" className=" w-16 h-16 flex flex-col">
-                <MIcon size={40} color="royalblue" />
-                <div className="text-xs text-gray-600">Meta</div>
-              </Button>
-              <Button variant="outline" className=" w-16 h-16 flex flex-col">
-                <GitIcon size={40} />
-                <div className="text-xs text-gray-600">Github</div>
-              </Button>
-            </div>
+
+            <GoogleLogin
+              onSuccess={googleLogin}
+              onError={() => {
+                toast.error("google");
+              }}
+              useOneTap
+              width={"300px"}
+              size="large"
+              shape="square"
+              text="continue_with"
+              type="standard"
+            />
           </div>
         </div>
       </div>

@@ -42,7 +42,7 @@ const Events = () => {
   }
 
   return (
-    <div className=" w-full h-[90vh] p-10 overflow-y-auto">
+    <div className="w-full h-[90vh] p-10 overflow-y-auto">
       <div className="flex justify-between items-end mb-10">
         <div className="text-4xl font-Poppins font-bold">Events</div>
         <Link to={'/org/events/add'}>

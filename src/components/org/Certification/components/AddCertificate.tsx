@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UploadSvg from "./upload.svg?react";
+import UploadSvg from "@/assets/upload.svg?react";
 import { TextField } from "@mui/material";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";

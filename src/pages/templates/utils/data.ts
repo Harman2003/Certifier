@@ -5,258 +5,110 @@ export const data: SerializedPage[] = [
     locked: false,
     layers: {
       ROOT: {
-        type: {
-          resolvedName: "RootLayer",
-        },
+        type: { resolvedName: "RootLayer" },
         props: {
-          boxSize: {
-            width: 1640,
-            height: 924,
-          },
-          position: {
-            x: 0,
-            y: 0,
-          },
+          boxSize: { width: 1640, height: 924 },
+          position: { x: 0, y: 0 },
           rotate: 0,
           color: "rgb(255, 255, 255)",
-          image: {
-            url: "https://i.imgur.com/vbBynfJ.jpg",
-            thumb: "https://i.imgur.com/vbBynfJm.jpg",
-            boxSize: {
-              width: 1640,
-              height: 1230,
-            },
-            position: {
-              x: 0,
-              y: -153,
-            },
-            rotate: 0,
-            transparency: 0.26,
-          },
+          image: null,
         },
-
         locked: false,
         child: [
-          "f6761b08-a5c0-41c2-b926-8dac486ed52b",
-          "b2ef63df-aae1-446a-8f8f-9a459cbd3bf2",
-          "0db18d57-383a-4ef7-8759-2738e4b2e662",
-          "f68c4af6-7fbc-48c7-b768-8e8dd49b4e33",
-          "1c998ea6-b5de-4ecf-8952-ad582cbf047b",
-          "cf462f31-e1d8-48b5-9398-3fedd9e61fb9",
+          "10888d93-2f06-4dda-819a-2e7a28a1440e",
+          "89adef2f-4546-4dc7-b77e-4fc511203ada",
         ],
         parent: null,
       },
-      "f6761b08-a5c0-41c2-b926-8dac486ed52b": {
-        type: {
-          resolvedName: "TextLayer",
-        },
+      "10888d93-2f06-4dda-819a-2e7a28a1440e": {
+        type: { resolvedName: "TextLayer" },
         props: {
-          text: '<p style="font-family: Akronim; color: rgb(84, 84, 84); font-size: 104px; text-transform: uppercase; text-align: center">LIQUID EDITOR</p>',
-          position: {
-            x: 410.6113744075829,
-            y: 71.30173775671405,
-          },
+          text: '<p style="text-align: center;font-family: Abril Fatface;font-size: 68px;color: rgb(0, 0, 0);line-height: 1.4;letter-spacing: 0em;"><span style="color: rgb(0, 0, 0);">Create Your Certificate Template</span></p>',
+          position: { x: 395.4468578773911, y: 213.64608035837145 },
           boxSize: {
-            width: 857.1176935229068,
-            height: 145,
-            x: 581.6066350710901,
-            y: 115.34597156398104,
+            width: 878.7404691103761,
+            height: 190,
+            x: 403.6785758954906,
+            y: 414.5,
           },
           scale: 1,
           rotate: 0,
           fonts: [
             {
-              name: "Akronim",
+              name: "Abril Fatface",
               fonts: [
                 {
                   urls: [
-                    "https://api-gilt-one.vercel.app/assets/liquid-editor/fonts/raw/master/src/fonts/Akronim/Akronim-Regular.woff2",
+                    "https://lidojs-fonts.s3.us-east-2.amazonaws.com/AbrilFatface/AbrilFatface-Regular.woff2",
                   ],
                 },
               ],
             },
           ],
-          colors: ["rgb(84, 84, 84)"],
-          fontSizes: [104],
+          colors: ["rgb(0, 0, 0)"],
+          fontSizes: [68],
         },
-
         locked: false,
         child: [],
         parent: "ROOT",
       },
-      "b2ef63df-aae1-446a-8f8f-9a459cbd3bf2": {
-        type: {
-          resolvedName: "ShapeLayer",
-        },
+      "89adef2f-4546-4dc7-b77e-4fc511203ada": {
+        type: { resolvedName: "TextLayer" },
         props: {
-          shape: "rectangle",
-          position: {
-            x: -57.251184834123144,
-            y: 411.2259083728278,
-          },
+          text: '<p style="text-align: center;font-family: Roboto;font-size: 26px;color: rgb(0, 0, 0);line-height: 1.4;letter-spacing: 0em;"><span style="color: rgb(0, 0, 0);">using CERTIFY EDITOR</span></p>',
+          position: { x: 578.1909978792006, y: 437.41462558552035 },
           boxSize: {
-            width: 1746.7298578199052,
-            height: 326.9510268562401,
-            x: -54.66034755134274,
-            y: 316.6603475513428,
-          },
-          rotate: 0,
-          color: "rgb(166, 166, 166)",
-          transparency: 0.43,
-        },
-
-        locked: false,
-        child: [],
-        parent: "ROOT",
-      },
-      "0db18d57-383a-4ef7-8759-2738e4b2e662": {
-        type: {
-          resolvedName: "FrameLayer",
-        },
-        props: {
-          clipPath:
-            'path("M 0 458.6 V 41.4 C 0 18.5 18.5 0 41.4 0 h 806 c 22.9 0 41.4 18.5 41.4 41.4 v 417.1 c 0 22.9 -18.5 41.4 -41.4 41.4 h -806 C 18.6 500 0 481.5 0 458.6 C 0 458.6 0 458.6 0 458.6 Z")',
-          position: {
-            x: 21.37440758293844,
-            y: 430.8695404533589,
-          },
-          boxSize: {
-            width: 513.705464770932,
-            height: 288.95896273494594,
-            x: 25.260663507109,
-            y: 342.78107283882497,
-          },
-          rotate: 0,
-          scale: 0.577917925469892,
-          image: {
-            url: "https://i.imgur.com/2MvVGbT.jpg",
-            thumb: "https://i.imgur.com/2MvVGbTm.jpg",
-            boxSize: {
-              width: 888.8899999999996,
-              height: 666.6674999999998,
-            },
-            rotate: 0,
-            position: {
-              x: 0,
-              y: -134.49162079583496,
-            },
-          },
-        },
-
-        locked: false,
-        child: [],
-        parent: "ROOT",
-      },
-      "f68c4af6-7fbc-48c7-b768-8e8dd49b4e33": {
-        type: {
-          resolvedName: "FrameLayer",
-        },
-        props: {
-          clipPath:
-            'path("M 0 458.6 V 41.4 C 0 18.5 18.5 0 41.4 0 h 806 c 22.9 0 41.4 18.5 41.4 41.4 v 417.1 c 0 22.9 -18.5 41.4 -41.4 41.4 h -806 C 18.6 500 0 481.5 0 458.6 C 0 458.6 0 458.6 0 458.6 Z")',
-          position: {
-            x: 563.7914691943129,
-            y: 431.80160996362747,
-          },
-          boxSize: {
-            width: 513.705464770932,
-            height: 288.95896273494594,
-            x: 25.260663507109,
-            y: 342.78107283882497,
-          },
-          rotate: 0,
-          scale: 0.577917925469892,
-          image: {
-            url: "https://i.imgur.com/xqLlVks.jpg",
-            thumb: "https://i.imgur.com/xqLlVksm.jpg",
-            boxSize: {
-              width: 888.8899999999996,
-              height: 1185.1866666666663,
-            },
-            rotate: 0,
-            position: {
-              x: 0,
-              y: -573.8309153955626,
-            },
-          },
-        },
-
-        locked: false,
-        child: [],
-        parent: "ROOT",
-      },
-      "1c998ea6-b5de-4ecf-8952-ad582cbf047b": {
-        type: {
-          resolvedName: "FrameLayer",
-        },
-        props: {
-          clipPath:
-            'path("M 0 458.6 V 41.4 C 0 18.5 18.5 0 41.4 0 h 806 c 22.9 0 41.4 18.5 41.4 41.4 v 417.1 c 0 22.9 -18.5 41.4 -41.4 41.4 h -806 C 18.6 500 0 481.5 0 458.6 C 0 458.6 0 458.6 0 458.6 Z")',
-          position: {
-            x: 1107.5039494470773,
-            y: 432.733679473896,
-          },
-          boxSize: {
-            width: 513.705464770932,
-            height: 288.95896273494594,
-            x: 25.260663507109,
-            y: 342.78107283882497,
-          },
-          rotate: 0,
-          scale: 0.577917925469892,
-          image: {
-            url: "https://i.imgur.com/IHTcWOG.jpg",
-            thumb: "https://i.imgur.com/IHTcWOGm.jpg",
-            boxSize: {
-              width: 888.8899999999996,
-              height: 666.6674999999998,
-            },
-            rotate: 0,
-            position: {
-              x: 0,
-              y: 0,
-            },
-          },
-        },
-
-        locked: false,
-        child: [],
-        parent: "ROOT",
-      },
-      "cf462f31-e1d8-48b5-9398-3fedd9e61fb9": {
-        type: {
-          resolvedName: "TextLayer",
-        },
-        props: {
-          text: '<p style="font-family: Alatsi; color: rgb(84, 84, 84); font-size: 24px; text-transform: uppercase; text-align: center">NHA TRANG BEACH</p>',
-          position: {
-            x: 387.86255924170615,
-            y: 210.48025276461317,
-          },
-          boxSize: {
-            width: 857.1176935229068,
-            height: 31,
-            x: 581.6066350710901,
-            y: 115.34597156398104,
+            width: 536.3009995574356,
+            height: 36,
+            x: 523.1390728476821,
+            y: 259.9867549668875,
           },
           scale: 1,
           rotate: 0,
           fonts: [
             {
-              name: "Alatsi",
+              name: "Roboto",
               fonts: [
                 {
+                  style: "Bold",
                   urls: [
-                    "https://api-gilt-one.vercel.app/assets/liquid-editor/fonts/raw/master/src/fonts/Alatsi/Alatsi-Regular.woff2",
+                    "https://lidojs-fonts.s3.us-east-2.amazonaws.com/Roboto/Roboto-Bold.woff2",
+                  ],
+                },
+                {
+                  style: "Bold_Italic",
+                  urls: [
+                    "https://lidojs-fonts.s3.us-east-2.amazonaws.com/Roboto/Roboto-Bold.woff2",
+                  ],
+                },
+                {
+                  style: "Bold",
+                  urls: [
+                    "https://lidojs-fonts.s3.us-east-2.amazonaws.com/Roboto/Roboto-Bold.woff2",
+                  ],
+                },
+                {
+                  urls: [
+                    "https://lidojs-fonts.s3.us-east-2.amazonaws.com/Roboto/Roboto-Regular.woff2",
+                  ],
+                },
+                {
+                  style: "Italic",
+                  urls: [
+                    "https://lidojs-fonts.s3.us-east-2.amazonaws.com/Roboto/Roboto-Regular.woff2",
+                  ],
+                },
+                {
+                  urls: [
+                    "https://lidojs-fonts.s3.us-east-2.amazonaws.com/Roboto/Roboto-Regular.woff2",
                   ],
                 },
               ],
             },
           ],
-          colors: ["rgb(84, 84, 84)"],
-          fontSizes: [24],
+          colors: ["rgb(0, 0, 0)"],
+          fontSizes: [26],
         },
-
         locked: false,
         child: [],
         parent: "ROOT",

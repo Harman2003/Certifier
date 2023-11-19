@@ -29,7 +29,7 @@ export default function AsyncInput({
   const { data, receive } = useApiReceiver(
     "/org/get_managers",
     { search: inputValue },
-    false
+    true
   );
 
   useEffect(() => {
@@ -53,12 +53,12 @@ export default function AsyncInput({
       sx={{
         width: "100%",
         "& .MuiInputBase-input": {
-          height: "40px",
+          height: "20px",
         },
       }}
       ListboxProps={{
         style: {
-          maxHeight: "200px",
+          maxHeight: "100px",
         },
       }}
       filterOptions={(x) => x}

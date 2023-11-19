@@ -46,7 +46,7 @@ const FormSchema = z.object({
 export default function InputForm() {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-  const { name } = useAuth();
+  const { auth } = useAuth();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -57,7 +57,7 @@ export default function InputForm() {
       template: "",
       duration: "",
       durationType: "hours",
-      org: name,
+      org: auth?.name,
     },
   });
 
@@ -85,7 +85,7 @@ export default function InputForm() {
         {
           {
             1: (
-              <div className="w-[600px] mt-10 grid grid-cols-2 gap-5 items-center">
+              <div className="w-[600px] mt-5 grid grid-cols-2 gap-5 items-center">
                 <div className="col-span-2 w-full text-2xl font-semibold text-gray-600 text-center">
                   Enter few details about the event
                 </div>
@@ -99,7 +99,7 @@ export default function InputForm() {
                         id="eventname"
                         value={field.value}
                         onChange={field.onChange}
-                        size="medium"
+                        size="small"
                         className="w-full"
                       />
                     </FormItem>
@@ -113,7 +113,7 @@ export default function InputForm() {
                       <Box sx={{ minWidth: 120, width: "100%" }}>
                         <FormControl
                           sx={{ minWidth: 120, width: "100%" }}
-                          size="medium"
+                          size="small"
                         >
                           <InputLabel id="demo-simple-select-label">
                             Event Type
@@ -124,7 +124,7 @@ export default function InputForm() {
                             id="demo-simple-select"
                             label="Event Type"
                             onChange={field.onChange}
-                            size="medium"
+                            size="small"
                           >
                             {event_types.map((item, index) => (
                               <MenuItem key={"type" + index} value={item}>
@@ -144,12 +144,12 @@ export default function InputForm() {
                     <FormItem className="col-span-1">
                       <TextField
                         focused
-                        value={name ? name : ""}
+                        value={auth?.name || ""}
                         disabled
                         label="Organisation"
                         id="name"
                         onChange={field.onChange}
-                        size="medium"
+                        size="small"
                         className="w-full"
                         sx={{
                           "& .MuiInput-underline:after": {
@@ -177,7 +177,7 @@ export default function InputForm() {
                   render={({ field }) => (
                     <FormItem className="col-span-1">
                       <TextField
-                        size="medium"
+                        size="small"
                         label="Event Duration"
                         id="duration-label"
                         value={field.value}
