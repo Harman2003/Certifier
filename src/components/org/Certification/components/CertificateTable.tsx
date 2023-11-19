@@ -56,6 +56,11 @@ interface DataTableProps {
 }
 export const columns: ColumnDef<CertificatesProp>[] = [
   {
+    id: "select",
+    header: "",
+    cell: ({ row }) => <></>,
+  },
+  {
     accessorKey: "certificateID",
     header: "Certificate ID",
     cell: ({ row }) => (
@@ -92,29 +97,17 @@ export const columns: ColumnDef<CertificatesProp>[] = [
   {
     accessorKey: "created",
     header: "Created At",
-    cell: ({ row }) => (
-      <div>
-        {dateFormatter(row.getValue("created"))}
-      </div>
-    ),
+    cell: ({ row }) => <div>{dateFormatter(row.getValue("created"))}</div>,
   },
   {
     accessorKey: "expiration",
     header: "Expiration",
-    cell: ({ row }) => (
-      <div>
-        {dateFormatter(row.getValue("created"))}
-      </div>
-    ),
+    cell: ({ row }) => <div>{dateFormatter(row.getValue("created"))}</div>,
   },
   {
     accessorKey: "eventID",
     header: "Event ID",
-    cell: ({ row }) => (
-      <div>
-        {dateFormatter(row.getValue("created"))}
-      </div>
-    ),
+    cell: ({ row }) => <div>{dateFormatter(row.getValue("created"))}</div>,
   },
   {
     accessorKey: "status",

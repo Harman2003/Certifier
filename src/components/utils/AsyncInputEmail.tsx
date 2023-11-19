@@ -58,7 +58,7 @@ export default function AsyncInput({
       }}
       ListboxProps={{
         style: {
-          maxHeight: "100px",
+          maxHeight: "200px",
         },
       }}
       filterOptions={(x) => x}
@@ -83,17 +83,17 @@ export default function AsyncInput({
       renderOption={(props, option) => {
         return (
           <li {...props}>
-            <Grid container alignItems="center">
-              <Grid item sx={{ display: "flex", width: 44 }}>
+            <Grid container alignItems="center" >
+              <Grid item sx={{ display: "flex", width: 44, height:20 }}>
                 <MdMail />
               </Grid>
               <Grid
                 item
                 sx={{ width: "calc(100% - 44px)", wordWrap: "break-word" }}
               >
-                <Box>{option.name}</Box>
+                <Box sx={{fontSize:'14px'}}>{option.name}</Box>
 
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{fontSize:'12px'}}>
                   {option.email}
                 </Typography>
               </Grid>
