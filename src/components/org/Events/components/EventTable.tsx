@@ -53,6 +53,8 @@ import {
 } from "@/components/ui/table";
 import { EventProps } from "@/utils/sample";
 import { dateFormatter } from "@/utils/dateFormatter";
+import { durationFormatter } from "@/utils/durationFormatter";
+import { Link } from "react-router-dom";
 
 interface DataTableProps {
   children: React.ReactNode;
@@ -107,7 +109,7 @@ export const columns: ColumnDef<EventProps>[] = [
     header: "Duration",
     cell: ({ row }) => (
       <div className="capitalize">
-        {dateFormatter(row.getValue("duration"))}
+        {durationFormatter(row.getValue("duration"))}
       </div>
     ),
   },
@@ -146,7 +148,7 @@ export const columns: ColumnDef<EventProps>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id)}
             >
-              View
+              <Link to={"/org/certificates"}>View</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit</DropdownMenuItem>

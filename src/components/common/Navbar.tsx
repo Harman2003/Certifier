@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -6,29 +6,56 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { SlArrowRight } from "react-icons/sl";
-import useAuth from "@/setup/hooks/useAuth";
+import useAuth from "@/setup/hooks/auth/useAuth";
 import { Link, useLocation } from "react-router-dom";
+import { stringToBytes32 } from "@/utils/stringToBytes32";
+import WalletButton from "../utils/WalletButton";
 
 const Navbar = () => {
   const [popup, setpopup] = useState<boolean>(false);
-  const { auth } = useAuth();
+  const {auth}= useAuth()
   const location = useLocation();
   const path = location.pathname
     .split("/")
     .map((s) => capitalize(s))
     .slice(2);
-  console.log(path);
+  
+  
+  // async function registerContract() {
+  //   const name = auth.name;
+  //   const email = auth.email;
+  //   const id = stringToBytes32(auth.id);
+  //   // console.log(factoryContract)
+  //   // factoryContract?.methods.register(name, email, id)
+  //   //   .send({ from: address })
+  //   //   .on("transactionHash", function (hash) {
+  //   //     console.log("Transaction Hash:", hash);
+  //   //   })
+  //   //   .on("receipt", function (receipt) {
+  //   //     console.log("Transaction Receipt:", receipt);
+  //   //   })
+  //   //   .on("error", function (error) {
+  //   //     console.error("Error:", error);
+  //   //   });
+
+
+  //   try {
+  //     const res = await factoryContract?.methods
+  //       .register(name, email, id)
+  //       .send({from: address});
+  //     console.log(res);
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
+
   return (
     <nav className="w-full h-full flex items-center px-10 gap-3 font-Poppins">
       <div className="flex items-center gap-2">
@@ -42,6 +69,7 @@ const Navbar = () => {
           </div>
         ))}
       </div>
+      {/* <WalletButton/> */}
       <div className="ml-auto">
         <DropdownMenu onOpenChange={(open) => setpopup(open)}>
           <DropdownMenuTrigger asChild>

@@ -38,11 +38,11 @@ function App() {
 
             <Route element={<VerifyAuth allowedRoles={["manager"]} />}>
               <Route path="/manager/*" element={<ManagerPage />} />
-            <Route />
+              <Route />
 
-            <Route element={<VerifyAuth allowedRoles={["user"]} />}>
+              <Route element={<VerifyAuth allowedRoles={["user"]} />}>
                 <Route path="/user/*" element={<UserPage />} />
-            </Route>
+              </Route>
             </Route>
 
             <Route path="/*" element={<NotFound />} />

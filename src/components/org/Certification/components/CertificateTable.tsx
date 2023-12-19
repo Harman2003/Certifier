@@ -107,19 +107,21 @@ export const columns: ColumnDef<CertificatesProp>[] = [
   {
     accessorKey: "eventID",
     header: "Event ID",
-    cell: ({ row }) => <div>{dateFormatter(row.getValue("created"))}</div>,
+    cell: ({ row }) => <div>{row.getValue("eventID")}</div>,
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
       <div
-        className=" text-white font-Nunito font-semibold px-2 py-[2px] w-fit rounded-3xl"
+        className="font-Nunito font-semibold px-2 py-[2px] w-fit rounded-3xl"
         css={{
           background:
             row.getValue("status") == "active"
-              ? "rgb(34,197,94)"
-              : "rgb(239,68,68)",
+              ? "rgb(249 115 22 / 0.2)"
+              : row.getValue("status") == "revoked"
+              ? "rgb(168 85 247 / 0.2)"
+              : "rgb(239,68,68,0.5)",
         }}
       >
         {row.getValue("status")}

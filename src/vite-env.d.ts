@@ -3,7 +3,14 @@
 /// <reference types="@emotion/react/types/css-prop" />
 declare module "react-step-progress-bar" {
   import React from "react";
+  import { MetaMaskInpageProvider } from "@metamask/providers";
 
+  declare global {
+    interface Window {
+      ethereum: MetaMaskInpageProvider;
+    }
+  }
+  
   interface ProgressBarProps {
     percent: number;
     stepPositions?: number[];

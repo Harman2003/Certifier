@@ -46,7 +46,7 @@ const Events = () => {
       <div className="flex justify-between items-end mb-10">
         <div className="text-4xl font-Poppins font-bold">Events</div>
         <Link to={'/org/events/add'}>
-          <Button className="bg-blue-700 gap-1 py-5 rounded-full hover:bg-blue-800">
+          <Button className="bg-green-500 gap-1 py-5 rounded-full hover:bg-green-600">
             <AddIcon size={22} />
             <div>Add New Event</div>
           </Button>
@@ -81,7 +81,7 @@ const Events = () => {
               </div>
               {isfilterOpen == "close" && (
                 <Button
-                  className="bg-blue-700 hover:bg-blue-800 mx-3 col-span-2"
+                  className="bg-green-500 hover:bg-green-600 mx-3 col-span-2"
                   onClick={() => {
                     handleFilter();
                   }}
@@ -91,7 +91,7 @@ const Events = () => {
               )}
             </div>
             <AccordionContent>
-              <div className="w-[60%] grid grid-cols-[1fr,4fr,1fr,4fr] gap-x-10 gap-y-4 mt-6 font-semibold">
+              <div className="w-[65%] grid grid-cols-[1fr,4fr,1fr,4fr] gap-x-10 gap-y-4 mt-6 font-semibold">
                 <div className="h-10 flex items-center">Event Type</div>
                 <div className="h-10 flex items-center bg-">
                   <BasicSelect
@@ -116,19 +116,19 @@ const Events = () => {
                     data={lastUpdate.map((item) => item.tag)}
                   />
                 </div>
-                <div className="h-10 flex items-center">Duration</div>
-                <div className="flex flex-col gap-8 col-span-3">
+                {/* <div className="h-10 flex items-center">Duration</div> */}
+                {/* <div className="flex flex-col gap-8 col-span-3">
                   <DurationFilter
                     type={durationType}
                     setType={setDurationType}
                     value={durationValue}
                     setValue={setDurationValue}
                   />
-                </div>
+                </div> */}
                 {isfilterOpen == "open" && (
                   <div className="col-span-4 ml-auto">
                     <Button
-                      className="bg-blue-700 hover:bg-blue-800 mx-3 col-span-2"
+                      className="bg-green-500 hover:bg-green-600 mx-3 col-span-2"
                       onClick={() => {
                         handleFilter();
                       }}

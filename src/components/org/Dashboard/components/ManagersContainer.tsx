@@ -9,10 +9,12 @@ import Typography from "@mui/material/Typography";
 
 const ManagersContainer = () => {
   return (
-    <div className="col-span-2 row-span-3 shadow-sm rounded-2xl bg-white p-4">
+    <div className="h-fit col-span-1 row-span-4 rounded-2xl bg-white p-4">
       <div className="flex justify-between items-center text-gray-600">
-        <div className="font-semibold">Our Managers</div>
-        <div className="bg-gray-100 rounded-xl px-2 cursor-pointer">
+        <div className="font-bold text-2xl font-Poppins text-gray-800">
+          Our Managers
+        </div>
+        <div className="bg-gray-100 hover:bg-gray-200 rounded-xl px-2 cursor-pointer">
           view all
         </div>
       </div>

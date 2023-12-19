@@ -18,7 +18,7 @@ const ExportRecord = () => {
             <ExportSvg className="h-[300px]" />
             <div>Export All Events Record</div>
             <div>
-              <span className="text-blue-600 font-semibold cursor-pointer">
+              <span className="text-green-600 font-semibold cursor-pointer">
                 Download
               </span>
             </div>
@@ -45,7 +45,7 @@ const ExportRecord = () => {
                 }}
               />
             </div>
-            <Button className="col-span-2 bg-blue-700 hover:bg-blue-800">
+            <Button className="col-span-2 bg-green-500 hover:bg-green-600">
               Export Certificates
             </Button>
           </div>

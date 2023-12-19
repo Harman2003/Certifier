@@ -5,7 +5,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { MdMail } from "react-icons/md";
-import useApiReceiver from "@/hooks/useApiReceiver";
+import useApiReceiver from "@/setup/hooks/api/useApiReceiver";
 
 interface UserType {
   _id: string;
@@ -58,7 +58,7 @@ export default function AsyncInput({
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Event Name/ID ..." fullWidth />
+        <TextField {...params} label="Event Name/ID" fullWidth />
       )}
       renderOption={(props, option) => {
         return (

@@ -15,16 +15,16 @@ export const data: SerializedPage[] = [
         },
         locked: false,
         child: [
-          "10888d93-2f06-4dda-819a-2e7a28a1440e",
-          "89adef2f-4546-4dc7-b77e-4fc511203ada",
+          "215308ff-bc9e-4bf2-aa39-2bc74f983a03",
+          "ca7188ec-2fd9-4b18-8586-5092338dfd66",
         ],
         parent: null,
       },
-      "10888d93-2f06-4dda-819a-2e7a28a1440e": {
+      "215308ff-bc9e-4bf2-aa39-2bc74f983a03": {
         type: { resolvedName: "TextLayer" },
         props: {
           text: '<p style="text-align: center;font-family: Abril Fatface;font-size: 68px;color: rgb(0, 0, 0);line-height: 1.4;letter-spacing: 0em;"><span style="color: rgb(0, 0, 0);">Create Your Certificate Template</span></p>',
-          position: { x: 395.4468578773911, y: 213.64608035837145 },
+          position: { x: 375.1988196088109, y: 38.81369674890092 },
           boxSize: {
             width: 878.7404691103761,
             height: 190,
@@ -52,11 +52,11 @@ export const data: SerializedPage[] = [
         child: [],
         parent: "ROOT",
       },
-      "89adef2f-4546-4dc7-b77e-4fc511203ada": {
+      "ca7188ec-2fd9-4b18-8586-5092338dfd66": {
         type: { resolvedName: "TextLayer" },
         props: {
           text: '<p style="text-align: center;font-family: Roboto;font-size: 26px;color: rgb(0, 0, 0);line-height: 1.4;letter-spacing: 0em;"><span style="color: rgb(0, 0, 0);">using CERTIFY EDITOR</span></p>',
-          position: { x: 578.1909978792006, y: 437.41462558552035 },
+          position: { x: 525.5106717135112, y: 242.61534352940828 },
           boxSize: {
             width: 536.3009995574356,
             height: 36,

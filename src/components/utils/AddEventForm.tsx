@@ -20,7 +20,7 @@ import {
 import { BsBoxArrowLeft as Arrow } from "react-icons/bs";
 import { AiOutlineArrowLeft as BackIcon } from "react-icons/ai";
 import { AiOutlineArrowRight as NextIcon } from "react-icons/ai";
-import useAuth from "@/setup/hooks/useAuth";
+import useAuth from "@/setup/hooks/auth/useAuth";
 import { useState } from "react";
 import MultiStepProgressBar from "../common/ProgressBar";
 import { toast } from "react-toastify";
@@ -278,7 +278,7 @@ export default function InputForm() {
           {page !== 1 && (
             <Button
               type="button"
-              className="bg-transparent border-[1px] border-blue-700 text-blue-700 font-semibold px-5 gap-3 hover:bg-gray-100"
+              className="bg-transparent border-[1px] border-green-500 text-green-700 font-semibold px-5 gap-3 hover:bg-gray-100"
               onClick={() => setPage((page) => page - 1)}
             >
               <BackIcon size={20} />
@@ -288,7 +288,7 @@ export default function InputForm() {
           {page !== 3 && (
             <Button
               type="button"
-              className="bg-transparent border-[1px] border-blue-700 text-blue-700 font-semibold px-5 gap-3 hover:bg-gray-100"
+              className="bg-transparent border-[1px] border-green-500 text-green-700 font-semibold px-5 gap-3 hover:bg-gray-100"
               onClick={() => setPage((page) => page + 1)}
             >
               <NextIcon size={20} />
@@ -296,10 +296,10 @@ export default function InputForm() {
             </Button>
           )}
         </div>
-        <div className="shadow-2xl shadow-black h-[80px] w-full mt-auto flex items-center justify-between px-8">
+        <div className="border-t-[1px] h-[80px] w-full mt-auto flex items-center justify-between px-8">
           <Button
             type="submit"
-            className="bg-transparent border-[1px] border-blue-700 text-blue-700 font-semibold px-5 gap-3 hover:bg-gray-100"
+            className="bg-transparent border-[1px] border-green-500 text-green-700 font-semibold px-5 gap-3 hover:bg-gray-100"
             onClick={()=>navigate(-1)}
           >
             <Arrow size={20} />
@@ -308,7 +308,7 @@ export default function InputForm() {
           {page == 3 && (
           <Button
             type="submit"
-            className="bg-blue-800 hover:bg-blue-950"
+            className="bg-green-500 hover:bg-green-600"
             onClick={() => checkErrors()}
           >
             Create New Event

@@ -1,71 +1,72 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
+    --black-gradient: linear-gradient(
+      144.39deg,
+      #ffffff -278.56%,
+      #6d6d6d -78.47%,
+      #11101d 91.61%
+    );
+    --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
 
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
- 
+
     --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
- 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
- 
+
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
- 
+
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
- 
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
- 
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
- 
+
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
- 
+
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
- 
+
     --primary: 0 0% 98%;
     --primary-foreground: 240 5.9% 10%;
- 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
- 
+
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
- 
+
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
- 
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
- 
+
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
@@ -75,7 +76,7 @@
   }
 }
 
-html{
+html {
   height: screen;
   overflow: hidden;
 }
@@ -93,81 +94,224 @@ html{
   border-radius: 5px;
 }
 
-.bg-blue-gradient{
-  background: linear-gradient(to right,  #203772 0%,#345ca2 52%,#203772 100%);
+@keyframes animation {
+  from {
+    opacity: 0;
+    top: 22px
+  }
+  to {
+    top: 26px;
+    opacity:1
+  }
+}
+
+.popup {
+  animation: 200ms linear animation;
+}
+
+.bg-black-button{
+background: linear-gradient(265deg, #111 24.22%, #353333 48.13%, #515050 76.29%, #3B3838 98.28%);
+}
+.bg-blue-gradient {
+  background: linear-gradient(to right, #203772 0%, #345ca2 52%, #203772 100%);
 }
 
 .indexedStep {
-    color: rgb(190, 190, 190);
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 1px;
-    border-color: rgb(206, 206, 206);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+  color: rgb(190, 190, 190);
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(206, 206, 206);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .indexedStep.accomplished {
-    background-color: #664DE5;
-    color: white;
-    border-style: none;
+  background-color: #664de5;
+  color: white;
+  border-style: none;
 }
 
 .RSPBprogressBar {
-    height: 2px;
-    width: 90%;
-    line-height: 1;
-    border-radius: 10px;
-    position: relative;
-    background-color: rgb(207, 207, 207);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 0;
-    margin: 20px auto;
+  height: 2px;
+  width: 90%;
+  line-height: 1;
+  border-radius: 10px;
+  position: relative;
+  background-color: rgb(207, 207, 207);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 0;
+  margin: 20px auto;
 }
 
 .RSPBprogressBar .RSPBstep {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 0;
-    position: absolute;
-    transform: translateX(-50%);
-    transition-property: all;
-    transition-timing-function: ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+  position: absolute;
+  transform: translateX(-50%);
+  transition-property: all;
+  transition-timing-function: ease;
 }
 
 .RSPBprogressBar .RSPBprogressBarText {
-    color: white;
-    font-size: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  color: white;
+  font-size: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .RSPBprogressBar .RSPBprogression {
-    position: absolute;
-    transition: width 0.3s ease;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    border-radius: 10px;
-    background: #664DE5;
-    z-index: -1;
+  position: absolute;
+  transition: width 0.3s ease;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 10px;
+  background: #664de5;
+  z-index: -1;
 }
 
 @media screen and (max-width: 480px) {
-    .indexedStep{
-        width: 15px;
-        height: 15px;
-        font-size: 6px;
-    }
+  .indexedStep {
+    width: 15px;
+    height: 15px;
+    font-size: 6px;
+  }
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+.text-gradient {
+  background: radial-gradient(
+    64.18% 64.18% at 71.16% 35.69%,
+    #defae1 0.89%,
+    #bef5c4 17.23%,
+    #9df0b7 42.04%,
+    #7deb93 55.12%,
+    #5ce685 71.54%,
+    #33cf5f 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.bg-blue-gradient-2 {
+  background: linear-gradient(
+    157.81deg,
+    #defae9 -43.27%,
+    #bef5c4 -21.24%,
+    #9df0ac 12.19%,
+    #7deb83 29.82%,
+    #5ce65c 51.94%,
+    #33cf48 90.29%
+  );
+}
+
+.bg-black-gradient {
+  background: linear-gradient(
+    144.39deg,
+    #ffffff -278.56%,
+    #6d6d6d -78.47%,
+    #11101d 91.61%
+  );
+}
+
+.bg-black-gradient-2 {
+  background: linear-gradient(
+    -168.39deg,
+    #ffffff -278.56%,
+    #6d6d6d -78.47%,
+    #11101d 91.61%
+  );
+}
+
+.bg-gray-gradient {
+  background: linear-gradient(
+    153.47deg,
+    rgba(255, 255, 255, 0) -341.94%,
+    #14101d 95.11%
+  );
+}
+
+.bg-discount-gradient {
+  background: linear-gradient(125.17deg, #272727 0%, #11101d 100%);
+}
+
+.box-shadow {
+  box-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
+}
+
+.sidebar {
+  -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(100px);
+    transform: translateY(100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.feature-card:hover {
+  background: var(--black-gradient);
+  box-shadow: var(--card-shadow);
+}
+
+.feedback-container .feedback-card:last-child {
+  margin-right: 0px;
+}
+
+.feedback-card {
+  background: transparent;
+}
+
+.feedback-card:hover {
+  background: var(--black-gradient);
+}
+
+.blue__gradient {
+  background: linear-gradient(180deg, rgba(188, 165, 255, 0) 0%, #214d76 100%);
+  filter: blur(123px);
+}
+
+.pink__gradient {
+  background: linear-gradient(90deg, #f4c4f3 0%, #fc67fa 100%);
+  filter: blur(900px);
+}
+
+.white__gradient {
+  background: rgba(255, 255, 255, 0.6);
+  filter: blur(750px);
 }

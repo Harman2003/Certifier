@@ -1,4 +1,4 @@
-const User = require("../../model/User");
+const User = require("../../model/User.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -16,6 +16,7 @@ const handleLogin = async (req, res) => {
         {
           email: foundUser.email,
           role: foundUser.role,
+          id: foundUser.id,
         },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "1d" }
@@ -24,6 +25,7 @@ const handleLogin = async (req, res) => {
         {
           email: foundUser.email,
           role: foundUser.role,
+          id: foundUser.id
         },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: "30d" }
@@ -40,15 +42,17 @@ const handleLogin = async (req, res) => {
         httpOnly: true,
         sameSite: "none",
       });
-      res.json({
+      const loginData = {
         accessToken,
         name: foundUser.name,
         email: foundUser.email,
-        address: foundUser.address,
-        picture:foundUser.picture,
+        id: foundUser.id,
+        picture: foundUser.picture,
         role: foundUser.role,
-        message:"Successfully Logged In"
-      });
+        message: "Successfully Logged In",
+      };
+      console.log(loginData)
+      res.json(loginData);
     } else {
       res.status(401).json({ message: "Credentials does not match" });
     }

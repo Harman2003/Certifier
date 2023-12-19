@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Mongoose = require('mongoose');
+const nanoid = require('nanoid').nanoid;
+const Schema = Mongoose.Schema;
 
 const User = new Schema(
   {
@@ -18,6 +19,10 @@ const User = new Schema(
     },
     address: {
       type: String,
+      default: "",
+    },
+    contract: {
+      type: String,
       default:""
     },
     role: {
@@ -25,20 +30,12 @@ const User = new Schema(
       required: true,
       enum: ["user", "org", "manager"],
     },
-    orgid: {
-      //auto set krlo for organisation only
+    id: {
       type: String,
+      required: true,
       unique: true,
-      validate: {
-        validator: function (value) {
-          if (this.role !== "org") {
-            return true;
-          }
-          return /^[0-9a-fA-F]{4}$/.test(value);
-        },
-        message: (props) =>
-          `${props.value} is not a valid orgid. It should be a four-character hex string.`,
-      },
+      default: () => nanoid(6),
+      immutable: true,
     },
     oauth: {
       type: Boolean,
@@ -46,15 +43,13 @@ const User = new Schema(
     },
     picture: {
       type: String,
-      default:""
+      default: "",
     },
     refreshToken: String,
-    // certificateIds: [{type : mongoose.Schema.Types.ObjectId, ref: "Certificate"}],
-    // eventIds: [{type: mongoose.Schema.Types.ObjectId, ref: "Event"}]
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model('User',User);
+module.exports = Mongoose.model('User',User);

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import useApiSender from "@/hooks/useApiSender";
+import useApiSender from "@/setup/hooks/api/useApiSender";
 import { loginAccount, loginProps } from "@/webApi/loginAccount";
 import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { jwtDecode } from "jwt-decode";
 import { DecodedJwtToken } from "@/utils/googlePayLoadProps";
-import useAuth from "@/setup/hooks/useAuth";
+import useAuth from "@/setup/hooks/auth/useAuth";
 const Signin = () => {
   const { setAuth } = useAuth();
   const location = useLocation();
@@ -60,7 +60,7 @@ const Signin = () => {
          name: data.name,
          picture: data.picture,
          email: data.email,
-         address: data.address,
+         id: data.id,
          role: data.role,
          accessToken: data.accessToken,
        };
@@ -80,7 +80,7 @@ const Signin = () => {
           <div>New to Certify ?</div>
           <Link
             to={"/auth/register"}
-            className="bg-blue-800  rounded-lg px-2 text-white ml-2"
+            className="bg-green-500  rounded-lg px-2 text-white ml-2"
           >
             Register
           </Link>
@@ -106,7 +106,7 @@ const Signin = () => {
             onChange={(e) => setpassword(e.target.value)}
           />
           <Button
-            className="bg-blue-800 hover:bg-blue-900 py-5 m-3 w-full"
+            className="bg-green-500 hover:bg-green-600 py-5 m-3 w-full"
             disabled={!validator.test(email) || !password || isLoading}
             onClick={login}
           >

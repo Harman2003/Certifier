@@ -166,6 +166,7 @@ const TextContent: FC<setOverlayProps> = ({
                   backgroundColor: "hsla(0,0%,100%,.07)",
                 },
               }}
+              className="group"
             >
               <div
                 css={{
@@ -232,11 +233,12 @@ const TextContent: FC<setOverlayProps> = ({
                     right: 0,
                     width: 30,
                     height: 24,
-                    backgroundColor: "#444650",
-                    background:
-                      "linear-gradient(to right, transparent,#282929, #282929)",
+                    // backgroundColor: "#444650",
+                    // background:
+                    // "linear-gradient(to right, transparent,#282929, #282929)",
                     borderRadius: "8px 0px 0px 8px",
                   }}
+                  className="bg-gradient-to-r from-transparent via-[#282929] to-[#282929] group-hover:via-[#363636] group-hover:to-[#383838]"
                 />
               )}
             </div>

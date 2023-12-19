@@ -1,14 +1,13 @@
 import { TotalRevenueOptions, TotalRevenueSeries } from '@/utils/dashChart';
-import React from 'react'
 import ReactApexChart from 'react-apexcharts';
 
 const GraphContainer = () => {
   return (
-    <div className="col-span-3 row-span-2 rounded-2xl shadow-sm bg-white p-4">
-      <div className="font-semibold text-gray-600">Monthly Certificates Data</div>
+    <div className="col-span-2 row-span-5 rounded-2xl bg-white p-4">
+      <div className="font-bold text-2xl font-Poppins text-gray-800">Monthly Certificates Data</div>
       <ReactApexChart
         series={TotalRevenueSeries}
-        type="bar"
+        type="area"
         height={'90%'}
         options={TotalRevenueOptions}
       />

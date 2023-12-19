@@ -15,7 +15,7 @@ const Main = () => {
         <Sidebar content={sidebarContent} />
       </aside>
       <div className="col-span-5">
-        <header className="h-20 sticky top-0 bg-white/95 shadow-md z-50">
+        <header className="h-16 sticky top-0 bg-white/95 shadow-sm z-50">
           <Navbar />
         </header>
         <main>

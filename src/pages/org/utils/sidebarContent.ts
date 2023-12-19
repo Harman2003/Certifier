@@ -6,7 +6,7 @@ import { TbDatabaseExport as ExportIcon } from "react-icons/tb";
 
 export const sidebarContent = [
   {
-    name: "DashBoard",
+    name: "Dashboard",
     path: "/org",
     icon: Dash,
   },

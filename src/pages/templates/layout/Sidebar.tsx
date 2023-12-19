@@ -178,7 +178,7 @@ const Sidebar = () => {
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
-                className="bg-blue-700 hover:bg-blue-800"
+                className="bg-green-500 hover:bg-green-600"
                 onClick={() => {
                   navigate(-1);
                 }}

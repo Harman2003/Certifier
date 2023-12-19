@@ -35,7 +35,7 @@ const CertificateData = () => {
       <div className="flex justify-between items-end mb-10">
         <div className="text-4xl font-Poppins font-bold">Certificates</div>
         <Link to={"/org/certificates/add"}>
-          <Button className="bg-blue-700 gap-1 py-5 rounded-full hover:bg-blue-800">
+          <Button className="gap-1 py-5 rounded-full bg-green-500 hover:bg-green-600">
             <AddIcon size={22} />
             <div>Create New Certificates</div>
           </Button>
@@ -70,7 +70,7 @@ const CertificateData = () => {
               </div>
               {isfilterOpen == "close" && (
                 <Button
-                  className="bg-blue-700 hover:bg-blue-800 mx-3 col-span-2"
+                  className="bg-green-500 hover:bg-green-600 mx-3 col-span-2"
                   onClick={() => {
                     handleFilter();
                   }}
@@ -80,7 +80,7 @@ const CertificateData = () => {
               )}
             </div>
             <AccordionContent>
-              <div className="w-[42%] grid grid-cols-[1fr,2fr] gap-x-10 gap-y-4 mt-6 font-semibold">
+              <div className="w-[38%] grid grid-cols-[1fr,2fr] gap-x-10 gap-y-4 mt-6 font-semibold">
                 <div className="h-10 flex items-center">Certificate Status</div>
                 <div className="h-10 flex items-center bg-">
                   <Box sx={{ minWidth: 120, width: "100%" }}>
@@ -100,18 +100,10 @@ const CertificateData = () => {
                           setType(event.target.value as string);
                         }}
                       >
-                        <MenuItem value={"all"}>
-                          All
-                        </MenuItem>
-                        <MenuItem value={"active"}>
-                          Active
-                        </MenuItem>
-                        <MenuItem value={"revoked"}>
-                          Revoked
-                        </MenuItem>
-                        <MenuItem value={"expired"}>
-                          Expired
-                        </MenuItem>
+                        <MenuItem value={"all"}>All</MenuItem>
+                        <MenuItem value={"active"}>Active</MenuItem>
+                        <MenuItem value={"revoked"}>Revoked</MenuItem>
+                        <MenuItem value={"expired"}>Expired</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>
@@ -124,7 +116,7 @@ const CertificateData = () => {
                 {isfilterOpen == "open" && (
                   <div className="col-span-2 ml-auto">
                     <Button
-                      className="bg-blue-700 hover:bg-blue-800 mx-3 col-span-2"
+                      className="bg-green-500 hover:bg-green-600 col-span-2"
                       onClick={() => {
                         handleFilter();
                       }}

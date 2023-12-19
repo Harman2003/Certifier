@@ -1,23 +1,23 @@
 import { ApexOptions } from "apexcharts";
 export const TotalRevenueSeries = [
   {
-    name: "Last Month",
-    data: [183, 124, 115, 85, 143, 143, 96, 250],
+    name: "Last Year",
+    data: [100, 130, 110, 85, 70, 65, 60, 68],
   },
   {
-    name: "Running Month",
-    data: [95, 84, 72, 44, 108, 108, 47, 240],
+    name: "Running Year",
+    data: [40, 84, 72, 60, 108, 110, 120, 130],
   },
 ];
 
 export const TotalRevenueOptions: ApexOptions = {
   chart: {
-    type: "bar",
+    type: "area",
     toolbar: {
       show: false,
     },
   },
-  colors: ["#475BE8", "#ed8e2f"],
+  colors: ["#f59b47", "#4ff76b"],
   plotOptions: {
     bar: {
       borderRadius: 4,
@@ -29,11 +29,12 @@ export const TotalRevenueOptions: ApexOptions = {
     enabled: false,
   },
   grid: {
-    show: false,
+    show: true,
   },
   stroke: {
-    colors: ["transparent"],
+    // colors: ["transparent"],
     width: 4,
+    curve: "smooth",
   },
   xaxis: {
     categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
@@ -43,9 +44,9 @@ export const TotalRevenueOptions: ApexOptions = {
       text: "Number of Certificates",
       style: {
         fontWeight: 500,
-        fontSize: '16px',
-        color:'#9CA3AF'
-      }
+        fontSize: "16px",
+        color: "#9CA3AF",
+      },
     },
   },
   fill: {

@@ -32,10 +32,6 @@ module.exports = {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -56,6 +52,10 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        landing: "#00040f",
+        secondary: "#00f6ff",
+        dimWhite: "rgba(255, 255, 255, 0.7)",
+        dimBlue: "rgba(9, 151, 124, 0.1)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -76,6 +76,17 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        "popup": "url('/copyPopup.svg')",
+      },
+    },
+    screens: {
+      xs: "480px",
+      ss: "620px",
+      sm: "768px",
+      md: "1060px",
+      lg: "1200px",
+      xl: "1700px",
     },
   },
   plugins: [require("tailwindcss-animate")],

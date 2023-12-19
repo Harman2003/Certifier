@@ -1,10 +1,9 @@
 import event_types from "@/utils/eventTypes";
-import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 const PieChartContainer = () => {
   return (
-    <div className="col-span-3 row-span-2 rounded-2xl shadow-sm bg-white p-4 flex flex-col">
+    <div className="row-span-4 col-span-1 rounded-2xl bg-white p-4 flex flex-col">
       <div className="font-semibold text-gray-600">
         Event Types Chart
       </div>
@@ -25,7 +24,7 @@ const PieChartContainer = () => {
           ],
           chart: { type: "donut" },
           legend: {
-            position: "right",
+            position: "bottom",
           },
           labels: event_types,
           dataLabels: {
@@ -33,7 +32,6 @@ const PieChartContainer = () => {
             formatter: function (val: number) {
               return Math.round(val) + "%";
             },
-
             style: {
               fontWeight: 400,
             },

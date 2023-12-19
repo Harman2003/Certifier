@@ -1,8 +1,7 @@
-// import useApiReceiver from "@/hooks/useApiReceiver";
 import React, { createContext, useState, ReactNode } from "react";
 interface AuthInterface {
   name: string;
-  address: string;
+  id: string;
   email: string;
   accessToken: string;
   role: string;
@@ -20,7 +19,7 @@ interface AuthProviderProps {
 export const AuthContext = createContext<AuthContextProps>({
   auth: {
     name: "",
-    address: "",
+    id: "",
     email: "",
     accessToken: "",
     role: "",
@@ -38,10 +37,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
     : null;
 
   const [auth, setAuth] = useState<AuthInterface>(prevAuthDetails);
-  // const { data } = useApiReceiver('/common/details', { email: auth?.email }, false);
-  // const name = data?.name;
-  // const address = data?.address;
-  // const role = data?.role;
+
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
       {children}

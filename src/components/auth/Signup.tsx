@@ -20,15 +20,15 @@ import {
 import LoginSvg from "@/assets/login.svg?react";
 import OtpInput from "../utils/otpInput";
 import { Button } from "../ui/button";
-import useApiSender from "@/hooks/useApiSender";
+import useApiSender from "@/setup/hooks/api/useApiSender";
 import { sendOtp } from "@/webApi/sendOtp";
 import { verifyOtp } from "@/webApi/verifyOtp";
 import Resend from "../utils/resend";
 import { registerAccount, registerProps } from "@/webApi/registerAccount";
-import useMultiRef from "@/hooks/useMultiRef";
+import useMultiRef from "@/setup/hooks/api/useMultiRef";
 import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useAuth from "@/setup/hooks/useAuth";
+import useAuth from "@/setup/hooks/auth/useAuth";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { DecodedJwtToken } from "@/utils/googlePayLoadProps";
 
@@ -142,7 +142,7 @@ const Signup = () => {
         name: registerData.name,
         picture:registerData.picture,
         email: registerData.email,
-        address:registerData.address,
+        id:registerData.id,
         role: registerData.role,
         accessToken: registerData.accessToken,
       };
@@ -183,7 +183,7 @@ const Signup = () => {
           <div>Already have an Account ?</div>
           <Link
             to={"/auth/login"}
-            className="bg-blue-800 rounded-lg px-2 text-white ml-2"
+            className="bg-green-500 hover:bg-green-600 rounded-lg px-2 text-white ml-2"
           >
             Login
           </Link>
@@ -267,7 +267,7 @@ const Signup = () => {
                       />
                     </div>
                     <Button
-                      className="bg-blue-800"
+                      className="bg-green-500 hover:bg-green-600"
                       onClick={checkOtp}
                       disabled={
                         otpvalue?.length != 4 ||
@@ -322,7 +322,7 @@ const Signup = () => {
             ref={(el) => (formRef.current[2] = el)}
           />
           <Button
-            className="bg-blue-800 py-5 m-3 w-full"
+            className="bg-green-500 hover:bg-green-600 py-5 m-3 w-full"
             disabled={
               isVerified != "success" || isRegistering || role == "none"
             }
