@@ -16,7 +16,6 @@ import { SlArrowRight } from "react-icons/sl";
 import useAuth from "@/setup/hooks/auth/useAuth";
 import { Link, useLocation } from "react-router-dom";
 import { stringToBytes32 } from "@/utils/stringToBytes32";
-import WalletButton from "../utils/WalletButton";
 
 const Navbar = () => {
   const [popup, setpopup] = useState<boolean>(false);
