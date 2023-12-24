@@ -1,5 +1,5 @@
 import { apple, bill, google } from "@/assets";
-import styles, { layout } from "@/pages/Home/style";
+import styles, { layout } from "@/utils/style";
 
 const Billing = () => (
   <section id="product" className={layout.sectionReverse}>

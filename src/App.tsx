@@ -11,11 +11,12 @@ import NotFound from "./pages/404/notFound";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "react-query";
 import VerifyAuth from "./setup/VerifyAuth";
+import VerifyDesktop from "./setup/VerifyDesktop";
 function App() {
   const client = new QueryClient();
   return (
     <QueryClientProvider client={client}>
-      <div className="App h-screen w-screen overflow-hidden">
+      <div className="App h-screen w-screen">
         <Routes>
           <Route path="/">
             <Route index element={<LandingPage />} />
@@ -28,17 +29,18 @@ function App() {
               }
             />
 
-            <Route element={<VerifyAuth allowedRoles={["org", "manager"]} />}>
-              <Route path={"/templates"} element={<Templates />} />
-            </Route>
+            <Route element={<VerifyDesktop/>}>
+              <Route element={<VerifyAuth allowedRoles={["org", "manager"]} />}>
+                <Route path={"/templates"} element={<Templates />} />
+              </Route>
 
-            <Route element={<VerifyAuth allowedRoles={["org"]} />}>
-              <Route path="/org/*" element={<OrgPage />} />
-            </Route>
+              <Route element={<VerifyAuth allowedRoles={["org"]} />}>
+                <Route path="/org/*" element={<OrgPage />} />
+              </Route>
 
-            <Route element={<VerifyAuth allowedRoles={["manager"]} />}>
-              <Route path="/manager/*" element={<ManagerPage />} />
-              <Route />
+              <Route element={<VerifyAuth allowedRoles={["manager"]} />}>
+                <Route path="/manager/*" element={<ManagerPage />} />
+              </Route>
 
               <Route element={<VerifyAuth allowedRoles={["user"]} />}>
                 <Route path="/user/*" element={<UserPage />} />

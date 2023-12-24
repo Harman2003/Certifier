@@ -15,45 +15,20 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import { SlArrowRight } from "react-icons/sl";
 import useAuth from "@/setup/hooks/auth/useAuth";
 import { Link, useLocation } from "react-router-dom";
-import { stringToBytes32 } from "@/utils/stringToBytes32";
+import WalletButton from "../utils/WalletButton";
+import useWeb3 from "@/setup/hooks/web3/useWeb3";
+import { formatAddress } from "@/utils/formatAddress";
 
 const Navbar = () => {
+
   const [popup, setpopup] = useState<boolean>(false);
-  const {auth}= useAuth()
+  const { auth } = useAuth();
+  const {orgContract} = useWeb3();
   const location = useLocation();
   const path = location.pathname
     .split("/")
     .map((s) => capitalize(s))
     .slice(2);
-  
-  
-  // async function registerContract() {
-  //   const name = auth.name;
-  //   const email = auth.email;
-  //   const id = stringToBytes32(auth.id);
-  //   // console.log(factoryContract)
-  //   // factoryContract?.methods.register(name, email, id)
-  //   //   .send({ from: address })
-  //   //   .on("transactionHash", function (hash) {
-  //   //     console.log("Transaction Hash:", hash);
-  //   //   })
-  //   //   .on("receipt", function (receipt) {
-  //   //     console.log("Transaction Receipt:", receipt);
-  //   //   })
-  //   //   .on("error", function (error) {
-  //   //     console.error("Error:", error);
-  //   //   });
-
-
-  //   try {
-  //     const res = await factoryContract?.methods
-  //       .register(name, email, id)
-  //       .send({from: address});
-  //     console.log(res);
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
 
   return (
     <nav className="w-full h-full flex items-center px-10 gap-3 font-Poppins">
@@ -68,14 +43,16 @@ const Navbar = () => {
           </div>
         ))}
       </div>
-      {/* <WalletButton/> */}
-      <div className="ml-auto">
+      <div id="wallet" className="ml-auto flex items-center justify-center w-[250px] h-[55px] bg-white rounded-full">
+        <WalletButton />
+      </div>
+      <div id="profile" className="rounded-full p-2 bg-white">
         <DropdownMenu onOpenChange={(open) => setpopup(open)}>
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-3">
               <Avatar className="ml-auto">
                 <AvatarImage src={auth.picture} alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>Profile</AvatarFallback>
               </Avatar>
               <div className="flex gap-1 items-center cursor-pointer">
                 <div className="font-semibold">{auth.name}</div>

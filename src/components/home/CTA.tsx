@@ -1,4 +1,4 @@
-import styles from "@/pages/Home/style";
+import styles from "@/utils/style";
 import { Link } from "react-router-dom";
 
 const CTA = () => (

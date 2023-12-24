@@ -1,4 +1,4 @@
-import styles from './style';
+import styles from '../../utils/style';
 import {
   Billing,
   Business,

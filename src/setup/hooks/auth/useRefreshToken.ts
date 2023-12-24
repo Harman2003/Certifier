@@ -20,27 +20,19 @@ const useRefreshToken = () => {
         withCredentials: true,
       });
       console.log("refresh token");
-      console.log(response)
-      localStorage.setItem(
-        "auth",
-        JSON.stringify({
-          name: response.data.name,
-          email: response.data.email,
-          id: response.data.id,
-          picture:response.data.picture,
-          role: response.data.role,
-          accessToken: response.data.accessToken,
-        })
-      );
-
-      setAuth({
+      const authObject= {
         name: response.data.name,
         email: response.data.email,
         id: response.data.id,
         picture: response.data.picture,
         role: response.data.role,
         accessToken: response.data.accessToken,
-      });
+      }
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({...authObject})
+      );
+      setAuth({...authObject});
 
       return {
         email: response.data.email,

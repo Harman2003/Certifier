@@ -3,6 +3,8 @@ import { SlCalender as EventIcon } from "react-icons/sl";
 import { TbFileCertificate as CertIcon } from "react-icons/tb";
 import { TbTemplate as TempIcon } from "react-icons/tb";
 import { TbDatabaseExport as ExportIcon } from "react-icons/tb";
+import { IoShieldCheckmarkOutline as ValidateIcon } from "react-icons/io5";
+
 
 export const sidebarContent = [
   {
@@ -11,22 +13,17 @@ export const sidebarContent = [
     icon: Dash,
   },
   {
-    name: "Events",
+    name: "Events Record",
     path: "/org/events",
     icon: EventIcon,
   },
   {
-    name: "Certifications",
+    name: "Certificate Record",
     path: "/org/certificates",
     icon: CertIcon,
   },
   {
-    name: "Access Requests",
-    path: "/org/requests",
-    icon: TempIcon,
-  },
-  {
-    name: "Templates",
+    name: "Template Manager",
     path: "/templates",
     icon: TempIcon,
   },
@@ -35,14 +32,9 @@ export const sidebarContent = [
     path: "/org/export",
     icon: ExportIcon,
   },
-  // {
-  //   name: "Event Managers",
-  //   path: "/org/managers",
-  //   icon: ExportIcon,
-  // },
-  // {
-  //   name: "Validate",
-  //   path: "/validate",
-  //   icon: EventIcon,
-  // },
+  {
+    name: "Validate Certificate",
+    path: "/org",
+    icon: ValidateIcon,
+  },
 ];

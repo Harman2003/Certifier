@@ -25,7 +25,7 @@ import { sendOtp } from "@/webApi/sendOtp";
 import { verifyOtp } from "@/webApi/verifyOtp";
 import Resend from "../utils/resend";
 import { registerAccount, registerProps } from "@/webApi/registerAccount";
-import useMultiRef from "@/setup/hooks/api/useMultiRef";
+import useMultiRef from "@/setup/hooks/utils/useMultiRef";
 import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "@/setup/hooks/auth/useAuth";
@@ -83,16 +83,8 @@ const Signup = () => {
 
   //create account
   const registerWithEmail = async () => {
-    const [name, pass, confirmpass] = getRef([
-      "name",
-      "pass",
-      "confirmpass",
-    ]);
-    if (
-      !name?.value ||
-      !pass?.value ||
-      !confirmpass?.value
-    ) {
+    const [name, pass, confirmpass] = getRef(["name", "pass", "confirmpass"]);
+    if (!name?.value || !pass?.value || !confirmpass?.value) {
       toast.error("Incomplete Information");
       return;
     } else if (pass?.value !== confirmpass?.value) {
@@ -106,7 +98,7 @@ const Signup = () => {
         fullname: name?.value,
         email: email,
         password: pass?.value,
-        role: role=="none"?"":role,
+        role: role == "none" ? "" : role,
         picture: "",
         token: data?.token,
         oauth: false,
@@ -114,7 +106,7 @@ const Signup = () => {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const registerWithGoogle = async (googleAuthToken: CredentialResponse) => {
     const jwtToken = googleAuthToken.credential || "";
@@ -124,13 +116,12 @@ const Signup = () => {
         fullname: decoded?.name,
         email: decoded?.email,
         password: "Google@123",
-        role: role=="none"?"":role,
+        role: role == "none" ? "" : role,
         picture: decoded.picture,
         token: jwtToken,
         oauth: true,
       };
       await createAccount(accountData);
-      console.log(decoded);
     } catch (err) {
       console.log(err);
     }
@@ -140,9 +131,9 @@ const Signup = () => {
     if (isRegistered == "success" && registerData) {
       const newAuth = {
         name: registerData.name,
-        picture:registerData.picture,
+        picture: registerData.picture,
         email: registerData.email,
-        id:registerData.id,
+        id: registerData.id,
         role: registerData.role,
         accessToken: registerData.accessToken,
       };
@@ -179,165 +170,167 @@ const Signup = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex text-gray-600 mt-3">
-          <div>Already have an Account ?</div>
+        <div className="flex  items-center text-gray-600 mt-3 md:flex-row gap-2">
+          <div>Already have an Account?</div>
           <Link
             to={"/auth/login"}
-            className="bg-green-500 hover:bg-green-600 rounded-lg px-2 text-white ml-2"
+            className="bg-green-500 hover:bg-green-600 rounded-lg w-fit px-2 text-white"
           >
             Login
           </Link>
         </div>
       </div>
 
-      <div className="h-full flex bg- justify-center gap-4">
-        <div className="w-96">
-          <div className="flex flex-col items-center gap-6">
-            <div className="font-semibold my-2 text-gray-600 m-3">
-              Signup with your social profiles
-            </div>
-            <GoogleLogin
-              onSuccess={registerWithGoogle}
-              onError={() => {
-                console.log("Google Auth Failed")
-              }}
-              useOneTap
-              width={"300px"}
-              size="large"
-              shape="square"
-              text="continue_with"
-              type="standard"
-            />
-            <LoginSvg />
+      <div className="h-full flex justify-center gap-4 mt-6 md:mt-0">
+        <div className="flex-1 flex-col hidden md:flex items-end">
+          <div className="font-Nunito font-semibold my-3 text-gray-600">
+            Signup with your social profiles
           </div>
+          <GoogleLogin
+            onSuccess={registerWithGoogle}
+            onError={() => {
+              console.log("Google Auth Failed");
+            }}
+            useOneTap
+            width={"300px"}
+            size="large"
+            shape="square"
+            text="continue_with"
+            type="standard"
+          />
+
+          <LoginSvg className="w-[360px]" />
         </div>
-        <hr className="border-[1px] h-full" />
-        <div className="w-96">
-          <div className="font-semibold my-2 text-gray-600 m-3">
+        <hr className="border-[1px] mx-3 h-full hidden md:block" />
+        <div className="flex-1 flex flex-col items-center md:items-start">
+          <div className="font-Nunito font-semibold my-3 text-gray-600 hidden md:block">
             Register with your email address
           </div>
-          <div>
-          <Input
-            type="text"
-            placeholder="Full Name"
-            className="py-5 m-3"
-            ref={(el) => (formRef.current[0] = el)}
-          />
-          <div className="m-3 w-full relative">
-            <Accordion
-              type="single"
-              collapsible={false}
-              className="w-full"
-              value={resendCounter == 0 ? "" : "item-1"}
-            >
-              <AccordionItem value="item-1" className="border-0">
-                <div className="relative">
-                  <Input
-                    type="email"
-                    placeholder="Email"
-                    className="py-5"
-                    value={email}
-                    disabled={resendCounter != 0}
-                    onChange={(e) => setemail(e.target.value)}
-                  />
-                  <AccordionTrigger
-                    type="button"
-                    className="absolute -right-16 top-1/2 -translate-y-1/2"
-                    onClick={() => {
-                      if (resendCounter == 0) callOtp();
-                    }}
-                    disabled={!validator.test(email)}
-                    style={{
-                      color: !validator.test(email) ? "lightgray" : "black",
-                    }}
-                  >
-                    Verify
-                  </AccordionTrigger>
-                </div>
-
-                <AccordionContent>
-                  <div className="flex items-end mt-2">
-                    <div className="ml-1 mr-4">
-                      <div className="text-gray-600">One-Time-Password</div>
-                      <OtpInput
-                        value={otpvalue}
-                        onChange={setOtpvalue}
-                        valueLength={4}
-                        className="border-[1px] w-10 h-10 text-center outline-none rounded-md text-lg"
-                      />
-                    </div>
-                    <Button
-                      className="bg-green-500 hover:bg-green-600"
-                      onClick={checkOtp}
-                      disabled={
-                        otpvalue?.length != 4 ||
-                        !data ||
-                        isVerified == "success" ||
-                        isverifying
-                      }
+          <div className="w-full px-6 md:px-0 md:w-96 flex flex-col gap-3">
+            <Input
+              type="text"
+              placeholder="Full Name"
+              className="py-5"
+              ref={(el) => (formRef.current[0] = el)}
+            />
+            <div className="w-full relative">
+              <Accordion
+                type="single"
+                collapsible={false}
+                className="w-full"
+                value={resendCounter == 0 ? "" : "item-1"}
+              >
+                <AccordionItem value="item-1" className="border-0">
+                  <div className="relative">
+                    <Input
+                      type="email"
+                      placeholder="Email"
+                      className="py-5 pr-16"
+                      value={email}
+                      disabled={resendCounter != 0}
+                      onChange={(e) => setemail(e.target.value)}
+                    />
+                    <AccordionTrigger
+                      type="button"
+                      className="absolute right-2 top-1/2 -translate-y-1/2"
+                      onClick={() => {
+                        if (resendCounter == 0) callOtp();
+                      }}
+                      disabled={!validator.test(email)}
+                      style={{
+                        color: !validator.test(email) ? "lightgray" : "black",
+                      }}
                     >
-                      {isVerified == "success" ? (
-                        "Verified"
-                      ) : isverifying ? (
-                        <>
-                          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                          Verifying
-                        </>
-                      ) : (
-                        "Verify"
-                      )}
-                    </Button>
-                    {isVerified !== "success" && <Resend callOtp={callOtp} />}
+                      Verify
+                    </AccordionTrigger>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-          {/* {role == "org" && (
-            <div className="flex items-center m-3 w-full relative">
-              <Input
-                type="text"
-                placeholder="Organisation ID"
-                className="py-5"
-                disabled={isVerified != "success"}
-                ref={(el) => (formRef.current[1] = el)}
-              />
-              <div className="p-2 absolute -right-8">
-                <Rotate color="blue" />
-              </div>
+
+                  <AccordionContent>
+                    <div className="flex items-end mt-2">
+                      <div className="ml-1 mr-4">
+                        <div className="text-gray-600">One-Time-Password</div>
+                        <OtpInput
+                          value={otpvalue}
+                          onChange={setOtpvalue}
+                          valueLength={4}
+                          className="border-[1px] w-10 h-10 text-center outline-none rounded-md text-lg"
+                        />
+                      </div>
+                      <Button
+                        className="bg-green-500 hover:bg-green-600"
+                        onClick={checkOtp}
+                        disabled={
+                          otpvalue?.length != 4 ||
+                          !data ||
+                          isVerified == "success" ||
+                          isverifying
+                        }
+                      >
+                        {isVerified == "success" ? (
+                          "Verified"
+                        ) : isverifying ? (
+                          <>
+                            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                            Verifying
+                          </>
+                        ) : (
+                          "Verify"
+                        )}
+                      </Button>
+                      {isVerified !== "success" && <Resend callOtp={callOtp} />}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
-          )} */}
-          <Input
-            type="password"
-            placeholder="Password"
-            className="py-5 m-3"
-            disabled={isVerified != "success"}
-            ref={(el) => (formRef.current[1] = el)}
-          />
-          <Input
-            type="password"
-            placeholder="Confirm Password"
-            className="py-5 m-3"
-            disabled={isVerified != "success"}
-            ref={(el) => (formRef.current[2] = el)}
-          />
-          <Button
-            className="bg-green-500 hover:bg-green-600 py-5 m-3 w-full"
-            disabled={
-              isVerified != "success" || isRegistering || role == "none"
-            }
-            onClick={registerWithEmail}
-          >
-            {isRegistering ? (
-              <>
-                <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-                Signing You In...
-              </>
-            ) : (
-              "Create New Account"
-            )}
+            <Input
+              type="password"
+              placeholder="Password"
+              className="py-5"
+              disabled={isVerified != "success"}
+              ref={(el) => (formRef.current[1] = el)}
+            />
+            <Input
+              type="password"
+              placeholder="Confirm Password"
+              className="py-5"
+              disabled={isVerified != "success"}
+              ref={(el) => (formRef.current[2] = el)}
+            />
+            <Button
+              className="bg-green-500 hover:bg-green-600 py-5 w-full"
+              disabled={
+                isVerified != "success" || isRegistering || role == "none"
+              }
+              onClick={registerWithEmail}
+            >
+              {isRegistering ? (
+                <>
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  Signing You In...
+                </>
+              ) : (
+                "Create New Account"
+              )}
             </Button>
+            <div className="md:hidden w-full flex flex-col items-center">
+              <div className="font-Nunito font-semibold my-3 text-gray-500">
+                Signup with your social profiles
+              </div>
+              <GoogleLogin
+                onSuccess={registerWithGoogle}
+                onError={() => {
+                  console.log("Google Auth Failed");
+                }}
+                useOneTap
+                width={"300px"}
+                size="large"
+                shape="square"
+                text="continue_with"
+                type="standard"
+              />
             </div>
+          </div>
         </div>
       </div>
     </>

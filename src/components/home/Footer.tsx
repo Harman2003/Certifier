@@ -1,4 +1,4 @@
-import styles from "@/pages/Home/style";
+import styles from "@/utils/style";
 import { logo } from "@/assets";
 import { footerLinks, socialMedia } from "@/constants";
 

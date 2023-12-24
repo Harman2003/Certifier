@@ -21,6 +21,7 @@ module.exports = {
         Nunito: "Nunito, sans-serif",
         Montserrat: "Montserrat, sans-serif",
         Poppins: "Poppins, sans-serif",
+        Doodle: "Rubik Doodle Shadow, sans-serif",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -77,7 +78,8 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        "popup": "url('/copyPopup.svg')",
+        popup: "url('/copyPopup.svg')",
+        onboard: "url('/onboard.svg')",
       },
     },
     screens: {

@@ -1,4 +1,4 @@
-import styles from "@/pages/Home/style";
+import styles from "@/utils/style";
 import { arrowUp } from "@/assets";
 import { Link } from "react-router-dom";
 

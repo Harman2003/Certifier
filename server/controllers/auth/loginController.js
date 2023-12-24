@@ -49,7 +49,7 @@ const handleLogin = async (req, res) => {
         id: foundUser.id,
         picture: foundUser.picture,
         role: foundUser.role,
-        message: "Successfully Logged In",
+        // message: "Successfully Logged In",
       };
       console.log(loginData)
       res.json(loginData);

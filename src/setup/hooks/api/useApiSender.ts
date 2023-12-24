@@ -12,9 +12,11 @@ const useApiSender = (apiCall:any) => {
         message = (error as any).response?.data?.message;
         if (!message) message = "Something went wrong";
         toast.error(message);
-      } else {
+      }
+      else {
         message = res?.data?.message;
-        if (!message) message = "Success";
+        // if (!message) message = "Success";
+        if(message)
         toast.success(message);
         }
     },

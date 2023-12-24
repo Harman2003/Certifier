@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '@/pages/Home/style'
+import styles from '@/utils/style'
 import { stats } from '@/constants'
 const Stats = () => {
   return (

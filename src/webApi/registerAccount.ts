@@ -31,9 +31,9 @@ export const registerAccount = async ({
     },
     { headers: { authorization: `bearer ${token}` } }
   );
-  console.log(response)
-  if (response.status == 200) {
-    response.data.message = oauth?"Successfully Logged In":"Successfully Registered";
-  }
+  // console.log(response)
+  // if (response.status == 200) {
+  //   response.data.message = oauth?"Successfully Logged In":"Successfully Registered";
+  // }
   return response;
 };

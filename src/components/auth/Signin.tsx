@@ -16,23 +16,18 @@ const Signin = () => {
   const navigate = useNavigate();
   const [email, setemail] = useState<string>("");
   const [password, setpassword] = useState<string>("");
-  const {
-    send,
-    status,
-    isLoading,
-    data
-  } = useApiSender(loginAccount);
+  const { send, status, isLoading, data } = useApiSender(loginAccount);
   const validator =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
   //login account
   const login = async () => {
     try {
-       await send({
-         email: email,
-         password: password,
-         oauth: false,
-       });
+      await send({
+        email: email,
+        password: password,
+        oauth: false,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -54,22 +49,22 @@ const Signin = () => {
     }
   };
 
-   useEffect(() => {
-     if (status == "success" && data) {
-       const newAuth = {
-         name: data.name,
-         picture: data.picture,
-         email: data.email,
-         id: data.id,
-         role: data.role,
-         accessToken: data.accessToken,
-       };
-       setAuth({ ...newAuth });
-       localStorage.setItem("auth", JSON.stringify(newAuth));
-       const from = location.state?.from?.pathname || "/org";
-       navigate(from, { replace: true });
-     }
-   }, [status]);
+  useEffect(() => {
+    if (status == "success" && data) {
+      const newAuth = {
+        name: data.name,
+        picture: data.picture,
+        email: data.email,
+        id: data.id,
+        role: data.role,
+        accessToken: data.accessToken,
+      };
+      setAuth({ ...newAuth });
+      localStorage.setItem("auth", JSON.stringify(newAuth));
+      const from = location.state?.from?.pathname || "/org";
+      navigate(from, { replace: true });
+    }
+  }, [status]);
 
   return (
     <>
@@ -88,8 +83,8 @@ const Signin = () => {
       </div>
 
       <div className="h-full flex justify-center">
-        <div className="w-96">
-          <div className="m-3 w-full relative">
+        <div className="w-full md:w-96 flex flex-col gap-3 px-6 md:px-0">
+          <div className="w-full relative">
             <Input
               type="email"
               placeholder="Email"
@@ -101,12 +96,12 @@ const Signin = () => {
           <Input
             type="password"
             placeholder="Password"
-            className="py-5 m-3"
+            className="py-5"
             value={password}
             onChange={(e) => setpassword(e.target.value)}
           />
           <Button
-            className="bg-green-500 hover:bg-green-600 py-5 m-3 w-full"
+            className="bg-green-500 hover:bg-green-600 py-5 w-full"
             disabled={!validator.test(email) || !password || isLoading}
             onClick={login}
           >
@@ -120,14 +115,14 @@ const Signin = () => {
             )}
           </Button>
 
-          <div className="m-3 w-full relative mt-6 mb-10">
+          <div className="w-full relative mt-6 mb-10">
             <hr />
             <div className="absolute w-12 bg-gray-200 text-gray-700 h-12 top-1/2 -translate-y-1/2 right-1/2 translate-x-1/2 flex items-center justify-center rounded-full">
               OR
             </div>
           </div>
           <div className="flex flex-col items-center gap-3">
-            <div className="font-semibold my-2 text-gray-600">
+            <div className="font-Nunito font-semibold my-2 text-gray-500">
               Login with your social profiles
             </div>
 

@@ -30,4 +30,4 @@ export const loginAccount = async ({
   );
     
   return response;
-};
+}

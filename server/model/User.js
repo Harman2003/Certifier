@@ -17,14 +17,6 @@ const User = new Schema(
       type: String,
       required: true,
     },
-    address: {
-      type: String,
-      default: "",
-    },
-    contract: {
-      type: String,
-      default:""
-    },
     role: {
       type: String,
       required: true,

@@ -1,5 +1,5 @@
 import { features, featuresProp } from "@/constants";
-import styles, { layout } from "@/pages/Home/style";
+import styles, { layout } from "@/utils/style";
 import { Link } from "react-router-dom";
 const FeatureCard = ({ icon, title, content }:featuresProp) => (
   <div
