@@ -6,8 +6,8 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig(() => {
   return {
     define: {
-      FACTORY_CONTRACT: process.env.VITE_FACTORY_CONTRACT,
-      INFURA_KEY: process.env.VITE_INFURA_KEY,
+      "process.env.FACTORY_CONTRACT": process.env.VITE_FACTORY_CONTRACT,
+      "process.env.INFURA_KEY": process.env.VITE_INFURA_KEY,
     },
     plugins: [
       react({
