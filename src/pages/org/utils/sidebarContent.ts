@@ -34,7 +34,7 @@ export const sidebarContent = [
   },
   {
     name: "Validate Certificate",
-    path: "/org",
+    path: "/",
     icon: ValidateIcon,
   },
 ];

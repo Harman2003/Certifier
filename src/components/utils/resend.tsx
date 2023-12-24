@@ -1,10 +1,11 @@
-import { useTimer } from 'react-timer-hook';
+import { useTimer } from "react-timer-hook";
+import { IoReload } from "react-icons/io5";
 
 interface ComponentProps {
   callOtp: () => void;
 }
 
-const Resend: React.FC<ComponentProps> = ({callOtp}) => {
+const Resend: React.FC<ComponentProps> = ({ callOtp }) => {
   const now = new Date();
   const futureTime = new Date(now.getTime() + 30000);
   const { totalSeconds, restart } = useTimer({
@@ -13,18 +14,24 @@ const Resend: React.FC<ComponentProps> = ({callOtp}) => {
   const handleResend = () => {
     console.log("resend");
     callOtp();
-    restart(new Date((new Date).getTime() + 30000));
+    restart(new Date(new Date().getTime() + 30000));
   };
   return (
     <button
       disabled={totalSeconds != 0}
-      className=" mb-1 ml-3 text-blue-800"
+      className=" text-blue-800"
       style={{ color: totalSeconds != 0 ? "gray" : "" }}
       onClick={handleResend}
     >
-      {"Resend " + (totalSeconds != 0 ? `(${totalSeconds})` : "")}
+      {totalSeconds == 0 ? (
+        <div className="flex items-center gap-1">
+          Retry
+        </div>
+      ) : (
+        <>{"(" + totalSeconds + ")"}</>
+      )}
     </button>
   );
 };
 
-export default Resend
+export default Resend;

@@ -230,25 +230,31 @@ const Signup = () => {
                       disabled={resendCounter != 0}
                       onChange={(e) => setemail(e.target.value)}
                     />
-                    <AccordionTrigger
-                      type="button"
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                      onClick={() => {
-                        if (resendCounter == 0) callOtp();
-                      }}
-                      disabled={!validator.test(email)}
-                      style={{
-                        color: !validator.test(email) ? "lightgray" : "black",
-                      }}
-                    >
-                      Verify
-                    </AccordionTrigger>
+                    {resendCounter == 0 ? (
+                      <AccordionTrigger
+                        type="button"
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                        onClick={callOtp}
+                        disabled={!validator.test(email)}
+                        style={{
+                          color: !validator.test(email) ? "lightgray" : "black",
+                        }}
+                      >
+                        Verify
+                      </AccordionTrigger>
+                    ) : (
+                      isVerified != "success" && (
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                          <Resend callOtp={callOtp} />
+                        </div>
+                      )
+                    )}
                   </div>
 
                   <AccordionContent>
-                    <div className="flex items-end mt-2">
+                    <div className="w-full flex items-end mt-2 overflow-hidden">
                       <div className="ml-1 mr-4">
-                        <div className="text-gray-600">One-Time-Password</div>
+                        <div className="text-gray-400">One-Time-Password</div>
                         <OtpInput
                           value={otpvalue}
                           onChange={setOtpvalue}
@@ -277,7 +283,7 @@ const Signup = () => {
                           "Verify"
                         )}
                       </Button>
-                      {isVerified !== "success" && <Resend callOtp={callOtp} />}
+                      {/* {isVerified !== "success" && <Resend callOtp={callOtp} />} */}
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -313,17 +319,14 @@ const Signup = () => {
                 "Create New Account"
               )}
             </Button>
-            <div className="md:hidden w-full flex flex-col items-center">
-              <div className="font-Nunito font-semibold my-3 text-gray-500">
-                Signup with your social profiles
-              </div>
+            <div className="md:hidden w-full">
               <GoogleLogin
                 onSuccess={registerWithGoogle}
                 onError={() => {
                   console.log("Google Auth Failed");
                 }}
                 useOneTap
-                width={"300px"}
+                width={"100%"}
                 size="large"
                 shape="square"
                 text="continue_with"

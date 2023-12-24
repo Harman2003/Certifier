@@ -103,7 +103,7 @@ const otpMessage = (otp) => `<!DOCTYPE html>
 <table border="0" cellpadding="0" cellspacing="0" class="image_block block-1" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad" style="padding-bottom:25px;padding-top:22px;width:100%;padding-right:0px;padding-left:0px;">
-<div align="center" class="alignment" style="line-height:10px"><img alt="I'm an image" class="fullWidth" src="https://i.imgur.com/afhWOVV.png" style="display: block; height: auto; border: 0; max-width: 544px; width: 100%;" title="I'm an image" width="544"/></div>
+<div align="center" class="alignment" style="line-height:10px"><img alt="I'm an image" class="fullWidth" src="https://i.postimg.cc/fb9rdsTH/Group-481783-1.png" style="display: block; height: auto; border: 0; max-width: 130px; max-height: 50px;" title="I'm an image" width="148px"/></div>
 </td>
 </tr>
 </table>
@@ -264,17 +264,10 @@ const otpMessage = (otp) => `<!DOCTYPE html>
 </td>
 </tr>
 </table>
-<table border="0" cellpadding="0" cellspacing="0" class="image_block block-2" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
-<tr>
-<td class="pad" style="width:100%;">
-<div align="center" class="alignment" style="line-height:10px"><img alt="I'm an image" src="https://i.imgur.com/71KTPPY.png" style="display: block; height: auto; border: 0; max-width: 640px; width: 100%;" title="I'm an image" width="640"/></div>
-</td>
-</tr>
-</table>
 <table border="0" cellpadding="0" cellspacing="0" class="image_block block-3" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad" style="padding-top:40px;width:100%;padding-right:0px;padding-left:0px;">
-<div align="center" class="alignment" style="line-height:10px"><img alt="Alternate text" src="https://i.imgur.com/GsOgIqM.png" style="display: block; height: auto; border: 0; max-width: 128px; width: 100%;" title="Alternate text" width="128"/></div>
+<div align="center" class="alignment" style="line-height:10px"><img alt="Alternate text" src="https://iili.io/JRqJiOP.png" style="display: block; height: auto; border: 0; max-width: 128px; width: 100%;" title="Alternate text" width="128"/></div>
 </td>
 </tr>
 </table>
@@ -328,9 +321,3 @@ const otpMessage = (otp) => `<!DOCTYPE html>
 `;
 
 module.exports = otpMessage;
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-//   .eyJlbWFpbCI6InNpbmdoaGFybWFuZGhpbmRzYUBnbWFpbC5jb20iLCJpYXQiOjE2OTgwNjY4MjUsImV4cCI6MTY5ODA2NzQyNX0
-//   .RoZznZZnkxyUbKIBkq5Jbu438Mk2r4UtoGWWiryQEVc;
-
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbmdoaGFybWFuZGhpbmRzYUBnbWFpbC5jb20iLCJpYXQiOjE2OTgwNjcwOTMsImV4cCI6MTY5ODA2NzY5M30.KWTaed84SxZTBCML09H7KgCv71iNf_lsbfpRf4ZrQRE";

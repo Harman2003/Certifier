@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { IconType } from "react-icons";
-import { logo } from "@/assets";
+
 interface SidebarContentItem {
   name: string;
   path: string;
@@ -19,7 +19,7 @@ const Sidebar = ({ content }: { content: SidebarContentItem[] }) => {
       className="relative bg-landing flex flex-col h-screen text-white shadow-sm font-NunitoSans"
     >
       <div className="p-4">
-        <img src={logo} alt="certify" className="w-[184px]" />
+        <img src='/logo.svg' alt="certify" className="w-[184px]" />
         <div className="h-16 w-full bg-white/10 rounded-lg mt-4 flex-col justify-center items-center font-openSans hidden md:flex">
           <div className="text-white/80 text-md font- italic flex justify-center items-center w-full gap-2 font-Nunito">
             <div>Create</div>

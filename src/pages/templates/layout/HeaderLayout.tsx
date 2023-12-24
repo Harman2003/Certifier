@@ -7,7 +7,6 @@ import React, {
 import PlayCircleIcon from "@duyank/icons/regular/PlayCircle";
 import { downloadObjectAsJson } from "../utils/download";
 import { useEditor } from "@lidojs/editor";
-import { logo } from "@/assets";
 import { toast } from "react-toastify";
 interface HeaderLayoutProps {
   openPreview: () => void;
@@ -48,7 +47,7 @@ const HeaderLayout: ForwardRefRenderFunction<
         },
       }}
     >
-      <img src={logo} alt="certify" className="w-[164px]" />
+      <img src='/logo.svg' alt="certify" className="w-[164px]" />
       <div css={{ display: "flex", alignItems: "center" }}>
         <div
           css={{

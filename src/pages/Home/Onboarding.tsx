@@ -105,7 +105,7 @@ const Onboarding = ({
   return (
     <div key={id} className="fixed top-0 z-[90] w-full h-full bg-black/95">
       <div className={`absolute ${position} flex flex-col items-center`}>
-        <motion.div className="w-[440px] text-white font-bold font-Doodle text-4xl tracking-wider leading-[55px] mb-4"
+        <motion.div className="w-[440px] text-white font-bold font-Doodle  text-4xl tracking-wider leading-[55px] mb-4"
         initial={{x:-200, opacity:0, scale:0}} whileInView={{x:[-200,1,0] ,opacity:1,scale:[0,1.1,1], transition:{duration:0.6}}}>
           {text}
         </motion.div>

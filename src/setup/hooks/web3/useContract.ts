@@ -6,8 +6,7 @@ export function useContract<Type extends ContractAbi>(
   contractABI: any
 ) {
   const [contract, setContract] = useState<Contract<Type> | undefined>(undefined);
-  const infuraApiKey = import.meta.env.VITE_INFURA_KEY;
-  const infuraUrl = `https://sepolia.infura.io/v3/${infuraApiKey}`;
+  const infuraUrl = `https://sepolia.infura.io/v3/${INFURA_KEY}`;
 
   useEffect(() => {
     try {

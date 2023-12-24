@@ -1,11 +1,10 @@
-import { logo } from "@/assets";
 import { useRef } from "react";
 import { Outlet } from "react-router-dom";
 const VerifyDesktop = () => {
   const windowWidth = useRef([window.innerWidth]);
   return windowWidth.current[0] < 800 ? (
     <div className="relative bg-primary w-full h-full flex flex-col overflow-hidden">
-      <img src={logo} alt="certify" className="w-[164px] pt-4 pl-2" />
+      <img src='/logo.svg' alt="certify" className="w-[164px] pt-4 pl-2" />
       <div className="flex-1 flex flex-col items-center justify-center text-white text-2xl font-bold font-Nunito text-center">
         <div className="relative bottom-20">
           Please visit <br /> only via Desktop

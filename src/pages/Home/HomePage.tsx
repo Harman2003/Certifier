@@ -2,13 +2,12 @@ import React from "react";
 import Signin from "@/components/auth/Signin";
 import Signup from "@/components/auth/Signup";
 import { Routes, Route } from "react-router-dom";
-import {logo} from "@/assets"
 const HomePage = () => {
   return (
     <div className="h-full grid grid-rows-[80px,130px,1fr,100px] md:grid-rows-[80px,130px,1fr,80px]">
       {/* Navbar */}
       <div className="h-full bg-black-gradient flex justify-center items-center">
-        <img src={logo} alt="certify" className="w-[164px]" />
+        <img src='/logo.svg' alt="certify" className="w-[164px]" />
       </div>
 
       {/* Main */}

@@ -43,7 +43,7 @@ const InfoCard = ({ next }: { next: () => void }) => {
           <img
             src={auth.picture}
             alt="profile"
-            className="rounded-full absolute top-[160px]"
+            className="rounded-full absolute top-[160px] w-[96px] h-[96px]"
           />
           <div className="text-2xl font-semibold relative">
             <div>{auth.name}</div>
