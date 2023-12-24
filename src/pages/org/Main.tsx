@@ -16,7 +16,7 @@ const Main = () => {
   const isOnboardingDone = localStorage.getItem("onboarding");
   const [step, setStep] = useState<number>(isOnboardingDone?3:0);
   const { orgContract, loading } = useWeb3();
-  const isOnboarding = !orgContract && step < 6;
+  const isOnboarding = (!orgContract && step < 6);
 
   return loading ? (
     <SquareLoader />
