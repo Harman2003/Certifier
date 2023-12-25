@@ -54,7 +54,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({
   const web3 = new Web3(window.ethereum);
   
   const { contract: factoryContract } = useContract<orgFactoryType>(
-    process.env.FACTORY_CONTRACT || "",
+    import.meta.env.VITE_FACTORY_CONTRACT || "",
     orgFactoryABI
   );
   const { contract: orgContract } = useContract<certificationType>(
