@@ -319,14 +319,14 @@ const Signup = () => {
                 "Create New Account"
               )}
             </Button>
-            <div className="md:hidden w-full">
+            <div className="md:hidden w-full flex justify-center">
               <GoogleLogin
                 onSuccess={registerWithGoogle}
                 onError={() => {
                   console.log("Google Auth Failed");
                 }}
                 useOneTap
-                width={"100%"}
+                width={"310px"}
                 size="large"
                 shape="square"
                 text="continue_with"

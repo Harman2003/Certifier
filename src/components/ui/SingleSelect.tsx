@@ -19,12 +19,12 @@ const BasicSelect:React.FC<BasicSelectProps>=({type, setType, data})=> {
   return (
     <Box sx={{ minWidth: 120, width:"100%" }}>
       <FormControl sx={{minWidth: 120, width:"100%" }} size="small">
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Last Updated</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={type}
-          label="Age"
+          label="Last Updated"
           onChange={handleChange}
         >
           {data.map((item, index) => (

@@ -91,24 +91,24 @@ const Events = () => {
               )}
             </div>
             <AccordionContent>
-              <div className="w-[65%] grid grid-cols-[1fr,4fr,1fr,4fr] gap-x-10 gap-y-4 mt-6 font-semibold">
-                <div className="h-10 flex items-center">Event Type</div>
-                <div className="h-10 flex items-center bg-">
+              <div className="w-[450px] flex flex-col gap-4 mt-4 font-semibold">
+                {/* <div className="h-10 flex items-center">Event Type</div> */}
+                <div className="h-10 flex items-center">
                   <BasicSelect
                     type={type}
                     setType={setType}
                     data={event_types}
                   />
                 </div>
-                <div className="h-10 flex items-center">Created At</div>
+                {/* <div className="h-10 flex items-center">Created At</div>
                 <div className="h-10 flex items-center">
                   <BasicDateRangePicker value={date} setValue={setDate} />
-                </div>
-                <div className="h-10 flex items-center">Certificate Count</div>
+                </div> */}
+                {/* <div className="h-10 flex items-center">Certificate Count</div>
                 <div className="h-10 flex items-center">
                   <InputRange range={cert_count} setrange={setCertCount} />
-                </div>
-                <div className="h-10 flex items-center">Last Updated</div>
+                </div> */}
+                {/* <div className="h-10 flex items-center">Last Updated</div> */}
                 <div className="h-10 flex items-center">
                   <BasicSelect
                     type={lastUpdated}
@@ -128,7 +128,7 @@ const Events = () => {
                 {isfilterOpen == "open" && (
                   <div className="col-span-4 ml-auto">
                     <Button
-                      className="bg-green-500 hover:bg-green-600 mx-3 col-span-2"
+                      className="bg-green-500 hover:bg-green-600 col-span-2"
                       onClick={() => {
                         handleFilter();
                       }}
