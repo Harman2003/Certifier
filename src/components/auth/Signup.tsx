@@ -23,7 +23,6 @@ import { Button } from "../ui/button";
 import useApiSender from "@/setup/hooks/api/useApiSender";
 import { sendOtp } from "@/webApi/sendOtp";
 import { verifyOtp } from "@/webApi/verifyOtp";
-import Resend from "../utils/Resend";
 import { registerAccount } from "@/webApi/registerAccount";
 import useMultiRef from "@/setup/hooks/utils/useMultiRef";
 import { toast } from "react-toastify";
@@ -31,6 +30,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "@/setup/hooks/auth/useAuth";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { DecodedJwtToken } from "@/utils/googlePayLoadProps";
+import Resend from "../utils/Resend";
 
 const Signup = () => {
   const [role, setRole] = useState<string>("none");

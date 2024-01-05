@@ -1,10 +1,6 @@
 import { useTimer } from "react-timer-hook";
 
-interface ComponentProps {
-  callOtp: () => void;
-}
-
-const Resend: React.FC<ComponentProps> = ({ callOtp }) => {
+const Resend = ({ callOtp }: { callOtp: () => void }) => {
   const now = new Date();
   const futureTime = new Date(now.getTime() + 30000);
   const { totalSeconds, restart } = useTimer({
@@ -23,9 +19,7 @@ const Resend: React.FC<ComponentProps> = ({ callOtp }) => {
       onClick={handleResend}
     >
       {totalSeconds == 0 ? (
-        <div className="flex items-center gap-1">
-          Retry
-        </div>
+        <div className="flex items-center gap-1">Retry</div>
       ) : (
         <>{"(" + totalSeconds + ")"}</>
       )}
