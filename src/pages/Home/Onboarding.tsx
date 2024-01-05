@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "@/setup/hooks/auth/useAxiosPrivate";
-import OnboardData from "@/components/common/onboardData";
+import OnboardData from "@/components/common/OnboardData";
 const Onboarding = () => {
   const isWelcomeDone = localStorage.getItem("onboard");
   const [step, setStep] = useState<number>(isWelcomeDone ? 3 : 0);

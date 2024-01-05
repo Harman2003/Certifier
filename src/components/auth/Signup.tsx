@@ -23,7 +23,7 @@ import { Button } from "../ui/button";
 import useApiSender from "@/setup/hooks/api/useApiSender";
 import { sendOtp } from "@/webApi/sendOtp";
 import { verifyOtp } from "@/webApi/verifyOtp";
-import Resend from "../utils/resend";
+import Resend from "../utils/Resend";
 import { registerAccount } from "@/webApi/registerAccount";
 import useMultiRef from "@/setup/hooks/utils/useMultiRef";
 import { toast } from "react-toastify";
