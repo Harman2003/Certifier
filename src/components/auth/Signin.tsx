@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import useApiSender from "@/setup/hooks/api/useApiSender";
-import { loginAccount, loginProps } from "@/webApi/loginAccount";
+import { loginAccount } from "@/webApi/loginAccount";
 import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
@@ -16,7 +16,7 @@ const Signin = () => {
   const navigate = useNavigate();
   const [email, setemail] = useState<string>("");
   const [password, setpassword] = useState<string>("");
-  const { send, status, isLoading, data } = useApiSender(loginAccount);
+  const { send, status, isLoading, data } = useApiSender(loginAccount, false);
   const validator =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
@@ -37,7 +37,7 @@ const Signin = () => {
     const jwtToken = googleAuthToken.credential || "";
     try {
       const decoded = jwtDecode<DecodedJwtToken>(jwtToken);
-      const accountData: loginProps = {
+      const accountData = {
         email: decoded?.email,
         password: "Google@123",
         token: jwtToken,

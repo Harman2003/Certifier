@@ -12,27 +12,23 @@ import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import  { Range } from "@/components/ui/InputRange";
+// import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { Range } from "@/components/ui/InputRange";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { AiOutlineFileAdd as AddIcon } from "react-icons/ai";
-import { TextField } from "@mui/material";
+// import { TextField } from "@mui/material";
+import { TextField, Select } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 import AsyncInput from "@/components/utils/AsyncInputEvents";
 
 const CertificateData = () => {
   const [data, setData] = useState<CertificatesProp[]>(certificateSample);
-  const [query, setQuery] = useState("");
-  const [isfilterOpen, setfilterOpen] = useState<string>("close");
-  const [type, setType] = useState<string>("");
+  const [search, setSearch] = useState("");
 
-  function handleFilter() {
-    setfilterOpen("close");
-  }
 
   return (
-    <div className=" w-full h-[90vh] p-10 overflow-y-auto">
-      <div className="flex justify-between items-end mb-10">
+    <div className=" w-full h-[90vh] overflow-y-auto">
+      <div className="flex justify-between h-[120px] p-10 bg-slate-100">
         <div className="text-4xl font-Poppins font-bold">Certificates</div>
         <Link to={"/org/certificates/add"}>
           <Button className="gap-1 py-5 rounded-full bg-green-500 hover:bg-green-600">
@@ -42,7 +38,42 @@ const CertificateData = () => {
         </Link>
       </div>
       <CertificateTable data={data}>
-        <Accordion
+        <div className="flex gap-3 pr-3">
+          <div className="flex-1">
+            <TextField.Input
+              id="eventName"
+              size="3"
+              placeholder="Search by Certificate ID"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <div className="flex-1">
+            <Select.Root
+              size={"3"}
+              defaultValue={""}
+              // onValueChange={field.onChange}
+            >
+              <Select.Trigger className="w-full" placeholder="Status" />
+              <Select.Content position="popper">
+                <Select.Item value="all">All</Select.Item>
+                <Select.Item value="active">Active</Select.Item>
+                <Select.Item value="revoked">Revoked</Select.Item>
+                <Select.Item value="expired">Expired</Select.Item>
+              </Select.Content>
+            </Select.Root>
+          </div>
+          <div className="flex-1">
+            <TextField.Input
+              id="eventId"
+              size="3"
+              placeholder="Event ID"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+        </div>
+        {/* <Accordion
           type="single"
           collapsible
           className="w-full"
@@ -128,7 +159,7 @@ const CertificateData = () => {
               </div>
             </AccordionContent>
           </AccordionItem>
-        </Accordion>
+        </Accordion> */}
       </CertificateTable>
     </div>
   );

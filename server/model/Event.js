@@ -29,7 +29,7 @@ const Event = new Schema(
       required: true,
     },
     duration: {
-      type: Number,
+      type: String,
       required:true
     },
     managers: [
@@ -46,7 +46,11 @@ const Event = new Schema(
     ],
     description: {
       type: String,
-      maxLength: 500,
+      maxLength: 300,
+    },
+    image: {
+      type: String,
+      default:""
     },
     template: {
       type: mongoose.Types.ObjectId,

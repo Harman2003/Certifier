@@ -1,5 +1,4 @@
-import axios from "@/setup/api/axios";
-import { AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 
 export interface registerProps {
   fullname: string;
@@ -9,6 +8,7 @@ export interface registerProps {
   picture: string;
   token: string;
   oauth: boolean;
+  axios:AxiosInstance
 }
 export const registerAccount = async ({
   fullname,
@@ -18,6 +18,7 @@ export const registerAccount = async ({
   picture,
   token,
   oauth,
+  axios
 }:registerProps): Promise<AxiosResponse | void> => {
   const response = await axios.post(
     "/auth/register",

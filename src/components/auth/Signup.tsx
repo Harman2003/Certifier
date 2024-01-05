@@ -24,7 +24,7 @@ import useApiSender from "@/setup/hooks/api/useApiSender";
 import { sendOtp } from "@/webApi/sendOtp";
 import { verifyOtp } from "@/webApi/verifyOtp";
 import Resend from "../utils/resend";
-import { registerAccount, registerProps } from "@/webApi/registerAccount";
+import { registerAccount } from "@/webApi/registerAccount";
 import useMultiRef from "@/setup/hooks/utils/useMultiRef";
 import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ const Signup = () => {
   const [resendCounter, setresendCounter] = useState<number>(0);
   const fields = { name: 0, pass: 1, confirmpass: 2 };
   const { ref: formRef, getRef } = useMultiRef(fields);
-  const { send: send_otp, data } = useApiSender(sendOtp);
+  const { send: send_otp, data } = useApiSender(sendOtp, false);
   const navigate = useNavigate();
   const location = useLocation();
   const { setAuth } = useAuth();
@@ -47,13 +47,13 @@ const Signup = () => {
     send: verify_otp,
     status: isVerified,
     isLoading: isverifying,
-  } = useApiSender(verifyOtp);
+  } = useApiSender(verifyOtp, false);
   const {
     send: createAccount,
     status: isRegistered,
     isLoading: isRegistering,
     data: registerData,
-  } = useApiSender(registerAccount);
+  } = useApiSender(registerAccount, false);
   const validator =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
@@ -61,7 +61,7 @@ const Signup = () => {
   const callOtp = async () => {
     setresendCounter((prev) => prev + 1);
     try {
-      await send_otp(email);
+      await send_otp({email});
     } catch {
       setresendCounter(0);
     }
@@ -112,7 +112,7 @@ const Signup = () => {
     const jwtToken = googleAuthToken.credential || "";
     try {
       const decoded = jwtDecode<DecodedJwtToken>(jwtToken);
-      const accountData: registerProps = {
+      await createAccount({
         fullname: decoded?.name,
         email: decoded?.email,
         password: "Google@123",
@@ -120,8 +120,7 @@ const Signup = () => {
         picture: decoded.picture,
         token: jwtToken,
         oauth: true,
-      };
-      await createAccount(accountData);
+      });
     } catch (err) {
       console.log(err);
     }

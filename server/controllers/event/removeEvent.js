@@ -1,5 +1,5 @@
 const Event = require("../../model/Event");
-
+const Certificates = require("../../model/Certificate");
 const removeEvent = async (req, res) => {
   const { id, eventId } = req.query;
   
@@ -9,8 +9,10 @@ const removeEvent = async (req, res) => {
     if (currentEvent.orgId !== id) {
       return res.status(403).json({ message: "Unauthorized" });
     }
-
+    
+    await Certificates.deleteMany({ event: currentEvent._id });
     await Event.deleteOne({ id: eventId });
+
     return res.status(201).json({ message: "Event Deleted Successfully" });
   } catch (err) {
     console.log(err);

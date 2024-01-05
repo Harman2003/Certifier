@@ -22,7 +22,7 @@ const DashCard:React.FC<DashCardProps> = ({head, value,isIncreasing, Icon, chang
       </div>
       <div className="flex items-end flex-grow overflow-hidden">
         <div className="ml-2">
-          <div className="flex items-center gap-2 font-semibold mb-2">
+          <div className="flex items-center gap-2 font-semibold">
             <div className="text-2xl">{value}</div>
             <div
               className="flex gap-1 items-center"

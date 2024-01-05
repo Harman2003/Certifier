@@ -16,7 +16,7 @@ const InfoCard = ({ next }: { next: () => void }) => {
   ];
 
   return (
-    <div className="w-[900px] h-[450px] py-4 px-10 rounded-2xl flex items-center justify-center bg-white">
+    <div className="w-[900px] h-[450px] py-4 px-10 rounded-2xl flex items-center justify-between bg-white">
       <div className="flex-1 h-full flex flex-col justify-center">
         <div className="text-black text-5xl leading-[55px] font-bold mb-4">
           Create your own
@@ -37,7 +37,7 @@ const InfoCard = ({ next }: { next: () => void }) => {
           Let's Go
         </button>
       </div>
-      <div className="flex-1 h-full flex items-center justify-center">
+      <div className="flex-1 h-full flex items-center justify-end">
         <div className="relative z-[2] w-[320px]  bg-white p-3 rounded-3xl shadow-xl flex flex-col items-center font-Nunito">
           <img src={cardBg} alt="smart contract" className="w-full mb-6" />
           <img

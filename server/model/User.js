@@ -22,6 +22,10 @@ const User = new Schema(
       required: true,
       enum: ["user", "org", "manager"],
     },
+    onboarding: {
+      type: Boolean,
+      default:true
+    },
     id: {
       type: String,
       required: true,

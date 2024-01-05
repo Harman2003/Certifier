@@ -1,6 +1,3 @@
-"use client";
-
-import * as React from "react";
 import {
   CaretSortIcon,
   ChevronDownIcon,
@@ -32,7 +29,6 @@ import {
 } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -42,7 +38,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -55,25 +50,26 @@ import { EventProps } from "@/utils/sample";
 import { dateFormatter } from "@/utils/dateFormatter";
 import { durationFormatter } from "@/utils/durationFormatter";
 import { Link } from "react-router-dom";
+import { useEffect, useLayoutEffect, useState } from "react";
+import useApiReceiver from "@/setup/hooks/api/useApiReceiver";
+import { SquareLoader } from "@/components/utils/contractLoader";
 
 interface DataTableProps {
   children: React.ReactNode;
-  data: EventProps[];
+  search: string;
+  type: string;
+  lastUpdate: string;
 }
 export const columns: ColumnDef<EventProps>[] = [
   {
     id: "select",
     header: "",
-    cell: ({ row }) => (
-     <></>
-    ),
+    cell: ({ row }) => <></>,
   },
   {
-    accessorKey: "eventid",
+    accessorKey: "id",
     header: "Event ID",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("eventid")}</div>
-    ),
+    cell: ({ row }) => <div className="capitalize">{row.getValue("id")}</div>,
   },
   {
     accessorKey: "name",
@@ -99,19 +95,13 @@ export const columns: ColumnDef<EventProps>[] = [
     accessorKey: "created",
     header: "Created At",
     cell: ({ row }) => (
-      <div className="capitalize">
-        {dateFormatter(row.getValue("created"))}
-      </div>
+      <div className="capitalize">{dateFormatter(row.getValue("created"))}</div>
     ),
   },
   {
     accessorKey: "duration",
     header: "Duration",
-    cell: ({ row }) => (
-      <div className="capitalize">
-        {durationFormatter(row.getValue("duration"))}
-      </div>
-    ),
+    cell: ({ row }) => <div>{durationFormatter(row.getValue("duration"))}</div>,
   },
   {
     accessorKey: "lastUpdated",
@@ -160,14 +150,50 @@ export const columns: ColumnDef<EventProps>[] = [
   },
 ];
 
-const EventTable: React.FC<DataTableProps> = ({ children, data }) => {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+const EventTable: React.FC<DataTableProps> = ({
+  children,
+  search,
+  type,
+  lastUpdate,
+}) => {
+  const [data, setData] = useState<EventProps[]>([]);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [limit, setLimit] = useState<string>("10");
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+
+  const {
+    data: eventData,
+    isLoading,
+    status,
+    receive,
+  } = useApiReceiver(
+    "/events",
+    { search, type, lastUpdate, sortBy: "", pageNumber, limit },
+    true
   );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+
+  console.log(eventData);
+  useLayoutEffect(() => {
+    if (eventData) {
+      const reqEventData: EventProps[] = eventData.events.map((object: any) => {
+        return {
+          id: object.id,
+          name: object.name,
+          type: object.type,
+          created: object.createdAt,
+          duration: object.duration,
+          lastUpdated: object.updatedAt,
+          count: object.certificates,
+        };
+      });
+      setData(reqEventData);
+      setTotalPages(eventData.total);
+    }
+  }, [eventData]);
 
   const table = useReactTable({
     data,
@@ -188,34 +214,14 @@ const EventTable: React.FC<DataTableProps> = ({ children, data }) => {
     },
   });
 
-  return (
+  return isLoading ? (
+    <SquareLoader />
+  ) : (
     <div className=" w-full h-fit">
-      {/* <div
-        className="fixed top-0 left-0"
-        onClick={() => {
-          setData((prev) => [
-            ...prev,
-            {
-              id: "m5gr84i9",
-              amount: 316,
-              eventid: "1234",
-              name: "Cycling Competition",
-              type: "Sports",
-              created: new Date().getTime(),
-              duration: new Date().getTime(),
-              lastUpdated: new Date().getTime(),
-              count: 10,
-            },
-          ]);
-          console.log("came");
-        }}
-      >
-        test
-      </div> */}
-      <div>{children}</div>
       <div className="flex justify-end mb-2">
+        <div className="flex-1">{children}</div>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="h-10 border-gray-400/60">
             <Button variant="outline" className="ml-auto">
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
@@ -294,12 +300,7 @@ const EventTable: React.FC<DataTableProps> = ({ children, data }) => {
       <div className="mt-3 flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
-          >
+          <Select value={limit} onValueChange={(value) => setLimit(value)}>
             <SelectTrigger className="h-8 w-[70px]">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
@@ -313,15 +314,14 @@ const EventTable: React.FC<DataTableProps> = ({ children, data }) => {
           </Select>
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+          Page {pageNumber} of {totalPages}
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => setPageNumber(1)}
+            disabled={pageNumber == 1}
           >
             <span className="sr-only">Go to first page</span>
             <DoubleArrowLeftIcon className="h-4 w-4" />
@@ -329,8 +329,8 @@ const EventTable: React.FC<DataTableProps> = ({ children, data }) => {
           <Button
             variant="outline"
             className="h-8 w-8 p-0"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => setPageNumber((prev) => prev - 1)}
+            disabled={pageNumber == 1}
           >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeftIcon className="h-4 w-4" />
@@ -339,9 +339,9 @@ const EventTable: React.FC<DataTableProps> = ({ children, data }) => {
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={() => {
-              table.nextPage();
+              setPageNumber((prev) => prev + 1);
             }}
-            disabled={!table.getCanNextPage()}
+            disabled={pageNumber == totalPages}
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRightIcon className="h-4 w-4" />
@@ -349,8 +349,8 @@ const EventTable: React.FC<DataTableProps> = ({ children, data }) => {
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
+            onClick={() => setPageNumber(totalPages)}
+            disabled={pageNumber == totalPages}
           >
             <span className="sr-only">Go to last page</span>
             <DoubleArrowRightIcon className="h-4 w-4" />

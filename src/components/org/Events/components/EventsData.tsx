@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import EventTable from "@/components/org/Events/components/EventTable";
-import sample, { EventProps } from "@/utils/sample";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -8,140 +7,167 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import BasicDateRangePicker from "@/components/ui/DateRangePicker";
-import BasicSelect from "@/components/ui/SingleSelect";
 import event_types from "@/utils/eventTypes";
-import InputRange, { Range } from "@/components/ui/InputRange";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { AiOutlineFileAdd as AddIcon } from "react-icons/ai";
-import { TextField } from "@mui/material";
+import { TextField } from "@radix-ui/themes";
 import lastUpdate from "@/utils/lastUpdate";
-import dayjs, { Dayjs } from "dayjs";
-import { DateRange } from "@mui/x-date-pickers-pro";
-import DurationFilter from "@/components/utils/DurationFilter";
 import { Link } from "react-router-dom";
+import { Select } from "@radix-ui/themes";
+import EventCard from "@/components/utils/EventCard";
+import useApiReceiver from "@/setup/hooks/api/useApiReceiver";
+import { EventProps } from "@/utils/sample";
+import EventLoader from "@/components/utils/EventLoader";
 
 const Events = () => {
-  const [data, setData] = useState<EventProps[]>(sample);
-  const [query, setQuery] = useState("");
+  const [search, setSearch] = useState("");
   const [isfilterOpen, setfilterOpen] = useState<string>("close");
-  const [type, setType] = useState<(typeof event_types)[number]>(
-    event_types[0]
-  );
-  const [date, setDate] = useState<DateRange<Dayjs>>([
-    dayjs("2022-04-17"),
-    dayjs("2022-04-21"),
-  ]);
-  const [cert_count, setCertCount] = useState<Range>({ min: "", max: "" });
+  const [type, setType] = useState<string>("");
   const [lastUpdated, setLastUpdated] = useState<string>("");
-  const [durationType, setDurationType] = useState<string>("hours");
-  const [durationValue, setDurationValue] = useState<number[]>([0, 24]);
+  const [sortBy, setSortBy] = useState<string>("");
+  const [data, setData] = useState<EventProps[]>([]);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [limit, setLimit] = useState<string>("1000");
+  const [totalPages, setTotalPages] = useState<number>(1);
 
-  function handleFilter() {
-    setfilterOpen("close");
-  }
+  const {
+    data: eventData,
+    isLoading,
+    status,
+    receive,
+  } = useApiReceiver(
+    "/events",
+    { search, type, lastUpdated, sortBy, pageNumber, limit },
+    true
+  );
+
+  useLayoutEffect(() => {
+    if (eventData) {
+      const reqEventData: EventProps[] = eventData.events.map((object: any) => {
+        return {
+          id: object.id,
+          name: object.name,
+          type: object.type,
+          description: object.description,
+          duration: object.duration,
+          created: object.createdAt,
+          lastUpdated: object.updatedAt,
+          count: object.certificates,
+          image: object.image,
+        };
+      });
+      setData(reqEventData);
+      setTotalPages(eventData.total);
+    }
+  }, [eventData]);
 
   return (
-    <div className="w-full h-[90vh] p-10 overflow-y-auto">
-      <div className="flex justify-between items-end mb-10">
+    <div className="w-full h-[90vh] overflow-y-auto">
+      <div className="flex justify-between h-[120px] p-10 bg-slate-100">
         <div className="text-4xl font-Poppins font-bold">Events</div>
-        <Link to={'/org/events/add'}>
+        <Link to={"/org/events/add"}>
           <Button className="bg-green-500 gap-1 py-5 rounded-full hover:bg-green-600">
             <AddIcon size={22} />
             <div>Add New Event</div>
           </Button>
         </Link>
       </div>
-      <EventTable data={data}>
-        <Accordion
-          type="single"
-          collapsible
-          className="w-full"
-          value={isfilterOpen}
-        >
-          <AccordionItem value="open" className="border-0">
-            <div className="flex items-center">
-              <TextField
-                label="Search By Event Name/ID"
-                id="search-query"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                size="small"
-                className="w-[450px]"
-              />
-              <div className="ml-4 border-0 hidden h-8 lg:flex whitespace-nowrap shadow-none">
-                <AccordionTrigger
-                  onClick={() =>
-                    setfilterOpen((prev) => (prev == "open" ? "close" : "open"))
-                  }
-                >
-                  <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-                  More
-                </AccordionTrigger>
-              </div>
-              {isfilterOpen == "close" && (
-                <Button
-                  className="bg-green-500 hover:bg-green-600 mx-3 col-span-2"
-                  onClick={() => {
-                    handleFilter();
-                  }}
-                >
-                  Apply Filters
-                </Button>
+      <div className="py-10 px-20">
+        <div className=" flex gap-3 mb-6">
+          <div className="flex-1">
+            <TextField.Input
+              className="w-full"
+              id="search_query"
+              size="3"
+              placeholder="Search By Event Name or ID"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </div>
+          <div className="flex-1">
+            <Select.Root
+              size={"3"}
+              defaultValue={type}
+              onValueChange={(value) => setType(value)}
+            >
+              <Select.Trigger className="w-full" placeholder="Event Type" />
+              <Select.Content position="popper">
+                {event_types.map((item) => (
+                  <Select.Item key={item.id} value={item.value}>
+                    {item.value}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          </div>
+          <div className="flex-1">
+            <Select.Root
+              size={"3"}
+              defaultValue={lastUpdated}
+              onValueChange={(value) => setLastUpdated(value)}
+            >
+              <Select.Trigger className="w-full" placeholder="Last Updated" />
+              <Select.Content position="popper">
+                {lastUpdate.map((item) => (
+                  <Select.Item key={item.id} value={`${item.value}`}>
+                    {item.tag}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          </div>
+          <div className="flex-1">
+            <Select.Root
+              size={"3"}
+              defaultValue={sortBy}
+              onValueChange={(value) => setSortBy(value)}
+            >
+              <Select.Trigger className="w-full" placeholder="Sort By" />
+              <Select.Content position="popper">
+                <Select.Item value="none">...</Select.Item>
+                <Select.Item value="name">Name</Select.Item>
+                <Select.Item value="update">Last Updated</Select.Item>
+                <Select.Item value="count">Certificates</Select.Item>
+              </Select.Content>
+            </Select.Root>
+          </div>
+        </div>
+        <div className="w-full">
+          {isLoading ? (
+            <div className="flex flex-wrap gap-8">
+              <EventLoader/>
+              <EventLoader/>
+              <EventLoader/>
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-8">
+              {data?.length > 0 ? (
+                data.map((card) => (
+                  <EventCard
+                    key={card.id}
+                    data={{
+                      name: card.name,
+                      type: card.type,
+                      id: card.id,
+                      created: card.created,
+                      lastUpdated: card.lastUpdated,
+                      duration: card.duration,
+                      description: card.description,
+                      image: card.image,
+                      count: card.count,
+                    }}
+                    refetch={receive}
+                  />
+                ))
+              ) : (
+                <div className="w-full flex justify-center mt-10 text-3xl font-semibold font-Montserrat text-gray-400">
+                  No Event Found
+                </div>
               )}
             </div>
-            <AccordionContent>
-              <div className="w-[450px] flex flex-col gap-4 mt-4 font-semibold">
-                {/* <div className="h-10 flex items-center">Event Type</div> */}
-                <div className="h-10 flex items-center">
-                  <BasicSelect
-                    type={type}
-                    setType={setType}
-                    data={event_types}
-                  />
-                </div>
-                {/* <div className="h-10 flex items-center">Created At</div>
-                <div className="h-10 flex items-center">
-                  <BasicDateRangePicker value={date} setValue={setDate} />
-                </div> */}
-                {/* <div className="h-10 flex items-center">Certificate Count</div>
-                <div className="h-10 flex items-center">
-                  <InputRange range={cert_count} setrange={setCertCount} />
-                </div> */}
-                {/* <div className="h-10 flex items-center">Last Updated</div> */}
-                <div className="h-10 flex items-center">
-                  <BasicSelect
-                    type={lastUpdated}
-                    setType={setLastUpdated}
-                    data={lastUpdate.map((item) => item.tag)}
-                  />
-                </div>
-                {/* <div className="h-10 flex items-center">Duration</div> */}
-                {/* <div className="flex flex-col gap-8 col-span-3">
-                  <DurationFilter
-                    type={durationType}
-                    setType={setDurationType}
-                    value={durationValue}
-                    setValue={setDurationValue}
-                  />
-                </div> */}
-                {isfilterOpen == "open" && (
-                  <div className="col-span-4 ml-auto">
-                    <Button
-                      className="bg-green-500 hover:bg-green-600 col-span-2"
-                      onClick={() => {
-                        handleFilter();
-                      }}
-                    >
-                      Apply Filters
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </EventTable>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

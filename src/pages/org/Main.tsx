@@ -13,16 +13,11 @@ import useWeb3 from "@/setup/hooks/web3/useWeb3";
 import { SquareLoader } from "@/components/utils/contractLoader";
 
 const Main = () => {
-  const isOnboardingDone = localStorage.getItem("onboarding");
-  const [step, setStep] = useState<number>(isOnboardingDone?3:0);
-  const { orgContract, loading } = useWeb3();
-  const isOnboarding = (!orgContract && step < 6);
+  // const isOnboarding = (!orgContract && step < 6);
 
-  return loading ? (
-    <SquareLoader />
-  ) : (
-    <div className="w-full h-full grid grid-cols-6">
-      {isOnboarding && <Onboarding step={step} setStep={setStep} />}
+  return (
+      <div className="w-full h-full grid grid-cols-6">
+      <Onboarding/>
       <aside className="col-span-1">
         <Sidebar content={sidebarContent} />
       </aside>

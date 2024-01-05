@@ -26,7 +26,6 @@ export interface Web3ContextProps {
   factoryContract: Contract<orgFactoryType> | undefined;
   orgContract: Contract<certificationType> | undefined;
   setOrgContractAddress: React.Dispatch<React.SetStateAction<string>>
-  loading: boolean;
 }
 
 interface Web3ProviderProps {
@@ -41,7 +40,6 @@ export const Web3Context = createContext<Web3ContextProps>({
   factoryContract: undefined,
   orgContract: undefined,
   setOrgContractAddress: ()=>null,
-  loading: true,
 });
 
 export const Web3Provider: React.FC<Web3ProviderProps> = ({
@@ -50,17 +48,15 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({
   const { auth } = useAuth();
   const [orgContractAddress, setOrgContractAddress] = useState<Address>("");
   const { connect, address, balance, chainId } = useMetamask();
-  const [loading, setLoading] = useState<boolean>(true);
   const web3 = new Web3(window.ethereum);
-  
   const { contract: factoryContract } = useContract<orgFactoryType>(
     import.meta.env.VITE_FACTORY_CONTRACT || "",
     orgFactoryABI
-  );
-  const { contract: orgContract } = useContract<certificationType>(
-    orgContractAddress,
-    certificationABI
-  );
+    );
+    const { contract: orgContract } = useContract<certificationType>(
+      orgContractAddress,
+      certificationABI
+      );
 
   useLayoutEffect(() => {
     (async () => {
@@ -71,10 +67,6 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({
         }
       } catch (err) {
         console.log(err);
-      } finally {
-          setTimeout(() => {
-            setLoading(false);
-          }, 2500);
       }
     })();
   }, [factoryContract]);
@@ -89,7 +81,6 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({
         factoryContract,
         orgContract,
         setOrgContractAddress,
-        loading,
       }}
     >
       {children}

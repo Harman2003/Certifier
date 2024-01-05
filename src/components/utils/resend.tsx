@@ -1,5 +1,4 @@
 import { useTimer } from "react-timer-hook";
-import { IoReload } from "react-icons/io5";
 
 interface ComponentProps {
   callOtp: () => void;

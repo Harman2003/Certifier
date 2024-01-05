@@ -1,47 +1,43 @@
 const lastUpdate = [
   {
-    tag: "< 1 min",
-    value: 60,
+    id: "update-0",
+    tag: "< Anytime",
+    value: 0,
   },
   {
-    tag: "< 10 min",
-    value: 600,
+    id: "update-1",
+    tag: "1 min ago",
+    value: 60000,
   },
   {
-    tag: "< 30 min",
-    value: 1800,
+    id: "update-2",
+    tag: "10 min ago",
+    value: 600000,
   },
   {
-    tag: "< 1 hour",
-    value: 3600,
+    id: "update-3",
+    tag: "30 min ago",
+    value: 1800000,
   },
   {
-    tag: "< 24 hour",
-    value: 86400,
+    id: "update-4",
+    tag: "1 hour ago",
+    value: 3600000,
   },
   {
-    tag: "< 10 days",
-    value: 864000,
+    id: "update-5",
+    tag: "24 hour ago",
+    value: 86400000,
   },
   {
-    tag: "< 30 days",
-    value: 2592000,
+    id: "update-6",
+    tag: "10 days ago",
+    value: 864000000,
   },
   {
-    tag: "< 3 months",
-    value: 7776000,
-  },
-  {
-    tag: "< 6 months",
-    value: 15552000,
-  },
-  {
-    tag: "< 1 year",
-    value: 31536000,
-  },
-  {
-    tag: "< 5 years",
-    value: 157680000,
+    id: "update-7",
+    tag: "1 month ago",
+    value: 2592000000,
   },
 ];
 

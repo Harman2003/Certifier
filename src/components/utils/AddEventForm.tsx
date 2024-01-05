@@ -1,52 +1,41 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import Select from "@mui/material/Select";
+import { Form, FormField, FormItem } from "@/components/ui/form";
+import { Select, TextArea, TextField } from "@radix-ui/themes";
 import event_types from "@/utils/eventTypes";
 import AsyncInput from "@/components/utils/AsyncInputEmail";
-import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
-import Box from "@mui/material/Box";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  FormControl,
-  InputAdornment,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
 import { BsBoxArrowLeft as Arrow } from "react-icons/bs";
 import { AiOutlineArrowLeft as BackIcon } from "react-icons/ai";
 import { AiOutlineArrowRight as NextIcon } from "react-icons/ai";
 import useAuth from "@/setup/hooks/auth/useAuth";
 import { useState } from "react";
 import MultiStepProgressBar from "../common/ProgressBar";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useApiSender from "@/setup/hooks/api/useApiSender";
+import { createEvent } from "@/webApi/createEvent";
+import ImageCard from "./ImageCard";
+import FormSkeletonLoader from "./FormSkeletonLoader";
 
 const FormSchema = z.object({
-  description: z.string(),
-  name: z.string().min(2, {
-    message: "Event name must be at least 2 characters.",
-  }),
-  type: z.string().min(1, {
-    message: "Type must be defined",
-  }),
+  name: z.string(),
+  type: z.string(),
   org: z.string().optional(),
-  managers: z.array(z.string()),
-  template: z.string(),
-  duration: z.string().min(1, {
-    message: "duration is required",
-  }),
   durationType: z.string(),
+  duration: z.string(),
+  managers: z.array(z.string()),
+  description: z.string().optional(),
+  templateId: z.string(),
+  image:z.string()
 });
 
-export default function InputForm() {
+export default function AddEventForm() {
+  const { auth } = useAuth();
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-  const { auth } = useAuth();
+  const { send, isLoading, status } = useApiSender(createEvent, true);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -54,22 +43,31 @@ export default function InputForm() {
       type: "",
       managers: [],
       description: "",
-      template: "",
+      templateId: "",
       duration: "",
       durationType: "hours",
       org: auth?.name,
+      image:""
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("came");
-    console.log(data);
-  }
-  function checkErrors() {
-    console.log(form.getValues());
-    const { name, type, template } = form.getValues();
-    if (!name || !type) {
-      toast.error("Event : Name | Type | Template are required");
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setPage(prev => prev + 1);
+    try {
+      await send({
+        name: data.name,
+        type: data.type,
+        duration: data.duration,
+        durationType: data.durationType,
+        managers: data.managers,
+        description: data.description,
+        templateId: data.templateId,
+        image:data.image
+      });
+      navigate(-1);
+    } catch (err) {
+      console.log(err);
+      setPage(1);
     }
   }
 
@@ -90,17 +88,18 @@ export default function InputForm() {
                   Enter few details about the event
                 </div>
                 <FormField
+                  key={"eventName"}
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <TextField
-                        label="Event Name"
-                        id="eventname"
+                      <TextField.Input
+                        id="eventName"
+                        size="3"
+                        placeholder="Event Name"
                         value={field.value}
                         onChange={field.onChange}
-                        size="small"
-                        className="w-full"
+                        style={{ paddingRight: 8 }}
                       />
                     </FormItem>
                   )}
@@ -110,64 +109,23 @@ export default function InputForm() {
                   name="type"
                   render={({ field }) => (
                     <FormItem>
-                      <Box sx={{ minWidth: 120, width: "100%" }}>
-                        <FormControl
-                          sx={{ minWidth: 120, width: "100%" }}
-                          size="small"
-                        >
-                          <InputLabel id="demo-simple-select-label">
-                            Event Type
-                          </InputLabel>
-                          <Select
-                            defaultValue={field.value}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            label="Event Type"
-                            onChange={field.onChange}
-                            size="small"
-                          >
-                            {event_types.map((item, index) => (
-                              <MenuItem key={"type" + index} value={item}>
-                                {item}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Box>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="org"
-                  render={({ field }) => (
-                    <FormItem className="col-span-1">
-                      <TextField
-                        focused
-                        value={auth?.name || ""}
-                        disabled
-                        label="Organisation"
-                        id="name"
-                        onChange={field.onChange}
-                        size="small"
-                        className="w-full"
-                        sx={{
-                          "& .MuiInput-underline:after": {
-                            borderBottomColor: "white",
-                          },
-
-                          "& .MuiFilledInput-underline:after": {
-                            borderBottomColor: "white",
-                          },
-
-                          "& .MuiOutlinedInput-root": {
-                            "&.Mui-focused fieldset": {
-                              borderColor: "#9a9797",
-                              borderWidth: "1px",
-                            },
-                          },
-                        }}
-                      />
+                      <Select.Root
+                        size="3"
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <Select.Trigger
+                          className="w-full"
+                          placeholder="Event Type"
+                        />
+                        <Select.Content position="popper">
+                          {event_types.map((item) => (
+                            <Select.Item key={item.id} value={item.value}>
+                              {item.value}
+                            </Select.Item>
+                          ))}
+                        </Select.Content>
+                      </Select.Root>
                     </FormItem>
                   )}
                 />
@@ -176,46 +134,59 @@ export default function InputForm() {
                   name="duration"
                   render={({ field }) => (
                     <FormItem className="col-span-1">
-                      <TextField
-                        size="small"
-                        label="Event Duration"
-                        id="duration-label"
-                        value={field.value}
-                        onChange={field.onChange}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <FormField
-                                control={form.control}
-                                name="durationType"
-                                render={({ field }) => (
-                                  <FormItem className="col-span-1">
-                                    <Select
-                                      variant="standard"
-                                      disableUnderline={true}
-                                      defaultValue={"hours"}
-                                      sx={{
-                                        backgroundColor: "white",
-                                      }}
-                                      value={field.value}
-                                      onChange={field.onChange}
-                                    >
-                                      <MenuItem value="hours">hours</MenuItem>
-                                      <MenuItem value="days">days</MenuItem>
-                                      <MenuItem value="months">months</MenuItem>
-                                      <MenuItem value="years">years</MenuItem>
-                                    </Select>
-                                  </FormItem>
-                                )}
-                              />
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
+                      <TextField.Root className="flex items-center">
+                        <TextField.Input
+                          size="3"
+                          placeholder="Event Duration"
+                          value={field.value}
+                          onChange={field.onChange}
+                          style={{ paddingRight: 20 }}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="durationType"
+                          render={({ field }) => (
+                            <FormItem>
+                              <Select.Root
+                                defaultValue={field.value}
+                                onValueChange={field.onChange}
+                              >
+                                <Select.Trigger
+                                  variant="ghost"
+                                  className="relative right-4 top-[2px] focus:outline-none hover:bg-transparent"
+                                />
+                                <Select.Content>
+                                  <Select.Item value="hours">hours</Select.Item>
+                                  <Select.Item value="days">days</Select.Item>
+                                  <Select.Item value="months">
+                                    months
+                                  </Select.Item>
+                                </Select.Content>
+                              </Select.Root>
+                            </FormItem>
+                          )}
+                        />
+                      </TextField.Root>
                     </FormItem>
                   )}
                 />
                 <FormField
+                  control={form.control}
+                  name="org"
+                  render={({ field }) => (
+                    <FormItem className="col-span-1">
+                      <TextField.Input
+                        size="3"
+                        id="orgName"
+                        placeholder="Organisation Name"
+                        disabled
+                        value={auth.name}
+                        onChange={field.onChange}
+                      />
+                    </FormItem>
+                  )}
+                />
+                {/* <FormField
                   control={form.control}
                   name="managers"
                   render={({ field }) => (
@@ -226,25 +197,46 @@ export default function InputForm() {
                       />
                     </FormItem>
                   )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  key={"Event_Description"}
+                  defaultValue=""
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="col-span-2">
+                      <TextArea
+                        placeholder="This event is about ..."
+                        className="h-[100px]"
+                        maxLength={200}
+                        value={field.value}
+                        onChange={field.onChange}
+                        size={"3"}
+                      />
+                    </FormItem>
+                  )}
                 />
               </div>
             ),
             2: (
-              <div className="w-[600px] mt-10 grid grid-cols-2 gap-5 items-center">
-                <div className="col-span-2 w-full text-2xl font-semibold text-gray-600 text-center">
-                  Write few lines about your event
+              <div className="w-[600px] flex flex-col gap-5 mt-10 items-center">
+                <div className="col-span-2 text-2xl font-semibold text-gray-600 text-center">
+                  Choose template for the certificates
                 </div>
                 <FormField
                   control={form.control}
-                  name="description"
+                  key="Event_Template"
+                  defaultValue=""
+                  name="templateId"
                   render={({ field }) => (
-                    <FormItem className="col-span-2">
-                      <Textarea
-                        id="eventdescription"
-                        placeholder="This event is about ..."
-                        onChange={field.onChange}
+                    <FormItem className="w-full">
+                      <TextArea
+                        placeholder="Not build yet"
+                        className="h-[200px]"
+                        size={"3"}
+                        maxLength={200}
                         value={field.value}
-                        className="min-h-[230px] text-md font-[400]"
+                        onChange={field.onChange}
                       />
                     </FormItem>
                   )}
@@ -252,30 +244,35 @@ export default function InputForm() {
               </div>
             ),
             3: (
-              <div className="w-[600px] mt-10 grid grid-cols-2 gap-5 items-center">
-                <div className="col-span-2 w-full text-2xl font-semibold text-gray-600 text-center">
-                  Choose one or more template for the certificates
+              <div className="w-[600px] flex flex-col gap-5 mt-10 items-center">
+                <div className="text-2xl font-semibold text-gray-600">
+                  Upload Image Here
                 </div>
                 <FormField
                   control={form.control}
-                  name="template"
+                  key="Event_Image"
+                  defaultValue=""
+                  name="image"
                   render={({ field }) => (
-                    <FormItem className="col-span-2">
-                      <Textarea
-                        placeholder="This event is about ..."
-                        value={field.value}
-                        onChange={field.onChange}
-                        className="min-h-[230px] text-md font-[400]"
+                    <FormItem className="w-full">
+                      <ImageCard
+                        isImage={field.value}
+                        setIsImage={field.onChange}
                       />
                     </FormItem>
                   )}
                 />
               </div>
             ),
+            4: (
+              <div className="w-[600px] h-[272px] flex flex-col gap-5 mt-10 justify-center items-center">
+                <FormSkeletonLoader />
+              </div>
+            ),
           }[page]
         }
         <div className="w-[600px] flex justify-end gap-3 mt-5">
-          {page !== 1 && (
+          {page > 1 && page < 4 && (
             <Button
               type="button"
               className="bg-transparent border-[1px] border-green-500 text-green-700 font-semibold px-5 gap-3 hover:bg-gray-100"
@@ -285,7 +282,7 @@ export default function InputForm() {
               <div>Prev</div>
             </Button>
           )}
-          {page !== 3 && (
+          {page < 3 && (
             <Button
               type="button"
               className="bg-transparent border-[1px] border-green-500 text-green-700 font-semibold px-5 gap-3 hover:bg-gray-100"
@@ -298,22 +295,29 @@ export default function InputForm() {
         </div>
         <div className="border-t-[1px] h-[80px] w-full mt-auto flex items-center justify-between px-8">
           <Button
-            type="submit"
+            type="button"
             className="bg-transparent border-[1px] border-green-500 text-green-700 font-semibold px-5 gap-3 hover:bg-gray-100"
-            onClick={()=>navigate(-1)}
+            onClick={() => navigate(-1)}
           >
             <Arrow size={20} />
             <div>Back</div>
           </Button>
           {page == 3 && (
-          <Button
-            type="submit"
-            className="bg-green-500 hover:bg-green-600"
-            onClick={() => checkErrors()}
-          >
-            Create New Event
-          </Button>
-          )} 
+            <Button
+              type="submit"
+              className="bg-green-500 hover:bg-green-600"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  Creating Event...
+                </>
+              ) : (
+                "Create New Event"
+              )}
+            </Button>
+          )}
         </div>
       </form>
     </Form>

@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const ContractCard = () => {
   const { stage, next } = useMultiForm(3);
   return (
-    <div id="contract" className=" w-full flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <AnimatePresence>
       {stage == 0 && (
           <motion.div

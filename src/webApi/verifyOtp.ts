@@ -1,14 +1,15 @@
-import axios from "@/setup/api/axios";
-import { AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 
 export const verifyOtp = async ({
   email,
   otp,
   token,
+  axios,
 }: {
   email: string;
   otp: string;
   token: string;
+  axios: AxiosInstance;
 }): Promise<AxiosResponse | void> => {
   console.log(token);
   const response = await axios.post(
@@ -17,7 +18,7 @@ export const verifyOtp = async ({
       email: email,
       otp: otp,
     },
-    { headers: { "authorization": `Bearer ${token}` } }
+    { headers: { authorization: `Bearer ${token}` } }
   );
 
   return response;

@@ -1,5 +1,5 @@
 import React, { createContext, useState, ReactNode } from "react";
-interface AuthInterface {
+export interface AuthInterface {
   name: string;
   id: string;
   email: string;

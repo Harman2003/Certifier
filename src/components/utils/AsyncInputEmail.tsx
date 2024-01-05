@@ -15,45 +15,51 @@ interface UserType {
 
 export default function AsyncInput({
   onValueChange,
-  list
+  list,
 }: {
-    onValueChange: (managers: string[]) => void;
-  list:string[]
+  onValueChange: (managers: string[]) => void;
+  list: string[];
 }) {
-  const [value, setValue] = useState<UserType[]>(
-    list ? list.map((email) => ({ _id: "", name: "", email: email })) : []
-  );
+  const [value, setValue] = useState<UserType[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<readonly UserType[]>([]);
 
   const { data, receive } = useApiReceiver(
-    "/org/get_managers",
+    "/common/get_managers",
     { search: inputValue },
     true
   );
 
   useEffect(() => {
+    setValue([...list?.map(email => ({ _id: "", name: "", email: email }))]);
+  }, [list]);
+  useEffect(() => {
     receive();
   }, [inputValue]);
   useEffect(() => {
-    console.log(data);
     if (data) {
-      setOptions([
-        ...data?.filter(
-          (item: UserType) => !value.some((val) => val.email === item.email)
-        ),
-      ]);
+      setOptions([...data?.filter((item: UserType) => !value.some(val => val.email === item.email))]);
     }
   }, [data]);
 
   return (
     <Autocomplete
+      autoHighlight={true}
       multiple
       id="manager-emails"
       sx={{
         width: "100%",
         "& .MuiInputBase-input": {
           height: "20px",
+          // #8da4ef
+        },
+        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+          {
+            borderColor: "#8da4ef",
+          },
+
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#d0d2d5",
         },
       }}
       ListboxProps={{
@@ -78,22 +84,30 @@ export default function AsyncInput({
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Event manager emails ..." fullWidth />
+        <TextField
+          {...params}
+          label="Event manager emails (Optional)"
+          fullWidth
+        />
       )}
       renderOption={(props, option) => {
         return (
           <li {...props}>
-            <Grid container alignItems="center" >
-              <Grid item sx={{ display: "flex", width: 44, height:20 }}>
+            <Grid container alignItems="center">
+              <Grid item sx={{ display: "flex", width: 44, height: 20 }}>
                 <MdMail />
               </Grid>
               <Grid
                 item
                 sx={{ width: "calc(100% - 44px)", wordWrap: "break-word" }}
               >
-                <Box sx={{fontSize:'14px'}}>{option.name}</Box>
+                <Box sx={{ fontSize: "14px" }}>{option.name}</Box>
 
-                <Typography variant="body2" color="text.secondary" sx={{fontSize:'12px'}}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ fontSize: "12px" }}
+                >
                   {option.email}
                 </Typography>
               </Grid>

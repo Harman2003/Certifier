@@ -3,7 +3,7 @@ const Event = require("../../model/Event");
 const updateEvent = async (req, res) => {
   try {
     const { id } = req.query;
-    const { eventId, name, type, duration, managers, description, templateId } = req.body;
+    const { eventId, name, type, duration, managers, description, templateId, image } = req.body;
     
     const currentEvent = await Event.findOne({ id: eventId });
     if (!currentEvent) return res.sendStatus(404);
@@ -17,14 +17,11 @@ const updateEvent = async (req, res) => {
       "managers",
       "description",
       "templateId",
+      "image"
     ];
-    [name, type, duration, managers, description, templateId].forEach((value, index) => {
-      if (value) {
+    [name, type, duration, managers, description, templateId, image].forEach((value, index) => {
         updatedEvent[key[index]] = value;
-      }
     })
-
-    console.log(updatedEvent)
 
     await Event.updateOne(
       { id: eventId },
@@ -32,7 +29,7 @@ const updateEvent = async (req, res) => {
         $set: updatedEvent,
       }
     );
-    return res.status(204).json({message:"Event Updated Success"})
+    return res.status(200).json({message:"Event Updation Success"})
   } catch (err) {
     console.log(err);
     return res.status(500).send("Something went wrong");

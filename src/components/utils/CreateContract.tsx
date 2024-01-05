@@ -14,50 +14,19 @@ import DotLoader from "./DotLoader";
 import TransactionCard from "./TransactionCard";
 import { SquareLoader } from "./contractLoader";
 import WalletButton from "./WalletButton";
+import useAxiosPrivate from "@/setup/hooks/auth/useAxiosPrivate";
 
 const CreateContract = ({ next }: { next: () => void }) => {
   const { auth } = useAuth();
-  const { factoryContract, address, setOrgContractAddress, connect, chainId } =
-    useWeb3();
+  const [step, setStep] = useState<number>(1);
+  const [error, setError] = useState<boolean>(false);
+  const { factoryContract, address, setOrgContractAddress, connect, chainId } = useWeb3();
   const [contractAddress, setContractAddress] = useState<string>();
   const [transactionHash, setTransactionHash] = useState<string>();
   const [isInitiated, setIsInitiated] = useState<boolean>(false);
-  const [step, setStep] = useState<number>(1);
-  const [error, setError] = useState<boolean>(false);
   const isValidChainId = address && chainId == 11155111n;
+  const axiosPrivate = useAxiosPrivate();
 
-  async function registerContract() {
-    setIsInitiated(true);
-    const name = auth.name;
-    const email = auth.email;
-    const id = stringToBytes32(auth.id);
-    try {
-      //using to predetermine reverts
-      await factoryContract?.methods.register(name, email, id).estimateGas();
-      await factoryContract?.methods
-        .register(name, email, id)
-        .send({ from: address })
-        .on("transactionHash", function (hash) {
-          setStep((prev) => prev + 1);
-          setTransactionHash(hash);
-          console.log("Transaction Hash:", hash);
-        })
-        .on("receipt", function (receipt) {
-          console.log("Transaction Receipt:", receipt);
-        })
-        .on("confirmation", (confirmation) => {
-          setStep((prev) => prev + 1);
-          const newContractAddress = confirmation.receipt.logs["0"].address;
-          setContractAddress(newContractAddress);
-          if (confirmation.confirmations == 2n) {
-            setOrgContractAddress(newContractAddress || "");
-          }
-        });
-    } catch (err) {
-      console.log(err);
-      setError(true);
-    }
-  }
   const steps = [
     "Connect wallet address",
     "Iniating",
@@ -161,9 +130,9 @@ const CreateContract = ({ next }: { next: () => void }) => {
         )
       ) : (
         <>
-          <div className="self-center mt-20 text-4xl font-Nunito font-semibold">
+          <div className="self-center mt-20">
             {step >= 3 ? (
-              <div className="flex items-start gap-2">
+              <div className="flex items-center gap-2">
                 <motion.div
                   initial={{ opacity: 0 }}
                   whileInView={{
@@ -172,9 +141,11 @@ const CreateContract = ({ next }: { next: () => void }) => {
                     transition: { duration: 1 },
                   }}
                 >
-                  <CheckIcon color="rgb(59 130 246)" />
+                  <CheckIcon color="rgb(59 130 246)" size={25}/>
                 </motion.div>
-                <div>Contract Created</div>
+                <div className="text-3xl font-Nunito font-semibold">
+                  Contract Created
+                </div>
               </div>
             ) : (
               `${steps[step]}...`
@@ -198,6 +169,47 @@ const CreateContract = ({ next }: { next: () => void }) => {
       )}
     </div>
   );
+
+  async function onboardComplete() {
+    try {
+      await axiosPrivate.post("/profile/onboard");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function registerContract() {
+    setIsInitiated(true);
+    const name = auth.name;
+    const email = auth.email;
+    const id = stringToBytes32(auth.id);
+    try {
+      //used to predetermine the reverts
+      await factoryContract?.methods.register(name, email, id).estimateGas();
+      await factoryContract?.methods
+        .register(name, email, id)
+        .send({ from: address })
+        .on("transactionHash", function (hash) {
+          setStep((prev) => prev + 1);
+          setTransactionHash(hash);
+          console.log("Transaction Hash:", hash);
+        })
+        .on("receipt", function (receipt) {
+          console.log("Transaction Receipt:", receipt);
+        })
+        .on("confirmation", (confirmation) => {
+          setStep((prev) => prev + 1);
+          onboardComplete();
+          const newContractAddress = confirmation.receipt.logs["0"].address;
+          setContractAddress(newContractAddress);
+          if (confirmation.confirmations == 2n) {
+            setOrgContractAddress(newContractAddress || "");
+          }
+        });
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  }
 };
 
 export default CreateContract;

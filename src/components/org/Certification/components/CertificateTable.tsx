@@ -180,11 +180,11 @@ const CertificateTable: React.FC<DataTableProps> = ({ children, data }) => {
   });
 
   return (
-    <div className=" w-full h-fit">
-      <div>{children}</div>
+    <div className=" w-full h-fit p-10">
       <div className="flex justify-end mb-2">
+      <div className="flex-1">{children}</div>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="h-10 border-gray-400/60">
             <Button variant="outline" className="ml-auto">
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>

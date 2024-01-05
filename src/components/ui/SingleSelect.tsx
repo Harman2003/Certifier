@@ -8,9 +8,10 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 interface BasicSelectProps{
   type:string,
   setType:React.Dispatch<React.SetStateAction<string>>,
-  data:string[]
+  data: string[]
+  label:string
 }
-const BasicSelect:React.FC<BasicSelectProps>=({type, setType, data})=> {
+const BasicSelect:React.FC<BasicSelectProps>=({type, setType, data, label})=> {
 
   const handleChange = (event: SelectChangeEvent) => {
     setType(event.target.value as string);
@@ -19,12 +20,12 @@ const BasicSelect:React.FC<BasicSelectProps>=({type, setType, data})=> {
   return (
     <Box sx={{ minWidth: 120, width:"100%" }}>
       <FormControl sx={{minWidth: 120, width:"100%" }} size="small">
-        <InputLabel id="demo-simple-select-label">Last Updated</InputLabel>
+        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={type}
-          label="Last Updated"
+          label={label}
           onChange={handleChange}
         >
           {data.map((item, index) => (

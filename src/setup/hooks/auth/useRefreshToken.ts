@@ -11,6 +11,7 @@ const useRefreshToken = () => {
     email: string;
     newAccessToken: string;
     role: string;
+    id:string
   }> {
     try {
       const response = await axios.get("/auth/refresh", {
@@ -20,13 +21,14 @@ const useRefreshToken = () => {
         withCredentials: true,
       });
       console.log("refresh token");
+      const {name, email, id, picture, role, accessToken} = response.data;
       const authObject= {
-        name: response.data.name,
-        email: response.data.email,
-        id: response.data.id,
-        picture: response.data.picture,
-        role: response.data.role,
-        accessToken: response.data.accessToken,
+        name: name,
+        email: email,
+        id: id,
+        picture: picture,
+        role: role,
+        accessToken: accessToken,
       }
       localStorage.setItem(
         "auth",
@@ -35,9 +37,10 @@ const useRefreshToken = () => {
       setAuth({...authObject});
 
       return {
-        email: response.data.email,
-        newAccessToken: response.data.accessToken,
-        role: response.data.role,
+        email: authObject.email,
+        newAccessToken: authObject.accessToken,
+        role: authObject.role,
+        id:authObject.id
       };
     } catch (err) {
       console.log('userefresh')
