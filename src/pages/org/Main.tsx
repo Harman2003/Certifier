@@ -8,13 +8,8 @@ import Certification from "../../components/org/Certification/Certification";
 import AccessRequest from "../../components/org/AccessRequests/AccessRequest";
 import ExportRecord from "../../components/org/ExportRecord/ExportRecord";
 import Onboarding from "../Home/Onboarding";
-import { useState } from "react";
-import useWeb3 from "@/setup/hooks/web3/useWeb3";
-import { SquareLoader } from "@/components/utils/contractLoader";
 
 const Main = () => {
-  // const isOnboarding = (!orgContract && step < 6);
-
   return (
       <div className="w-full h-full grid grid-cols-6">
       <Onboarding/>

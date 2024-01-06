@@ -30,7 +30,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "@/setup/hooks/auth/useAuth";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { DecodedJwtToken } from "@/utils/googlePayLoadProps";
-import Resend from "../utils/Resend";
+import Resend from "../utils/resend"
 
 const Signup = () => {
   const [role, setRole] = useState<string>("none");
