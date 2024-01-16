@@ -1,15 +1,17 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-svgr/client" />
 /// <reference types="@emotion/react/types/css-prop" />
+
+declare global {
+  interface Window {
+    ethereum: MetaMaskInpageProvider;
+  }
+}
+
 declare module "react-step-progress-bar" {
   import React from "react";
   import { MetaMaskInpageProvider } from "@metamask/providers";
 
-  declare global {
-    interface Window {
-      ethereum: MetaMaskInpageProvider;
-    }
-  }
   
   interface ProgressBarProps {
     percent: number;

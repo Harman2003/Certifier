@@ -4,8 +4,8 @@ const sharp = require("sharp");
 
 const bucketName = process.env.BUCKET_NAME;
 const bucketRegion = process.env.BUCKET_REGION;
-const accessKey = process.env.AWS_ACCESS_KEY;
-const secretKey = process.env.AWS_SECRET_KEY;
+const accessKey = process.env.S3_ACCESS_KEY;
+const secretKey = process.env.S3_SECRET_KEY;
 
 const s3 = new S3Client({
   credentials: {
