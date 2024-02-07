@@ -86,12 +86,11 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
+  background-color: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #9a9797;
-  border-radius: 5px;
+  background-color: #e7e1e1;
 }
 
 @keyframes animation {
@@ -118,6 +117,10 @@ html {
 
 div.uploadImg::-webkit-scrollbar{
   width: 5px;
+}
+
+div.templates::-webkit-scrollbar{
+  height:4px;
 }
 
 .bg-black-button {

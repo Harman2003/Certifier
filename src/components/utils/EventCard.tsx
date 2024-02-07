@@ -38,12 +38,13 @@ const EventCard = ({data, refetch}: EventCardProps) => {
   }
   return (
     <div className="w-[348px] bg-white shadow-md shadow-black/5 rounded-[20px]">
-      <div className="relative rounded-t-[20px] h-[190px] bg-blue-950 p-2">
+      <div className="relative rounded-t-[20px] h-[190px] p-2">
         <img
           src={`https://certify-events.s3.ap-south-1.amazonaws.com/${image}`}
           alt=""
           className="absolute top-0 left-0 w-full h-full rounded-t-[20px]"
         />
+        
         <div className="relative z-10 flex justify-end">
           <div className="w-7 h-16 bg-white rounded-lg flex flex-col items-center justify-evenly">
             <Link to={`/org/events/edit/${id}`}>

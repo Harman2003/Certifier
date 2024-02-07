@@ -9,4 +9,4 @@ export const uploadImg = async ({
 }): Promise<AxiosResponse | void> => {
   const response = await axios.post("/common/upload", form, {headers:{'Content-Type': 'multipart/form-data'}});
   return response;
-};
+}

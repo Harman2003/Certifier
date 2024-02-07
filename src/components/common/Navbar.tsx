@@ -29,7 +29,7 @@ const Navbar = () => {
     .split("/")
     .map((s) => capitalize(s))
     .slice(2);
-
+console.log(auth.picture)
   return (
     <nav className="w-full h-full flex items-center px-10 gap-3 font-Poppins">
       <div className="flex items-center gap-2">
@@ -51,7 +51,8 @@ const Navbar = () => {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-3">
               <Avatar className="ml-auto">
-                <AvatarImage src={auth.picture} alt="@shadcn" />
+                <AvatarImage src={auth.picture}
+                alt="@shadcn" />
                 <AvatarFallback>Profile</AvatarFallback>
               </Avatar>
               <div className="flex gap-1 items-center cursor-pointer">

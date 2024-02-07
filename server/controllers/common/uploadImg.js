@@ -2,8 +2,8 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const crypto = require("crypto");
 const sharp = require("sharp");
 
-const bucketName = process.env.BUCKET_NAME;
-const bucketRegion = process.env.BUCKET_REGION;
+const bucketName = process.env.EVENT_BUCKET_NAME;
+const bucketRegion = process.env.EVENT_BUCKET_REGION;
 const accessKey = process.env.S3_ACCESS_KEY;
 const secretKey = process.env.S3_SECRET_KEY;
 
@@ -23,7 +23,7 @@ const uploadImg = async (req, res) => {
   try {
     const buffer = await sharp(req.file.buffer).jpeg({ quality: 50 }).toBuffer();
     const fileName = crypto.randomBytes(12).toString("hex");
-
+    
     const params = {
       Bucket: bucketName,
       Key: fileName,

@@ -18,6 +18,7 @@ import useApiSender from "@/setup/hooks/api/useApiSender";
 import { createEvent } from "@/webApi/createEvent";
 import ImageCard from "./ImageCard";
 import FormSkeletonLoader from "./FormSkeletonLoader";
+import TemplateSelect from "./TemplateSelect";
 
 const FormSchema = z.object({
   name: z.string(),
@@ -230,14 +231,7 @@ export default function AddEventForm() {
                   name="templateId"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <TextArea
-                        placeholder="Not build yet"
-                        className="h-[200px]"
-                        size={"3"}
-                        maxLength={200}
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
+                      <TemplateSelect value={field.value} onChange={field.onChange} />
                     </FormItem>
                   )}
                 />

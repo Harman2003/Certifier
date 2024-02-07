@@ -2,7 +2,8 @@ import React, { FC, useEffect, useState } from "react";
 import XIcon from "@duyank/icons/regular/X";
 import Eye from "@duyank/icons/regular/Eye";
 import { useEditor, useSelectedLayers } from "@lidojs/editor";
-import { FrameContent } from "@lidojs/editor/dist/packages/core/src";
+import useParameters from "@/setup/hooks/utils/useTemplate";
+import { ParamsInterface } from "@/setup/context/TemplateProvider";
 interface setOverlayProps {
   fadeOverlay: string;
   setfadeOverlay: React.Dispatch<React.SetStateAction<string>>;
@@ -14,30 +15,15 @@ const TextContent: FC<setOverlayProps> = ({
   setfadeOverlay,
   onClose,
 }) => {
-  interface parameterState {
-    Name: string;
-    UserID: string;
-    Grade: string;
-    Creation: string;
-    Expiration: string;
-    CertificateID: string;
-  }
   const parameterList = [
-    "Name",
-    "UserID",
-    "Grade",
-    "Creation",
-    "Expiration",
-    "CertificateID",
+    "name",
+    "userId",
+    "grade",
+    "creation",
+    "expiration",
+    "certificateId",
   ];
-  const [parameters, setparameters] = useState<parameterState>({
-    Name: "",
-    UserID: "",
-    Grade: "",
-    Creation: "",
-    Expiration: "",
-    CertificateID: "",
-  });
+  const {parameters, setParameters} = useParameters();
 
   const { selectedLayerIds } = useSelectedLayers();
   const { actions, activePage } = useEditor((state) => ({
@@ -48,8 +34,10 @@ const TextContent: FC<setOverlayProps> = ({
     if (fadeOverlay && selectedLayerIds[0]) {
       console.log("came2", fadeOverlay);
       console.log(selectedLayerIds);
-      setparameters((prev) => {
-        prev[fadeOverlay as keyof parameterState] = selectedLayerIds[0];
+      setParameters((prev) => {
+        console.log('came')
+        prev[fadeOverlay as keyof ParamsInterface] = selectedLayerIds[0];
+        console.log(prev);
         return prev;
       });
       setfadeOverlay("");
@@ -60,7 +48,7 @@ const TextContent: FC<setOverlayProps> = ({
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     parameter: string
   ) => {
-    if (parameters[parameter as keyof parameterState]) return;
+    if (parameters[parameter as keyof ParamsInterface]) return;
     actions.resetSelectLayer();
     setfadeOverlay(parameter);
     event.stopPropagation();
@@ -138,7 +126,7 @@ const TextContent: FC<setOverlayProps> = ({
         </div>
 
         {parameterList.map((parameter: string, index: number) => {
-          let layerID = parameters[parameter as keyof parameterState];
+          let layerID = parameters[parameter as keyof ParamsInterface];
           return (
             <div
               key={index}
@@ -170,7 +158,7 @@ const TextContent: FC<setOverlayProps> = ({
             >
               <div
                 css={{
-                  fontSize: layerID && "13px",
+                  fontSize: layerID  && "13px",
                   display: "flex",
                   marginBottom: "3px",
                 }}
@@ -211,9 +199,8 @@ const TextContent: FC<setOverlayProps> = ({
                       }}
                       onClick={(event) => {
                         event.stopPropagation();
-                        console.log("agaya");
-                        setparameters((prev) => {
-                          prev[parameter as keyof parameterState] = "";
+                        setParameters((prev) => {
+                          prev[parameter as keyof ParamsInterface] = "";
                           return { ...prev };
                         });
                       }}
@@ -222,7 +209,7 @@ const TextContent: FC<setOverlayProps> = ({
                 )}
               </div>
               <div css={{ whiteSpace: "nowrap", color: "whitesmoke" }}>
-                {parameters[parameter as keyof parameterState]}
+                {parameters[parameter as keyof ParamsInterface]}
               </div>
 
               {layerID && (

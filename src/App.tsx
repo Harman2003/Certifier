@@ -12,6 +12,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "react-query";
 import VerifyAuth from "./setup/VerifyAuth";
 import VerifyDesktop from "./setup/VerifyDesktop";
+import { TemplateProvider } from "./setup/context/TemplateProvider";
 function App() {
   const client = new QueryClient();
   return (
@@ -29,9 +30,16 @@ function App() {
               }
             />
 
-            <Route element={<VerifyDesktop/>}>
+            <Route element={<VerifyDesktop />}>
               <Route element={<VerifyAuth allowedRoles={["org", "manager"]} />}>
-                <Route path={"/templates"} element={<Templates />} />
+                <Route
+                  path={"/templates"}
+                  element={
+                    <TemplateProvider>
+                      <Templates />
+                    </TemplateProvider>
+                  }
+                />
               </Route>
 
               <Route element={<VerifyAuth allowedRoles={["org"]} />}>

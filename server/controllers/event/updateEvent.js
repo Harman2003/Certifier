@@ -4,7 +4,7 @@ const updateEvent = async (req, res) => {
   try {
     const { id } = req.query;
     const { eventId, name, type, duration, managers, description, templateId, image } = req.body;
-    
+    console.log(templateId)
     const currentEvent = await Event.findOne({ id: eventId });
     if (!currentEvent) return res.sendStatus(404);
     if (currentEvent.orgId !== id) return res.status(403).json({ message: "Unauthorized" });

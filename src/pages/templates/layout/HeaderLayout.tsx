@@ -8,6 +8,11 @@ import PlayCircleIcon from "@duyank/icons/regular/PlayCircle";
 import { downloadObjectAsJson } from "../utils/download";
 import { useEditor } from "@lidojs/editor";
 import { toast } from "react-toastify";
+import { toPng } from "html-to-image";
+import { thumbnail } from "../utils/templateImg";
+import useApiSender from "@/setup/hooks/api/useApiSender";
+import { createTemplate } from "@/webApi/createTemplate";
+import useParameters from "@/setup/hooks/utils/useTemplate";
 interface HeaderLayoutProps {
   openPreview: () => void;
 }
@@ -17,10 +22,12 @@ const HeaderLayout: ForwardRefRenderFunction<
 > = ({ openPreview }, ref) => {
   const uploadRef = useRef<HTMLInputElement>(null);
   const { actions, query } = useEditor();
+  const { parameters } = useParameters();
+  const {send, isLoading} = useApiSender(createTemplate, false);
+
   const handleExport = () => {
     downloadObjectAsJson("file", query.serialize());
   };
-
   const handleImport = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     if (file) {
@@ -33,6 +40,25 @@ const HeaderLayout: ForwardRefRenderFunction<
       e.target.value = "";
     }
   };
+
+
+  //error going on saveTemplate 
+  const saveTemplate = async () => {
+    try {  
+      const data = query.serialize();
+      const img = await thumbnail();
+      const base64Response = await fetch(img || "");
+      const blob = await base64Response.blob();
+      const form = new FormData();
+      form.append("data", JSON.stringify(data));
+      form.append('img', blob, "thumbnail");
+      form.append('parameters', JSON.stringify(parameters));
+      send({form});
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div
       ref={ref}
@@ -47,7 +73,7 @@ const HeaderLayout: ForwardRefRenderFunction<
         },
       }}
     >
-      <img src='/logo.svg' alt="certify" className="w-[164px]" />
+      <img src="/logo.svg" alt="certify" className="w-[164px]" />
       <div css={{ display: "flex", alignItems: "center" }}>
         <div
           css={{
@@ -94,9 +120,7 @@ const HeaderLayout: ForwardRefRenderFunction<
               textDecoration: "underline",
             },
           }}
-          onClick={() => {
-            toast.success("Saved to your collection")
-          }}
+          onClick={saveTemplate}
         >
           Save
         </div>

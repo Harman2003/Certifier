@@ -23,6 +23,7 @@ import { updateEvent } from "@/webApi/updateEvent";
 import { calcDurationReverse } from "@/utils/calcDurationReverse";
 import ImgLoader from "./ImgLoader";
 import FormSkeletonLoader from "./FormSkeletonLoader";
+import TemplateSelect from "./TemplateSelect";
 const FormSchema = z.object({
   name: z.string(),
   type: z.string(),
@@ -61,6 +62,7 @@ export default function UpdateEventForm() {
 
   useEffect(() => {
     if (eventData) {
+      console.log(eventData)
       const { name, type, duration, managers, description, template, image } = eventData;
       const { value, durationType } = calcDurationReverse(duration);
         form.setValue("name", name);
@@ -77,6 +79,7 @@ export default function UpdateEventForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setPage((prev) => prev + 1);
     try {
+      console.log(data.templateId)
       await send({
         eventId:eventData.id,
         name: data.name,
@@ -127,7 +130,7 @@ export default function UpdateEventForm() {
                           placeholder="Event Name"
                           value={field.value}
                           onChange={field.onChange}
-                          style={{ paddingRight:8}}
+                          style={{ paddingRight: 8 }}
                         />
                       </FormItem>
                     )}
@@ -263,11 +266,7 @@ export default function UpdateEventForm() {
                     name="templateId"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <TextArea
-                          placeholder="Not build yet"
-                          className="h-[200px]"
-                          size={"3"}
-                          maxLength={200}
+                        <TemplateSelect
                           value={field.value}
                           onChange={field.onChange}
                         />

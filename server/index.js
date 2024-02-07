@@ -20,10 +20,10 @@ App.use(express.urlencoded({ extended: false }));
 App.use(cookieParser());
 App.use(cors(corsOptions));
 App.use("/auth", AuthRouter);
+App.use("/template", templateRouter);
 App.use(verifyJWT);
 App.use("/profile", profileRouter);
 App.use("/events", eventRouter);
-App.use("/template", templateRouter);
 App.use("/common", commonRouter);
 
 connectDB();

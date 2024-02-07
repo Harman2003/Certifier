@@ -1,11 +1,11 @@
 const Template = require("../../model/Template");
 
 const getTemplates = async (req, res) => {
-    const { id, certifyTemplate } = req.query;
+    const { id, isDefault } = req.query;
     
   try {
-      const savedTemplate = await Template.findOne({ orgId: certifyTemplate?"certify":id });
-      return res.status(201).json({ savedTemplate });
+      const templates = await Template.find({ orgId: isDefault?"certify":id });
+      return res.status(201).json({ templates });
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);

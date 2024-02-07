@@ -23,7 +23,6 @@ const Certificate = new Schema(
     },
     email: {
       type: String,
-      required: true,
     },
     createdAt: {
       type: Date,
@@ -35,10 +34,12 @@ const Certificate = new Schema(
     event: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Event",
+      required:true
     },
     template: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Template",
+      required:true
     },
     status: {
       type: String,
