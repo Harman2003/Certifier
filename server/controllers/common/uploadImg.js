@@ -35,7 +35,7 @@ const uploadImg = async (req, res) => {
     return res.status(200).json({key:fileName});
   } catch (err) {
     console.log(err);
-    return res.sendStatus(500);
+    return res.status(500).json({error:err});
   }
 };
 

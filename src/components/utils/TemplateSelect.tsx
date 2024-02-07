@@ -67,8 +67,8 @@ const TemplateSelect = ({
             <Skeleton className="w-[264px] h-[120px]" />
             <Skeleton className="w-[264px] h-[120px]" />
           </>
-        ) : templates.length == 0 ? (
-          <>No Template Found</>
+        ) : templates.length != 0 ? (
+          <div className="w-full text-center text-2xl font-bold font-Nunito text-gray-400">No Template Found</div>
         ) : (
           templates.map(({ _id, img }, index) => (
             <div
