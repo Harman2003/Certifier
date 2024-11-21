@@ -14,7 +14,7 @@ const AddEvent = async (req, res) => {
       duration: duration,
       managers: managers,
       description: description,
-      template: templateId,
+      template: templateId || "65c3550c07a58ec6a2fb50cd",
       orgId: id,
       image:image
     }
